@@ -1,0 +1,25 @@
+[{
+    "id":1,
+    "name": "Bag",
+    "category": "accessories",
+    "description": "Stylish bag",
+    "price": 799,
+    "oldPrice": 899,
+    "image": "url",
+    "color": "black",
+    "rating": 4.5,
+    "author": "admin"
+},
+{
+    "id":2,
+    "name": "Shirt",
+    "category": "Clothes",
+    "description": "Stylish shirt",
+    "price": 799,
+    "oldPrice": 899,
+    "image": "url",
+    "color": "black",
+    "rating": 4.5,
+    "author": "admin"
+}
+]

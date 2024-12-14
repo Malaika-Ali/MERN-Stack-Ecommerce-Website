@@ -1,0 +1,22 @@
+[
+    {
+    "id": 1,
+    "title": "Bolg title 1",
+    "subTitle": "I am a Good Title",
+    "date": "27 Nov 2024"
+} ,
+{
+    "id": 2,
+    "title": "Bolg title 2",
+    "subTitle": "I am a Good Title",
+    "date": "27 Nov 2024"
+
+} ,
+{
+    "id": 3,
+    "title": "Bolg title 3",
+    "subTitle": "I am a Good Title",
+    "date": "27 Nov 2024"
+
+} 
+]
