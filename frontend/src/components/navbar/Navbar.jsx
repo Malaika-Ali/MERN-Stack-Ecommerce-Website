@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { FaSearch, FaShoppingCart, FaUser  } from 'react-icons/fa';
+import { NavLink, Link } from 'react-router-dom';
+import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
 import { HiMenu, HiX } from 'react-icons/hi';
+import { useSelector } from 'react-redux';
+import CartDrawer from './CartDrawer';
+import { GoPerson } from "react-icons/go";
+import { LuSearch, LuShoppingCart } from "react-icons/lu";
+import { RxPerson } from "react-icons/rx";
+import { BsCart2 } from "react-icons/bs";
+import { FiSearch } from "react-icons/fi";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false)
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const toggleCart = () => setIsCartOpen(false)
+
+  const products = useSelector(state => state.cart.products)
+
   return (
-    <header className="bg-white shadow-md fixed w-full z-10">
+    <header className="fixed w-full z-10">
       <nav className="container mx-auto flex justify-between items-center p-4">
         {/* Left Side for Desktop */}
         <div className="hidden md:flex space-x-4">
           <ul className="flex space-x-4">
             <li>
-              <NavLink to="/" className="text-gray-700 hover:text-blue-500" activeClassName="font-bold">
+              <NavLink to="/" className={({ isActive }) => `text-black-color hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`}>
                 Collections
               </NavLink>
             </li>
@@ -32,7 +44,7 @@ const Navbar = () => {
               </NavLink>
             </li> */}
             <li>
-              <NavLink to="/contact" className="text-gray-700 hover:text-blue-500" activeClassName="font-bold">
+              <NavLink to="/contact" className={({ isActive }) => `text-black-color hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`}>
                 Contact Us
               </NavLink>
             </li>
@@ -41,15 +53,34 @@ const Navbar = () => {
 
         {/* Center Logo */}
         <div className="flex-grow text-center">
-          <h1 className="text-xl font-bold">Company Logo</h1>
+          <Link to='/'> <h1 className="text-3xl font-bold text-black-color">M<span className='text-grey-color text-3xl'>.</span> </h1></Link>
+
         </div>
 
         {/* Right Side for Desktop */}
         <div className="hidden md:flex space-x-4">
-          <FaSearch className="text-gray-700 hover:text-blue-500 cursor-pointer" />
-          <FaShoppingCart className="text-gray-700 hover:text-blue-500 cursor-pointer" />
-          <FaUser  className="text-gray-700 hover:text-blue-500 cursor-pointer" />
+          <NavLink to='/search' className={({ isActive }) => `${isActive ? 'text-white' : 'text-black'}`}>
+            <FiSearch size={22} className={({ isActive }) => `text-black-color hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`} /></NavLink>
+
+          <div onClick={() => setIsCartOpen((prev) => !prev)} className='relative'>
+            <BsCart2 size={22} className={({ isActive }) => `text-black-color  hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`} />
+            <span className="absolute -top-2 -right-2 bg-yellow-color text-black-color text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              {products?.length}
+            </span>
+          </div>
+
+          <NavLink to="/login">
+            <GoPerson size={22} className={({ isActive }) => `text-black-color hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`} />
+
+          </NavLink>
+
         </div>
+
+        {
+          isCartOpen && (
+            <CartDrawer isOpen={isCartOpen} toggleCart={toggleCart} products={products} />
+          )
+        }
 
         {/* Hamburger Menu for Mobile */}
         <div className="md:hidden flex items-center">
@@ -58,6 +89,8 @@ const Navbar = () => {
           </button>
         </div>
       </nav>
+
+
 
       {/* Mobile Menu */}
       {isOpen && (
@@ -68,7 +101,7 @@ const Navbar = () => {
           </div>
           <ul className="space-y-2">
             <li>
-              <NavLink to="/collections" className="text-gray-700 hover:text-blue-500" activeClassName="font-bold">
+              <NavLink to="/collections" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
                 Collections
               </NavLink>
             </li>
@@ -83,19 +116,20 @@ const Navbar = () => {
               </NavLink>
             </li> */}
             <li>
-              <NavLink to="/contact" className="text-gray-700 hover:text-blue-500" activeClassName="font-bold">
+              <NavLink to="/contact" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
                 Contact Us
               </NavLink>
             </li>
           </ul>
           <div className="flex space-x-4 mt-4">
-            <FaShoppingCart className="text-gray-700 hover:text-blue-500 cursor-pointer" />
-            <FaUser  className="text-gray-700 hover:text-blue-500 cursor-pointer" />
+            <FaShoppingCart onClick={() => setIsCartOpen((prev) => !prev)} className="text-gray-700 hover:text-blue-500 cursor-pointer" />
+            <FaUser className="text-gray-700 hover:text-blue-500 cursor-pointer" />
           </div>
         </div>
       )}
-        </header>
-  )}
+    </header>
+  )
+}
 
-  export default Navbar
+export default Navbar
 
