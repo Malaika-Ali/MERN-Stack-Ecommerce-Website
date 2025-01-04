@@ -43,10 +43,6 @@ const ProductItem = ({  category,  categoryImg }) => {
 	);
 };
 
-ProductItem.propTypes = {
-	product: PropTypes.object.isRequired,
-};
-
 const CategoriesSection = () => {
 	return (
 		<section className="py-14 md:py-24 bg-white text-zinc-900  relative overflow-hidden z-10">
