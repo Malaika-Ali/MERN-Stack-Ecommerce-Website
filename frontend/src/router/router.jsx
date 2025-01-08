@@ -1,13 +1,22 @@
 import { createBrowserRouter} from "react-router-dom";
 import App from "../App";
-import Home from "../pages/Home";
+import Home from "../pages/home/Home";
 import Category from "../pages/category/Category";
 import SearchPage from "../pages/search/SearchPage";
 import ShopPage from "../pages/shop/ShopPage";
-import ProductDetailsPage from "../pages/productDetails/ProductDetailsPage";
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import ProductDetails from "../pages/productDetails";
 
+
+const GoogleAuthWrapper=()=>{
+    return  (  
+    <GoogleOAuthProvider clientId="1036669708423-b0h6qi86bdf18a8lt2165d6d7kpuq91g.apps.googleusercontent.com"
+    useOneTap={true}> 
+    <Login/>
+    </GoogleOAuthProvider>
+)}
 
 const router = createBrowserRouter([
     {
@@ -36,18 +45,23 @@ const router = createBrowserRouter([
            },
            {
             path: "/product-details/:id",
-            element: <ProductDetailsPage/>
+            element: <ProductDetails/>
+           },
+           {
+            path: "*",
+            element: <div>Page Not Found</div>
            }
         ]
     },
+  
     {
         path: "/login",
-        element: <Login/>
+        element: <GoogleAuthWrapper/>
     },
-    {
-        path: "/signup",
-        element: <Signup/>
-    }
+    // {
+    //     path: "/signup",
+    //     element: <Signup/>
+    // }
 ]);
 
 export default router;

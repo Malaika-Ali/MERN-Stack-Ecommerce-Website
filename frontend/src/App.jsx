@@ -8,8 +8,10 @@ function App() {
 
   return (
     <>
-      <Marque/>
-      <Navbar />
+    
+    {/* <Marque/> */}
+    <Navbar />
+     
       <Outlet />
       <Footer/>
     </>

@@ -1,11 +1,23 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import hero from './hero.png'
-import h1 from '../../assets/h1.png'
+import h1 from '../../assets/bg2.png'
+import './hero.css'
+import RoundedButton from '../buttons/RoundedButton'
+
 const LandinPageHero = () => {
+
+    // const handleCTAClick= useCallback( ()=>{
+    //     console.log("CTA Clicked")}
+    // ,[])
+
+
+    const handleCTAClick=()=>{
+        console.log("CTA clicked")
+    }
     return (
-        <section className="py-14 md:pt-16 text-white h-auto">
+        <section className="py-14 md:pt-16 text-black-color h-auto">
         <div className="container px-4 mx-auto">
-            <div className="bg-grey-color rounded-xl overflow-hidden max-w-8xl mx-auto">
+            <div className="gradient rounded-xl overflow-hidden max-w-8xl mx-auto">
                 <div className="grid grid-cols-12 items-center">
                     <div className="col-span-12 lg:col-span-7">
                         <div className="pt-2 px-6 sm:px-12">
@@ -20,16 +32,21 @@ const LandinPageHero = () => {
                                         right savings account.
                                     </p>
                                 </div>
+
+                              
                                
                             </div>
+                            <div>
+                                    <RoundedButton type='button' handleClick={handleCTAClick} children="Shop Now" className='px-6 py-3'/>
+                                </div>
                         </div>
                     </div>
                     <div className="col-span-12 lg:col-span-5 text-end">
-                        <div className="flex justify-end">
+                        <div className="flex justify-center md:justify-end relative aspect-square">
                             <img
                                 src={h1}
-                                alt=""
-                                className=" w-full lg:w-auto"
+                                alt="Fashion Model"
+                                className="object-cover"
                             />
                         </div>
                     </div>
@@ -41,3 +58,14 @@ const LandinPageHero = () => {
 }
 
 export default LandinPageHero
+
+
+
+
+
+
+
+
+
+
+

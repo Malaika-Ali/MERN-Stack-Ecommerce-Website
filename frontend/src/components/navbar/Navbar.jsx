@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
 import CartDrawer from './CartDrawer';
 import { GoPerson } from "react-icons/go";
-import { LuSearch, LuShoppingCart } from "react-icons/lu";
-import { RxPerson } from "react-icons/rx";
 import { BsCart2 } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 
@@ -22,9 +20,21 @@ const Navbar = () => {
 
   const products = useSelector(state => state.cart.products)
 
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0); // Check if user has scrolled
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="fixed w-full z-10">
-      <nav className="container mx-auto flex justify-between items-center p-4">
+    <header className={`fixed w-full z-10 mb:10 lg:mb-2 bg-white ${isScrolled ? 'shadow-lg' : ""}`}>
+      <nav className={`container mx-auto flex justify-between items-center px-4 py-1 lg:py-2 `}>
         {/* Left Side for Desktop */}
         <div className="hidden md:flex space-x-4">
           <ul className="flex space-x-4">
