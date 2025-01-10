@@ -50,26 +50,63 @@ const createSendToken = (user, statusCode, res) => {
 
 /* GET Google Authentication API. */
 const googleAuth = asyncHandler(async (req, res, next) => {
-    const code = req.query.code;
-    console.log("USER CREDENTIAL -> ", code);
-    const googleRes = await oauth2Client.getToken(code);
-    oauth2Client.setCredentials(googleRes.tokens);
+  try {
+      const code = req.query.code;
+      console.log(`The code is ${code}`)
+      if (!code) {
+        throw new ApiError(400, "Authorization code is missing in the request.");
+    }
+      console.log("USER CREDENTIAL -> ", code);
 
-    const userRes = await axios.get(
-        `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`
-	);
-	
+
+      const googleRes = await oauth2Client.getToken(code);
+
+
+      console.log(`Testing Testing part 3!!!!! ${googleRes}`)
+      oauth2Client.setCredentials(googleRes.tokens);
+  
+      const userRes = await axios.get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`
+  	);
+
+    const {email, name}=userRes.data
+    console.log(email, name)
     let user = await User.findOne({ email: userRes.data.email });
-   
+
     if (!user) {
         console.log('New User found');
         user = await User.create({
-            fullname: userRes.data.name,
+            name: userRes.data.name,
             email: userRes.data.email,
         });
     }
-    createSendToken(user, 201, res);
+
+    const {_id}= user
+    const token=jwt.sign({ _id, email },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+    }
+);
+
+return res.status(201).json({
+    message: "Success",
+    token,
+    user
+})
+    // createSendToken(user, 201, res);
+
+
+
+
+  } catch (error) {
+    console.log(error)
+    throw new ApiError(400, "Error in Signing up user using Google O Auth!!!!!!!!!!", error)
+    
+  }
+	
 });
+    
 
 
 

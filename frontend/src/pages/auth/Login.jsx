@@ -6,8 +6,11 @@ const Login = () => {
   const responseGoogle= async(authResult) => {
     try {
       
-      console.log(authResult)
-    } catch (error) {
+      if (authResult["code"]) {
+				console.log(authResult.code);
+				const result = await googleAuth(authResult['code']);
+        console.log(result)
+    } }catch (error) {
       console.log(`Eroor while requesting th egoogle code : ${error}`)
     }
   }

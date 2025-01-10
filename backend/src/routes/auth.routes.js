@@ -4,6 +4,6 @@ import {Router} from 'express'
 
 const router=Router()
 
-router.route("/google").get(googleAuth)
+router.route("/google/callback").get(googleAuth)
 
 export default router
