@@ -196,4 +196,67 @@ const refreshAccessToken= asyncHandler(async(req,res)=>{
 
 
 
-export {registerUser,loginUser, logoutUser, refreshAccessToken}
+const deleteUser=asyncHandler(async(req,res)=>{
+   try {
+      const id=req.params.id
+      const user=await User.findByIdAndDelete(id)
+      if(!user){
+         throw new ApiError(404, "User Not Found")
+      }
+      res.status(200).json(
+         new ApiResponse(200, {}, "User Deleted Successfully!!!")
+      )
+   } catch (error) {
+      throw new ApiError(404, "Error while deleting User!!!")
+   }
+})
+
+
+const getAllUsers=asyncHandler(async(req,res)=>{
+   try {
+      const users=await User.find({}, "id email name role").sort({createdAt: -1})
+      if(!users){
+         throw new ApiError(404, "Users Not Found")
+      }
+      res.status(200).json(
+         new ApiResponse(200, users, "Users fetched Successfully!!!")
+      )
+   } catch (error) {
+      throw new ApiError(401, "Error while fetching Users!!!")
+   }
+})
+
+
+const updateUserRole=asyncHandler(async(req,res)=>{
+   try {
+      const id=req.params.id
+      const {role}= req.body
+      const user=await User.findByIdAndUpdate(id, { role}, {new: true})
+      if(!user){
+         throw new ApiError(404, "User Not Found")
+      }
+      res.status(200).json(
+         new ApiResponse(200, user, "User's role updated Successfully!!!")
+      )
+   } catch (error) {
+      throw new ApiError(401, "Error while Updating User's role!!!", error )
+   }
+})
+
+
+// const updateUserProfile=asyncHandler(async(req,res)=>{
+//    try {
+//       const {_id}= req.user
+//       const user=await User.findByIdAndUpdate(id, { role}, {new: true})
+//       if(!user){
+//          throw new ApiError(404, "User Not Found")
+//       }
+//       res.status(200).json(
+//          new ApiResponse(200, user, "User's Profile updated Successfully!!!")
+//       )
+//    } catch (error) {
+//       throw new ApiError(401, "Error while Updating User's profile!!!", error )
+//    }
+// })
+
+export {registerUser,loginUser, logoutUser, refreshAccessToken, deleteUser, getAllUsers, updateUserRole}

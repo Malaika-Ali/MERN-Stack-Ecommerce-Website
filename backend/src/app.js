@@ -27,11 +27,13 @@ app.use(cookieParser())
 
 
 // routes
-import userRouter from '../src/routes/user.routes.js'
+import userRouter from "../src/routes/user.routes.js"
 import authRouter from "../src/routes/auth.routes.js"
+import productRouter from "../src/routes/product.routes.js"
 
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/auth", authRouter)
+app.use("/api/v1/products", productRouter)
 
 
 app.get('/auth/google/callback', async (req, res) => {
