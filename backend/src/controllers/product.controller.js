@@ -3,8 +3,6 @@ import { ApiError } from '../utils/ApiError.js'
 import { Product } from '../models/product.model.js'
 import { Review } from '../models/review.model.js'
 import { ApiResponse } from '../utils/ApiResponse.js'
-import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
 
 
 const createProduct = asyncHandler(async (req, res) => {
@@ -53,31 +51,31 @@ const createProduct = asyncHandler(async (req, res) => {
 
 const getAllProducts = asyncHandler(async (req, res) => {
     try {
-        const {category, minPrice, maxPrice, page=1, limit=10}= req.query
-        let filter={}
-        if (category && category!=="all") {
-            filter.category= category
+        const { category, minPrice, maxPrice, page = 1, limit = 10 } = req.query
+        let filter = {}
+        if (category && category !== "all") {
+            filter.category = category
         }
         if (minPrice && maxPrice) {
-            const min= parseFloat(minPrice)
-            const max= parseFloat(maxPrice)
-            if(!isNaN(min) && !isNaN(max)){
-                filter.price = {$gte: min, $lte: max}
+            const min = parseFloat(minPrice)
+            const max = parseFloat(maxPrice)
+            if (!isNaN(min) && !isNaN(max)) {
+                filter.price = { $gte: min, $lte: max }
             }
         }
 
-        const skip=(parseInt(page)-1) * parseInt(limit)
+        const skip = (parseInt(page) - 1) * parseInt(limit)
 
         const allProducts = await Product.countDocuments(filter)
 
         console.log(`All Products are ${allProducts}`)
 
-        const totalPages=Math.ceil(allProducts / parseInt(limit))
+        const totalPages = Math.ceil(allProducts / parseInt(limit))
 
-        const products=await Product.find(filter).skip(skip).limit(parseInt(limit)).sort({createdAt: -1})
+        const products = await Product.find(filter).skip(skip).limit(parseInt(limit)).sort({ createdAt: -1 })
 
         return res.status(201).json(
-            new ApiResponse(200, {products, totalPages, allProducts}, "All Products have been fetched Successfully!")
+            new ApiResponse(200, { products, totalPages, allProducts }, "All Products have been fetched Successfully!")
         )
 
     } catch (error) {
@@ -86,42 +84,65 @@ const getAllProducts = asyncHandler(async (req, res) => {
 })
 
 
-const getSingleProduct=asyncHandler(async(req, res)=>{
+const getSingleProduct = asyncHandler(async (req, res) => {
     try {
-        const id=req.params.id
-        const product=await Product.findById(id)
-        if(!product){
-       throw new ApiError(404, "The product does not exist")
+        const id = req.params.id
+        const product = await Product.findById(id)
+        if (!product) {
+            throw new ApiError(404, "The product does not exist")
         }
 
-        const reviews=await Review.find({id}).populate("userId", "name email")
+        const reviews = await Review.find({ id }).populate("userId", "name email")
         return res.status(201).json(
-            new ApiResponse(200, {product, reviews}, "The Product has been fetched Successfully!")
+            new ApiResponse(200, { product, reviews }, "The Product has been fetched Successfully!")
         )
     } catch (error) {
-        throw new ApiError(500, "Error Fetching The products! Try Again.")       
+        throw new ApiError(500, "Error Fetching The products! Try Again.")
     }
 })
 
 
-const updateProduct=asyncHandler(async(req, res)=>{
+const updateProduct = asyncHandler(async (req, res) => {
     try {
-        const id=req.params.id
-        const data=req.body
-        const updatedProduct=await Product.findByIdAndUpdate(id, { ...data }, {new: true})
+        const id = req.params.id
+        const data = req.body
+        const updatedProduct = await Product.findByIdAndUpdate(id, { ...data }, { new: true })
 
-        if(!updatedProduct){
+        if (!updatedProduct) {
             throw new ApiError(404, "Product Not Found!")
         }
 
         return res.status(201).json(
-            new ApiResponse(200, updatedProduct , "The Product has been Updated Successfully!")
+            new ApiResponse(200, updatedProduct, "The Product has been Updated Successfully!")
         )
 
     } catch (error) {
-        throw new ApiError(500, "Error Updating The products! Try Again.") 
+        throw new ApiError(500, "Error Updating The products! Try Again.")
     }
 })
 
 
-export { createProduct, getAllProducts, getSingleProduct, updateProduct }
+const deleteProduct = asyncHandler(async (req, res) => {
+    try {
+        const id=req.params.id
+        const deletedProduct=await Product.findByIdAndDelete(id)
+
+        if(!deletedProduct){
+            throw new ApiError(404, "Product Not Found!")
+        }
+
+        // Also delte reviews related to the product
+        const deletedReviews=await Review.deleteMany({productId: id})
+
+        return res.status(201).json(
+            new ApiResponse(200, {}, "The Product has been deleted Successfully!")
+        )
+
+    } catch (error) {
+        throw new ApiError(500, "Error Deleting The product! Try Again.")
+
+    }
+})
+
+
+export { createProduct, getAllProducts, getSingleProduct, updateProduct, deleteProduct }
