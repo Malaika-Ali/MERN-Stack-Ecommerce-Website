@@ -3,11 +3,13 @@ import { ApiError } from '../utils/ApiError.js'
 import { Product } from '../models/product.model.js'
 import { Review } from '../models/review.model.js'
 import { ApiResponse } from '../utils/ApiResponse.js'
+import { uploadOnCloudinary } from '../utils/cloudinary.js'
 
 
 const createProduct = asyncHandler(async (req, res) => {
     try {
         const { productName, description, price, color, category, quantity, rating } = req.body
+
         if (productName === "") {
             throw new ApiError(400, "Product's name is Required!")
         }
@@ -27,6 +29,18 @@ const createProduct = asyncHandler(async (req, res) => {
             throw new ApiError(400, "Product's quantity is Required!")
         }
 
+         // Upload images to Cloudinary
+         const imagePaths = req.files?.map((file) => file?.path); // Get all local file paths
+         const uploadedImages = [];
+         
+         for (const path of imagePaths) {
+             const result = await uploadOnCloudinary(path);
+             if (result) {
+                 uploadedImages.push(result.url); // Save the Cloudinary URLs
+             }
+         }
+
+
         const product = await Product.create({
             productName,
             description,
@@ -34,7 +48,8 @@ const createProduct = asyncHandler(async (req, res) => {
             category,
             price,
             quantity,
-            rating
+            rating,
+            images: uploadedImages // Save image URLs
         })
 
         const createdProduct = await Product.findById(product._id)
@@ -44,7 +59,7 @@ const createProduct = asyncHandler(async (req, res) => {
         )
 
     } catch (error) {
-        throw new ApiError(500, "Product couldn't be Created! Try Again.")
+        throw new ApiError(500, "Product couldn't be Created! Try Again.", error)
     }
 })
 

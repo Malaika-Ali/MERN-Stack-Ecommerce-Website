@@ -1,26 +1,51 @@
 import React, { useEffect, useState } from 'react'
 import ProductsGrid from '../../components/products/ProductsGrid'
-import products from '../../data/products.json'
+import ShopHero from './ShopHero'
+import ShopSidebar from './ShopSidebar'
+import FilterChips from './FilterChips'
+import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi'
+// import { ChevronDown } from 'lucide-react'
 
 const ShopPage = () => {
 
-  const filters = {
-    category: ["all", "bags", "accessories"],
-    priceRange: [
-      { label: "Under $50", min: 0, max: 50 },
-      { label: "50-100", min: 50, max: 100 },
-      { label: "100-200", min: 100, max: 200 },
-
-    ]
-  }
-
-  const [productsData, setProductsData] = useState(products)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [productsPerPage, setProductsPerPage] = useState(8)
   const [filteredState, setFilteredState] = useState({
     category: "all",
     priceRange: ""
   })
+  const [activeFilters, setActiveFilters] = useState([])
+  const {category, priceRange}=filteredState
+  const {minPrice, maxPrice}=priceRange.split('-').map(Number) || {}
+  const filters = {
+    category: ["all", "clothes", "shoes", "bags", "accessories"],
+    priceRange: [
+      { label: "Under $50", min: 0, max: 50 },
+      { label: "50-100", min: 50, max: 100 },
+      { label: "100-200", min: 100, max: 200 },
+    ]
+  }
 
-  // filter function
+// Fetching Data
+  const { data: response = {}, error, isLoading}=useFetchAllProductsQuery({
+    category: category !== "all" ? category : "",
+    minPrice: isNaN(minPrice) ? "": minPrice,
+    maxPrice: isNaN(maxPrice) ? "" : maxPrice,
+    page: currentPage,
+    limit: productsPerPage
+  })
+  if(isLoading) return <div>Loading</div>
+  if(error) return <div>Error</div>
+  console.log(response)
+  const products=response.data.products
+  const totalProductsNumber=response.data.allProducts
+
+
+// Products Filtering Logic
+  const removeFilter = (filterId) => {
+    setActiveFilters(activeFilters.filter(filter => filter.id !== filterId))
+  }
+
   const filter=()=>{
     let filteredProducts=products
 
@@ -37,11 +62,6 @@ const ShopPage = () => {
     setProductsData(filteredProducts)
   }
 
-  useEffect(()=>{
-    console.log("filter rnning")
-    filter()
-  }, [filteredState])
-
   const clearFilters=()=>{
     setFilteredState({
        category: "all",
@@ -51,19 +71,43 @@ const ShopPage = () => {
 
 
   return (
-    <div className='mt-20'>
-      <div>banner same as  category pae and search page</div>
-      <div>Sidebar type container to show categories and price selectors</div>
+    <div className="bg-white">
+      <ShopHero />
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Sidebar */}
+          <aside className="w-full md:w-64">
+            <ShopSidebar 
+              filters={filters}
+              filteredState={filteredState}
+              setFilteredState={setFilteredState}
+              clearFilters={clearFilters}
+            />
+          </aside>
 
-      <div>
-        <button type='button' onClick={()=>setFilteredState({category:"accessories", price:""})}>set filter</button>
-        <button type='button' onClick={clearFilters}>clear filters</button>
+          {/* Main Content */}
+          <main className="flex-1">
+            <div className="mb-6">
+              <div className="flex items-center justify-start ml-2 mb-4">
+                <div className="text-sm text-gray-500">
+                  Showing <span className="font-bold text-black">12</span> results from total <span className="font-bold text-black">127</span> for <span className="font-bold text-black">"Jacket & Coats"</span>
+                </div>
+              </div>
+              
+              <FilterChips 
+                activeFilters={activeFilters}
+                onRemoveFilter={removeFilter}
+              />
+            </div>
+
+            <ProductsGrid products={products} />
+          </main>
+        </div>
       </div>
-      <ProductsGrid products={productsData} />
-
-
     </div>
   )
 }
 
 export default ShopPage
+

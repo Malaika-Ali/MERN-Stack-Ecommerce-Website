@@ -68,7 +68,7 @@ const Home = () => {
   <LandinPageHero/>
   <CategorySection/>
   {/* <SubCategories/> */}
-  <ProductsGrid products={products}/>
+  <ProductsGrid products={products} headingTitle='Our New Collection' headingSubTitle='Our latest collection where classic and contemporary styles converge in perfect harmony' textalignment='text-center'/>
   </>
   )
 }
