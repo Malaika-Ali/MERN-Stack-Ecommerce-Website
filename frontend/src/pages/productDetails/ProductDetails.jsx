@@ -1,11 +1,16 @@
-import { useState } from 'react'
-import RatingStars from '../../components/products/RatingStars'
-// import { Star } from 'lucide-react'
+'use client'
 
-export default function ProductDetails() {
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../../redux/features/cart/cartSlice'
+import { FaMinus, FaPlus } from 'react-icons/fa'
+import RatingStars from '../../components/products/RatingStars'
+
+function ProductDetails({name, description, image, price, rating}) {
   const [selectedSize, setSelectedSize] = useState('medium')
   const [selectedColor, setSelectedColor] = useState('blue')
   const [quantity, setQuantity] = useState(1)
+  const dispatch = useDispatch()
 
   const images = {
     blue: "/placeholder.svg?height=600&width=600",
@@ -21,14 +26,23 @@ export default function ProductDetails() {
     }
   }
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product))
+  }
+
+  const handleBuyNow = (product) => {
+    // Implement buy now functionality
+    console.log('Buy Now:', product)
+  }
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="mx-auto px-4 sm:px-6 lg:px-8 container lg:pt-24">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Product Images */}
         <div className="space-y-4">
           <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
             <img
-              src={images[selectedColor]}
+              src={image || "/placeholder.svg"}
               alt="Product"
               className="w-full h-full object-cover"
             />
@@ -43,7 +57,7 @@ export default function ProductDetails() {
                 }`}
               >
                 <img
-                  src={images[color]}
+                  src={images[color] || "/placeholder.svg"}
                   alt={`${color} variant`}
                   className="w-full h-full object-cover"
                 />
@@ -55,15 +69,10 @@ export default function ProductDetails() {
         {/* Product Info */}
         <div className="space-y-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Men's Regular T-shirt</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{name}</h1>
             <div className="mt-2 flex items-center gap-2">
-              {/* <div className="flex text-yellow-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-current" />
-                ))}
-              </div> */}
-              <RatingStars rating={3}/>
-              <span className="text-sm text-gray-600">5 Rating</span>
+              <RatingStars rating={rating}/>
+              <span className="text-sm text-gray-600">{rating} Rating</span>
               <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                 In Stock
               </span>
@@ -71,39 +80,50 @@ export default function ProductDetails() {
           </div>
 
           <p className="text-gray-600">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi non
-            erat quam. Vestibulum aliquam nibh dui, et aliquet nibh euismod
-            quis.
+           {description}
           </p>
 
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <label className="text-sm font-medium text-gray-700">Quantity</label>
-              <div className="flex items-center border rounded-md">
+              <div className="flex items-center gap-1">
                 <button
                   onClick={() => handleQuantityChange('decrease')}
-                  className="px-3 py-1 border-r hover:bg-gray-100"
+                  className="h-7 w-7 flex items-center justify-center rounded-full bg-black text-white hover:opacity-90 transition-opacity hover:bg-gray-800"
                 >
-                  -
+                  <FaMinus className="h-3 w-3" />
                 </button>
-                <span className="px-4 py-1">{quantity}</span>
+                <span className="w-8 text-center text-lg">{quantity}</span>
                 <button
                   onClick={() => handleQuantityChange('increase')}
-                  className="px-3 py-1 border-l hover:bg-gray-100"
+                  className="h-7 w-7 flex items-center justify-center rounded-full bg-black text-white hover:opacity-90 transition-opacity hover:bg-gray-800"
                 >
-                  +
+                  <FaPlus className="h-3 w-3" />
                 </button>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-3xl font-bold text-gray-900">$29.00</p>
-              <p className="text-sm text-gray-500">+12% VAT Added</p>
+              <div className="flex items-center gap-3">
+                <span className="text-3xl font-bold text-gray-900">Rs.{price}</span>
+                <span className="text-xl text-gray-400 line-through">Rs.600</span>
+              </div>
             </div>
           </div>
 
-          <button className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition-colors">
-            Add to Cart
-          </button>
+          <div className="flex flex-row justify-between gap-3 mt-6">
+            <button 
+              className="w-full py-2 px-4 rounded-full border-2 border-black text-black text-base hover:bg-black hover:text-white transition-colors duration-200 ease-linear" 
+              onClick={() => handleAddToCart({name, price, quantity, selectedSize, selectedColor})}
+            >
+              ADD TO CART
+            </button>
+            <button 
+              className="w-full py-2 px-2 rounded-full bg-black text-white text-base hover:bg-transparent hover:text-black-color hover:border-2 hover:border-black-color transition-opacity ease-linear"
+              onClick={() => handleBuyNow({name, price, quantity, selectedSize, selectedColor})}
+            >
+              BUY IT NOW
+            </button>
+          </div>
 
           <div className="border-t pt-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Product Details</h2>
@@ -133,7 +153,7 @@ export default function ProductDetails() {
                   className={`py-2 px-4 rounded-md border ${
                     selectedSize === size
                       ? 'border-blue-600 bg-blue-50 text-blue-600'
-                      : 'border-gray-300 hover:border-gray-400'
+                      : 'border-gray-300 hover:border-gray-400 text-gray-700'
                   }`}
                 >
                   {size.charAt(0).toUpperCase() + size.slice(1)}
@@ -169,3 +189,4 @@ export default function ProductDetails() {
   )
 }
 
+export default ProductDetails

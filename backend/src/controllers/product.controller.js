@@ -112,7 +112,7 @@ const getSingleProduct = asyncHandler(async (req, res) => {
             new ApiResponse(200, { product, reviews }, "The Product has been fetched Successfully!")
         )
     } catch (error) {
-        throw new ApiError(500, "Error Fetching The products! Try Again.")
+        throw new ApiError(500, "Error Fetching The product! Try Again.", error)
     }
 })
 

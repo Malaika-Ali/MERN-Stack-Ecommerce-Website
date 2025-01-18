@@ -25,11 +25,12 @@ export const productsApi = createApi({
       providesTags: ["Products"]
     }),
 
-    getSingleProduct: (builder)=>({
+    getSingleProduct: builder.query({
       query: (id) => `/get-single-product/${id}`,
-      providesTags: (result, error, id) => [{type: "Products", id}]
+      providesTags: (result, error, id) => [{ type: 'Products', id }],
     }),
-
+   
+    
 
     addProduct: builder.mutation({
       query: (newProduct)=>(

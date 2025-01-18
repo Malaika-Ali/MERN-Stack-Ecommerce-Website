@@ -36,12 +36,6 @@ function CategorySection() {
           <CategoryCard key={category.title} {...category} />
         ))}
       </div>
-
-      <div className="mt-12 text-center">
-        <button className="rounded-md bg-blue-600 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-          Explore All Category
-        </button>
-      </div>
     </section>
   )
 }
