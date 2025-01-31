@@ -8,10 +8,11 @@ import { google } from 'googleapis'
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
-const oauth2Client = new google.auth.OAuth2(
+export const oauth2Client = new google.auth.OAuth2(
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET,
-    process.env.REDIRECT_URI
+    // process.env.REDIRECT_URI
+    'postmessage'
 );
 
-export default oauth2Client
+// export default oauth2Client

@@ -8,6 +8,8 @@ import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import ProductDetails from "../pages/productDetails";
+import ShippingInformation from "../pages/productOrder/shippingInformation";
+import PaymentInformtaion from "../pages/productOrder/paymentInformation";
 
 
 const GoogleAuthWrapper=()=>{
@@ -48,6 +50,14 @@ const router = createBrowserRouter([
             element: <ProductDetails/>
            },
            {
+           path: "/shipping-information",
+           element: <ShippingInformation/>
+          },
+          {
+            path: "/payment-information",
+            element: <PaymentInformtaion/>
+           },
+           {
             path: "*",
             element: <div>Page Not Found</div>
            }
@@ -58,10 +68,10 @@ const router = createBrowserRouter([
         path: "/login",
         element: <GoogleAuthWrapper/>
     },
-    // {
-    //     path: "/signup",
-    //     element: <Signup/>
-    // }
+    {
+        path: "/signup",
+        element: <Signup/>
+    }
 ]);
 
 export default router;

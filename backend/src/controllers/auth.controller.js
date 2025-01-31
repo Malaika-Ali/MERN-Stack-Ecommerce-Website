@@ -1,7 +1,7 @@
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ApiResponse } from '../utils/ApiResponse.js'
 import { ApiError } from '../utils/ApiError.js'
-import oauth2Client from '../utils/oath2Client.js'
+import {oauth2Client} from '../utils/oath2Client.js'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
 import { promisify } from 'util'
@@ -71,13 +71,13 @@ const googleAuth = asyncHandler(async (req, res, next) => {
 
     const {email, name}=userRes.data
     console.log(email, name)
-    let user = await User.findOne({ email: userRes.data.email });
+    let user = await User.findOne({ email });
 
     if (!user) {
         console.log('New User found');
         user = await User.create({
-            name: userRes.data.name,
-            email: userRes.data.email,
+            name,
+            email
         });
     }
 
@@ -89,19 +89,15 @@ const googleAuth = asyncHandler(async (req, res, next) => {
     }
 );
 
-return res.status(201).json({
+return res.status(200).json({
     message: "Success",
     token,
     user
 })
-    // createSendToken(user, 201, res);
-
-
-
-
+    
   } catch (error) {
     console.log(error)
-    throw new ApiError(400, "Error in Signing up user using Google O Auth!!!!!!!!!!", error)
+    throw new ApiError(500, "Error in Signing up user using Google O Auth!!!!!!!!!!", error)
     
   }
 	

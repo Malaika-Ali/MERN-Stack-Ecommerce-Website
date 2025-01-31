@@ -17,13 +17,13 @@ const userSchema=new Schema({
     },
     password:{
         type: String,
-        required: [true,"Password is Required!"],
+        // required: [true,"Password is Required!"],
         trim: true,
     },
     role:{
         type: String,
         enum: ['customer', 'admin'],
-        default: "user"
+        default: "customer"
     },
     // profileImage:{
     //     type: String,

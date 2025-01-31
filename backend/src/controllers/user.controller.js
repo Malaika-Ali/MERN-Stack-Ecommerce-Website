@@ -73,14 +73,6 @@ const registerUser=asyncHandler(async (req, res)=>{
 
 
 const loginUser = asyncHandler(async (req, res) => {
-   // request body se data ley ao
-   // check is username/email/required fields exist
-   // find the user
-   // if user existes, check password
-   // access and refresh token
-   // send these tokens in cookies
-   // send success response
-
    const { email, password } = req.body
 
    if (!email) {
@@ -117,7 +109,7 @@ const loginUser = asyncHandler(async (req, res) => {
    // These options make the cookies modifiable only through server and only accessible to frontend and not modifiable through the frontend otherwise cookies are modifiable through frontend also
    const options = {
        httpOnly: true,
-       secure: true,
+       secure: process.env.NODE_ENV === "production",
 
    }
 

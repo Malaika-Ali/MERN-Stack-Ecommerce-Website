@@ -3,6 +3,7 @@ import { ApiError } from '../utils/ApiError.js'
 import { Review } from '../models/review.model.js'
 import { ApiResponse } from '../utils/ApiResponse.js'
 import jwt from "jsonwebtoken";
+import { Product } from '../models/product.model.js';
 
 
 const postReview = asyncHandler(async (req, res) => {
@@ -32,11 +33,27 @@ const postReview = asyncHandler(async (req, res) => {
          throw new ApiError(404, "The product does not exist")
      }
 
+     const productReviews=await Review.find({productId : productId})
+
+
+     if(productReviews.length>0){
+        const totalRating=productReviews.reduce((acc, review )=> acc + review.rating, 0)
+        const averageRating=totalRating/productReviews.length
+        const product=await Product.findById(productId)
+        if(product){
+            product.rating=averageRating
+            await product.save({validateBeforeSave: false})
+        }
+        else{
+            throw new ApiError(404, "Product Not Found!", error)
+        }
+      }
+
      return res.status(201).json(
         new ApiResponse(200, review, "The Review has been Added Successfully!")
     )
    } catch (error) {
-    throw new ApiError(500, "Error Adding The Review! Try Again.")
+    throw new ApiError(500, "Error Adding The Review! Try Again.",error)
    }
 })
 
@@ -65,7 +82,7 @@ const deleteReview = asyncHandler(async (req, res) => {
       const productId = req.params.productId
   
       const productReviewsNumber=await Review.countDocuments({productId : productId})
-      const productReviews=await Review.find({productId : productId})
+      const productReviews=await Review.find({productId : productId}).populate('userId', 'name')
   
       if(!productReviews){
           throw new ApiError(404, "The Review could not be fetched!")

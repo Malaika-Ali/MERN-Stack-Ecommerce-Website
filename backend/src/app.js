@@ -37,26 +37,4 @@ app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/products", productRouter)
 app.use("/api/v1/reviews", reviewRouter)
 
-
-
-app.get('/auth/google/callback', async (req, res) => {
-    const code = req.query.code; // Extract authorization code from the URL
-    try {
-        const { tokens } = await oauth2Client.getToken(code); // Exchange code for tokens
-        oauth2Client.setCredentials(tokens); // Set tokens to the OAuth2 client
-
-        // Retrieve user info
-        const userInfo = await axios.get(
-            `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${tokens.access_token}`
-        );
-        console.log(userInfo.data);
-
-        // Handle user login/registration logic
-        res.send('Login successful!');
-    } catch (error) {
-        console.error('Error during Google OAuth callback:', error);
-        res.status(500).send('Authentication failed');
-    }
-});
-
 export {app}

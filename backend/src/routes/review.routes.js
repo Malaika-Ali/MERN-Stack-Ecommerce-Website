@@ -6,7 +6,7 @@ const router=Router()
 
 router.route('/post-review/:productId').post(verifyJWT, postReview)
 router.route('/delete-review/:reviewId').delete(verifyJWT, deleteReview)
-router.route('/get-all-reviews/:productId').get(verifyJWT, getAllReviews)
+router.route('/get-all-reviews/:productId').get( getAllReviews)
 router.route('/update-review/:reviewId').patch(verifyJWT, updateReview)
 
 
