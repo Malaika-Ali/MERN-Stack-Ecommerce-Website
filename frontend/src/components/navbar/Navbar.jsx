@@ -33,42 +33,46 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header className={`fixed w-full z-10 mb:10 lg:mb-2 bg-white ${isScrolled ? 'shadow-lg' : ""}`}>
+    <header className={`sticky top-0 w-full z-10 bg-white ${isScrolled ? 'shadow-lg' : ""}`}>
       <nav className={`container mx-auto flex justify-between items-center px-4 py-1 lg:py-2 `}>
         {/* Left Side for Desktop */}
-        <div className="hidden md:flex space-x-4">
+        <div className="hidden md:flex space-x-4 flex-1 justify-start">
           <ul className="flex space-x-4">
             <li>
-              <NavLink to="/" className={({ isActive }) => `text-black-color hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`}>
-                Collections
+              <NavLink to="/contact" className={({ isActive }) => `text-black-color font-[400] hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`}>
+                Clothes
               </NavLink>
             </li>
-            {/* <li>
-              <NavLink to="/about" className="text-gray-700 hover:text-blue-500" activeClassName="font-bold">
-                Men
-              </NavLink>
-            </li>
+
             <li>
-              <NavLink to="/women" className="text-gray-700 hover:text-blue-500" activeClassName="font-bold">
-                Women
-              </NavLink>
-            </li> */}
-            <li>
-              <NavLink to="/contact" className={({ isActive }) => `text-black-color hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`}>
-                Contact Us
+              <NavLink to="/contact" className={({ isActive }) => `text-black-color font-[400] hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`}>
+                Accessories
               </NavLink>
             </li>
+
+            <li>
+              <NavLink to="/contact" className={({ isActive }) => `text-black-color font-[400] hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`}>
+                Footwear
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/contact" className={({ isActive }) => `text-black-color font-[400] hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`}>
+                Bags
+              </NavLink>
+            </li>
+
           </ul>
         </div>
 
         {/* Center Logo */}
-        <div className="flex-grow text-center">
+        <div className="text-center justify-center">
           <Link to='/'> <h1 className="text-3xl font-bold text-black-color">M<span className='text-grey-color text-3xl'>.</span> </h1></Link>
 
         </div>
 
         {/* Right Side for Desktop */}
-        <div className="hidden md:flex space-x-4">
+        <div className="hidden md:flex space-x-4 flex-1 justify-end">
           <NavLink to='/search' className={({ isActive }) => `${isActive ? 'text-white' : 'text-black'}`}>
             <FiSearch size={22} className={({ isActive }) => `text-black-color hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`} /></NavLink>
 

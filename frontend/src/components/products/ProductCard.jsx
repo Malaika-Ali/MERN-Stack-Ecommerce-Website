@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { FaHeart } from 'react-icons/fa';
 import RatingStars from './RatingStars';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/features/cart/cartSlice';
 import { useNavigate } from 'react-router-dom';
+import RoundedButton from '../buttons/RoundedButton';
+
+import { FaShoppingCart, FaHeart } from 'react-icons/fa';
+import { FiShoppingCart } from "react-icons/fi";
+import IconButton from '../buttons/IconButton';
 
 const ProductCard = ({ 
   name, 
@@ -27,7 +31,7 @@ const ProductCard = ({
     <div className="flex flex-col cursor-pointer"
     onClick={()=>navigate(`/product-details/${id}`)}>
       {/* Image Container */}
-      <div className="relative aspect-square bg-[#F5F5F5] rounded-xl overflow-hidden mb-4 border-opacity-[0.7]">
+      <div className="relative aspect-square bg-[#F5F5F5] rounded-xl overflow-hidden mb-4 border-opacity-0">
         <img
           src={image}
           alt={name}
@@ -45,25 +49,30 @@ const ProductCard = ({
       </div>
 
       {/* Content Container */}
-      <div className="space-y-1">
-        <h3 className="font-medium text-base text-gray-900">{name}</h3>
-        <p className="text-sm text-gray-500">{description}</p>
-        <div className="flex items-center gap-1">
-        <RatingStars rating={rating}/>
+      <div className="space-y-1 lg:px-2">
+        <div className="flex flex-row justify-between">
+        <h3 className="font-[400] text-base text-black-color">{name}</h3>
+        <h6 className="font-[500]">Rs.{price}</h6>
         </div>
-        <div className="flex items-center justify-between pt-1">
-          <div className="flex items-center gap-2">
+        <p className="text-sm text-gray-500">{description}</p>
+        <div className="flex items-center justify-between">
+        <RatingStars rating={rating}/>
+
+        <IconButton onClick={() => dispatch(addToCart(product))} className="text-sm p-2" >    
+        <FiShoppingCart className="w-4 h-4" />
+          </IconButton>
+        </div>
+        {/* <div className="flex items-center justify-between pt-1"> */}
+          {/* <div className="flex items-center gap-2">
             <span className="font-medium">Rs.{price}</span>
             {originalPrice && (
               <span className="text-sm text-gray-500 line-through">
                 {originalPrice}
               </span>
             )}
-          </div>
-          <button onClick={() => dispatch(addToCart(product))} className="text-xs px-3 py-1.5 bg-gray-900 text-white rounded-full hover:bg-black-color transition-colors">
-            Add to Cart
-          </button>
-        </div>
+          </div> */}
+        
+        {/* </div> */}
       </div>
     </div>
   );

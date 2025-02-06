@@ -11,11 +11,11 @@ export const productsApi = createApi({
 
   endpoints: (builder) => ({
     fetchAllProducts: builder.query({
-      query: ({ category, minPrice, maxPrice, page = 1, limit = 10 }) => {
+      query: ({ category="", minPrice="", maxPrice="", page = 1, limit = 10 }) => {
         const queryParams = new URLSearchParams({
-          category: category || "",
-          minPrice: minPrice || "",
-          maxPrice: maxPrice || "",
+          category,
+          minPrice,
+          maxPrice,
           page: page.toString(),
           limit: limit.toString()
         }).toString()

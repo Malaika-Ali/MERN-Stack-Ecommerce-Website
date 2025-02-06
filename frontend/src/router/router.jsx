@@ -20,6 +20,14 @@ const GoogleAuthWrapper=()=>{
     </GoogleOAuthProvider>
 )}
 
+const GoogleAuthWrapper2=()=>{
+    return  (  
+    <GoogleOAuthProvider clientId="1036669708423-b0h6qi86bdf18a8lt2165d6d7kpuq91g.apps.googleusercontent.com"
+    useOneTap={true}> 
+    <Signup/>
+    </GoogleOAuthProvider>
+)}
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -70,7 +78,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/signup",
-        element: <Signup/>
+        element: <GoogleAuthWrapper2/>
     }
 ]);
 
