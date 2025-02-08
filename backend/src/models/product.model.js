@@ -2,10 +2,6 @@ import mongoose, {Schema} from "mongoose";
 // import mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2'
 
 const productSchema= new Schema({
-    // images:{
-    //     type: String,
-    //     // required: [true, "Thumbnail is Required"]
-    // },
     images:{
         type: [String],
         required: [true, "Images of Products are required!"]
@@ -31,7 +27,7 @@ const productSchema= new Schema({
     },
     quantity:{
         type: Number,
-        default: 0
+        default: 1
     },
     rating:{
         type: Number,

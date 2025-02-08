@@ -4,23 +4,26 @@ import Image from '../../../src/assets/AuthImg.png'
 import {Link, useNavigate} from 'react-router-dom'
 import TextInput from '../../components/inputs/TextInput'
 import AuthButton from '../../components/buttons/AuthButton'
+
 import { useLoginUserMutation } from '../../redux/features/auth/userApi'
+import { setUser } from '../../redux/features/auth/authSlice';
+
 import {useGoogleLogin} from '@react-oauth/google'
 import { responseGoogle } from '../../utils/googleAuthResponse'
+import { useDispatch } from 'react-redux'
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const { register, handleSubmit, formState: { errors },reset } = useForm()
   const [loginUser, { isLoading }] = useLoginUserMutation();
   const navigate=useNavigate()
+  const dispatch=useDispatch()
 
   const onSubmit = async (data) => {
     try {
-      const response = await loginUser(data).unwrap(); // Call the API
-      console.log('Login successful:', response);
-      // Handle successful login (e.g., save tokens or navigate)
-      // localStorage.setItem('accessToken', response.accessToken);
-      // localStorage.setItem('refreshToken', response.refreshToken);
+      const user = await loginUser(data).unwrap(); 
+      dispatch(setUser(user)); // Store the user in Redux state
+      console.log('Login successful:', user);
       navigate("/")
       reset(); 
     } catch (error) {

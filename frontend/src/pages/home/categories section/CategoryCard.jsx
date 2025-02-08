@@ -1,8 +1,16 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 
 function CategoryCard({ image, title, products }) {
+
+  const navigate=useNavigate()
+
+  const handleClick = () => {
+    navigate(`/shop?category=${encodeURIComponent(title.toLowerCase())}`);
+  };
+
     return (
-      <div className="group cursor-pointer">
+      <div className="group cursor-pointer" onClick={handleClick}>
         <div className="overflow-hidden rounded-lg bg-gray-100">
           <img
             src={image}

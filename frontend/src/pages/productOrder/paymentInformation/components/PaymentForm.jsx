@@ -2,10 +2,14 @@ import COD from "./paymentMethods/COD"
 import CredtCard from "./paymentMethods/CredtCard"
 import Stripe from "./paymentMethods/Stripe"
 import { useState } from "react"
+import { useLocation } from "react-router-dom"
 
 export default function PaymentForm() {
 
     const [paymentMethod, setPaymentMethod] = useState("credit-debit")
+    const location=useLocation()
+    const {data : shippingInfo}=location.state
+    console.log(shippingInfo)
 
     const handlePaymentMethodChange = (method) => {
       setPaymentMethod(method)

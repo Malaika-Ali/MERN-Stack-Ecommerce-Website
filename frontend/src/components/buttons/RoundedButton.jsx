@@ -9,7 +9,7 @@ const RoundedButton = ({
 
 }) => {
 
-    console.log("Button re rendered")
+    
   return (
     <button 
     type={type} 

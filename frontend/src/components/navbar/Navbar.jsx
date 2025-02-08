@@ -8,19 +8,19 @@ import { GoPerson } from "react-icons/go";
 import { BsCart2 } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const { user } = useSelector((state) => state.auth);
+  console.log(user)
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const toggleCart = () => setIsCartOpen(false)
-
   const products = useSelector(state => state.cart.products)
-
-
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {

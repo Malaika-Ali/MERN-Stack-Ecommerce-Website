@@ -24,8 +24,6 @@ const ProductCard = ({
   const navigate=useNavigate()
   const id=product._id
 
-  console.log(`logging id insie the product card ${id}`)
-
 
   return (
     <div className="flex flex-col cursor-pointer"

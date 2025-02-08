@@ -3,15 +3,15 @@ import { useDispatch } from 'react-redux'
 import { addToCart } from '../../redux/features/cart/cartSlice'
 import { FaMinus, FaPlus } from 'react-icons/fa'
 import RatingStars from '../../components/products/RatingStars'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-function ProductDetails({name, description, image, price, rating, images=[], productQuantity, category}) {
+function ProductDetails({ name, description, image, price, rating, images = [], productQuantity, category }) {
   const [selectedSize, setSelectedSize] = useState('medium')
   const [selectedColor, setSelectedColor] = useState('blue')
   const [quantity, setQuantity] = useState(1)
   const [displayImage, setDisplayImage] = useState(image)
   const dispatch = useDispatch()
-  const navigate=useNavigate()
+  const navigate = useNavigate()
 
 
   const handleQuantityChange = (action) => {
@@ -33,7 +33,7 @@ function ProductDetails({name, description, image, price, rating, images=[], pro
   }
 
 
-  const color='color'
+  const color = 'color'
   return (
     <div className="mx-auto px-4 sm:px-6 lg:px-8 container lg:pt-24">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -68,23 +68,23 @@ function ProductDetails({name, description, image, price, rating, images=[], pro
             ))}
           </div> */}
 
-<div className="grid grid-cols-3 gap-4">
-  {images
-    .filter((img) => img !== displayImage) // Filter out the current display image
-    .map((img) => (
-      <button
-        key={img}
-        onClick={() => setDisplayImage(img)}
-        className="aspect-square bg-gray-100 rounded-lg overflow-hidden"
-      >
-        <img
-          src={img}
-          alt="product image"
-          className="w-full h-full object-cover"
-        />
-      </button>
-    ))}
-</div>
+          <div className="grid grid-cols-3 gap-4">
+            {images
+              .filter((img) => img !== displayImage) // Filter out the current display image
+              .map((img) => (
+                <button
+                  key={img}
+                  onClick={() => setDisplayImage(img)}
+                  className="aspect-square bg-gray-100 rounded-lg overflow-hidden"
+                >
+                  <img
+                    src={img}
+                    alt="product image"
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+          </div>
 
         </div>
 
@@ -93,14 +93,14 @@ function ProductDetails({name, description, image, price, rating, images=[], pro
           <div>
             <h1 className="text-3xl font-bold text-gray-900">{name}</h1>
             <div className="mt-2 flex items-center gap-2">
-              <RatingStars rating={rating}/>
+              <RatingStars rating={rating} />
               <span className="text-sm text-gray-600">{rating} Rating</span>
-              {productQuantity!==0 ?  (<span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              {productQuantity !== 0 ? (<span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                 In Stock
               </span>) :
-(<span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-  Out Of Stock
-</span>)
+                (<span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                  Out Of Stock
+                </span>)
               }
               {/* <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                 In Stock
@@ -109,7 +109,7 @@ function ProductDetails({name, description, image, price, rating, images=[], pro
           </div>
 
           <p className="text-gray-600">
-           {description}
+            {description}
           </p>
 
           <div className="flex items-center justify-between">
@@ -140,18 +140,18 @@ function ProductDetails({name, description, image, price, rating, images=[], pro
           </div>
 
           <div className="flex flex-row justify-between gap-3 mt-6">
-            <button 
-              className="w-full py-2 px-4 rounded-full border-2 border-black text-black text-base hover:bg-black hover:text-white transition-colors duration-200 ease-linear" 
-              onClick={() => handleAddToCart({name, price, quantity, selectedSize, selectedColor})}
+            <button
+              className="w-full py-2 px-4 rounded-full border-2 border-black text-black text-base hover:bg-black hover:text-white transition-colors duration-200 ease-linear"
+              onClick={() => handleAddToCart({ name, price, quantity,image, category, selectedSize, selectedColor })}
             >
               ADD TO CART
             </button>
-            <button 
-            disabled={productQuantity===0}
+            <button
+              disabled={productQuantity === 0}
               className="w-full py-2 px-2 rounded-full bg-black text-white text-base hover:bg-transparent hover:text-black-color hover:border-2 hover:border-black-color transition-opacity ease-linear"
-              onClick={() => handleBuyNow({name, price, quantity, selectedSize, selectedColor})}
+              onClick={() => handleBuyNow({ name, price, quantity, image, category, selectedSize, selectedColor })}
             >
-              BUY IT NOW
+              BUY NOW
             </button>
           </div>
 
@@ -173,33 +173,32 @@ function ProductDetails({name, description, image, price, rating, images=[], pro
             </div>
           </div>
 
-     
+
           {
-            category==="clothes" &&
+            category === "clothes" &&
             (
               <div className="space-y-4">
-              <h3 className="text-base font-semibold text-gray-900">Select Size</h3>
-              <div className="grid grid-cols-5 gap-3">
-                {['extra small','small', 'medium', 'large', 'extra large'].map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`py-2 px-2 rounded-full border transition-all duration-500 ease-in-out ${
-                      selectedSize === size
-                        ? 'border-black-color bg-black-color text-white'
-                        : 'border-gray-300 hover:border-black-color text-black-color'
-                    }`}
-                  >
-                    {size.charAt(0).toUpperCase() + size.slice(1)}
-                  </button>
-                ))}
+                <h3 className="text-base font-semibold text-gray-900">Select Size</h3>
+                <div className="grid grid-cols-5 gap-3">
+                  {['extra small', 'small', 'medium', 'large', 'extra large'].map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`py-2 px-2 rounded-full border transition-all duration-500 ease-in-out ${selectedSize === size
+                          ? 'border-black-color bg-black-color text-white'
+                          : 'border-gray-300 hover:border-black-color text-black-color'
+                        }`}
+                    >
+                      {size.charAt(0).toUpperCase() + size.slice(1)}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
             )
 
           }
 
-      
+
         </div>
       </div>
     </div>
