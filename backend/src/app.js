@@ -31,10 +31,13 @@ import userRouter from "../src/routes/user.routes.js"
 import authRouter from "../src/routes/auth.routes.js"
 import productRouter from "../src/routes/product.routes.js"
 import reviewRouter from "../src/routes/review.routes.js"
+import orderRouter from "../src/routes/order.routes.js"
 
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/products", productRouter)
 app.use("/api/v1/reviews", reviewRouter)
+app.use("/api/v1/orders", orderRouter)
+
 
 export {app}

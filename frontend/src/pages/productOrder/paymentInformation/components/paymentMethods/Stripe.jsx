@@ -1,6 +1,5 @@
 import React from 'react'
 import OutlinedInput from '../../../../../components/inputs/text fields/OutlinedInput'
-import RoundedButton from '../../../../../components/buttons/RoundedButton'
 
 const Stripe = () => {
   return (
@@ -17,8 +16,6 @@ const Stripe = () => {
     <div className='pb-6'>
       <OutlinedInput label="Card Holder's Name" type="text" placeholder="Enter Card Holder's Name" className="w-full" />
     </div>
-
-  <RoundedButton children="Continue" className="w-full mt-10"/>
 
   </div>
   )

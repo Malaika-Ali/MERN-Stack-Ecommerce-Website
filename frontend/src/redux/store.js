@@ -4,6 +4,7 @@ import authReducer from '../redux/features/auth/authSlice.js'
 import userApi from './features/auth/userApi.js'
 import productsApi from './features/products/productsApi.js'
 import reviewsApi from './features/reviews/reviewsApi.js'
+import orderApi from './features/order/orderApi.js'
 
 export const store = configureStore({
   reducer: {
@@ -12,8 +13,10 @@ export const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
     [reviewsApi.reducerPath]: reviewsApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer,
+
 
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userApi.middleware, productsApi.middleware, reviewsApi.middleware),
+    getDefaultMiddleware().concat(userApi.middleware, productsApi.middleware, reviewsApi.middleware, orderApi.middleware),
 })

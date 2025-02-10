@@ -10,6 +10,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import IconButton from '../buttons/IconButton';
 
 const ProductCard = ({ 
+  
   name, 
   description, 
   price, 

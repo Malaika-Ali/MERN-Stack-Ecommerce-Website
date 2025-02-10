@@ -1,17 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../../redux/features/cart/cartSlice'
 import { FaMinus, FaPlus } from 'react-icons/fa'
 import RatingStars from '../../components/products/RatingStars'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-function ProductDetails({ name, description, image, price, rating, images = [], productQuantity, category }) {
+function ProductDetails({  name, description, image, price, rating, images = [], productQuantity, category }) {
   const [selectedSize, setSelectedSize] = useState('medium')
   const [selectedColor, setSelectedColor] = useState('blue')
   const [quantity, setQuantity] = useState(1)
   const [displayImage, setDisplayImage] = useState(image)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const {id}=useParams()
 
 
   const handleQuantityChange = (action) => {
@@ -32,8 +33,6 @@ function ProductDetails({ name, description, image, price, rating, images = [], 
     console.log('Buy Now:', product)
   }
 
-
-  const color = 'color'
   return (
     <div className="mx-auto px-4 sm:px-6 lg:px-8 container lg:pt-24">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -142,14 +141,14 @@ function ProductDetails({ name, description, image, price, rating, images = [], 
           <div className="flex flex-row justify-between gap-3 mt-6">
             <button
               className="w-full py-2 px-4 rounded-full border-2 border-black text-black text-base hover:bg-black hover:text-white transition-colors duration-200 ease-linear"
-              onClick={() => handleAddToCart({ name, price, quantity,image, category, selectedSize, selectedColor })}
+              onClick={() => handleAddToCart({id, name, price, quantity,image, category, selectedSize, selectedColor })}
             >
               ADD TO CART
             </button>
             <button
               disabled={productQuantity === 0}
               className="w-full py-2 px-2 rounded-full bg-black text-white text-base hover:bg-transparent hover:text-black-color hover:border-2 hover:border-black-color transition-opacity ease-linear"
-              onClick={() => handleBuyNow({ name, price, quantity, image, category, selectedSize, selectedColor })}
+              onClick={() => handleBuyNow({id,  name, price, quantity, image, category, selectedSize, selectedColor })}
             >
               BUY NOW
             </button>

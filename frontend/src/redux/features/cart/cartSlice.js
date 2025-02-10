@@ -15,10 +15,10 @@ export const cartSlice = createSlice({
         const existingProduct=state.products.find((product)=>product.id===action.payload.id)
 
         if(!existingProduct){
-            state.products.push({...action.payload, quantity: 1, image: action.payload.image, category: action.payload.category})
+            state.products.push({...action.payload, quantity: 1, image: action.payload.image, category: action.payload.category, id: action.payload.id })
         }else{
             existingProduct.quantity+=1
-            console.log("Items is already existed")
+            console.log("Items already existed")
         }
         state.selectedItems=setSelectedItems(state)
         state.totalPrice=setTotalPrice(state)
