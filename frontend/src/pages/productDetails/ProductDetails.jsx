@@ -45,31 +45,9 @@ function ProductDetails({  name, description, image, price, rating, images = [],
               className="w-full h-full object-cover"
             />
           </div>
-          {/* <div className="grid grid-cols-3 gap-4">
-            {images &&
-            images.map((img) => (
-              // displayImage !== img &&
-              <button
-                key={img}
-                onClick={() => setDisplayImage(img)}
-                className={`aspect-square bg-gray-100 rounded-lg overflow-hidden ${
-                  selectedColor === color ? 'ring-2 ring-black-color' : ''
-                }`}
-              >
-                {
-                  <img
-                  src={img}
-                  alt="product image"
-                  className="w-full h-full object-cover"
-                />}
-              
-              </button>
-            ))}
-          </div> */}
-
           <div className="grid grid-cols-3 gap-4">
             {images
-              .filter((img) => img !== displayImage) // Filter out the current display image
+              .filter((img) => img !== displayImage) 
               .map((img) => (
                 <button
                   key={img}

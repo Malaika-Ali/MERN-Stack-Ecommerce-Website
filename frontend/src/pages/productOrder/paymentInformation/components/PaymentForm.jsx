@@ -2,12 +2,12 @@ import { useForm, FormProvider } from "react-hook-form";
 import RoundedButton from "../../../../components/buttons/RoundedButton";
 import COD from "./paymentMethods/COD";
 import CredtCard from "./paymentMethods/CredtCard";
-import Stripe from "./paymentMethods/Stripe";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useCreateOrderMutation } from "../../../../redux/features/order/orderApi";
 import ImageModal from "../../../../components/modals/ImageModal";
+import { applyTaxForCOD, removeTax } from "../../../../redux/features/cart/cartSlice"; // Import actions
 
 export default function PaymentForm() {
   const [paymentMethod, setPaymentMethod] = useState("credit-debit");
@@ -15,11 +15,9 @@ export default function PaymentForm() {
   const { data: shippingInfo } = location.state;
   const products = useSelector((state) => state.cart.products);
   const grandTotal = useSelector((state) => state.cart.grandTotal);
-  const [openModal, setOpenModal] = useState(false)
+  const [openModal, setOpenModal] = useState(false);
   const [createOrder, { isLoading, isSuccess, isError, error }] = useCreateOrderMutation();
-
-
-  // Initialize react-hook-form
+  const dispatch = useDispatch(); // Add dispatch
   const methods = useForm();
   const { handleSubmit, watch, reset } = methods;
 
@@ -28,21 +26,20 @@ export default function PaymentForm() {
 
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method);
+    if (method === "COD") {
+      dispatch(applyTaxForCOD()); 
+    } else {
+      dispatch(removeTax());
+    }
   };
 
   const handleForm = async (data) => {
-    console.log("Form Data:", data);
-    console.log("Shipping Info:", shippingInfo);
-
     let paymentInfo = {};
-
     if (paymentMethod === "COD") {
-      // For Cash on Delivery, only include the payment method
       paymentInfo = {
         paymentMethod,
       };
     } else if (paymentMethod === "credit-debit") {
-      // For Credit/Debit Card, include card details
       paymentInfo = {
         paymentMethod,
         cardNumber: data.cardDetails.cardNumber,
@@ -50,30 +47,22 @@ export default function PaymentForm() {
         cvv: data.cardDetails.cvv,
         cardHolderName: data.cardDetails.cardHolderName,
       };
-    } else if (paymentMethod === "stripe") {
-      // For Stripe, include Stripe-specific details (if any)
-      paymentInfo = {
-        paymentMethod,
-        // Add Stripe-specific fields here if needed
-      };
     }
 
-    const newProducts = []
+    const newProducts = [];
     const optimizeProducts = () => {
-      let newProduct = {}
-      products.map((item) => {
+      let newProduct = {};
+      products.forEach((item) => {
         newProduct = {
           product: item.id || "",
           quantity: item.quantity,
-          price: item.price
-        }
-        newProducts.push(newProduct)
-      })
-    }
-    optimizeProducts()
-    console.log(newProducts)
+          price: item.price,
+        };
+        newProducts.push(newProduct);
+      });
+    };
+    optimizeProducts();
 
-    // Combine shipping info, payment data, and cart details
     const orderData = {
       products: newProducts,
       shippingInfo,
@@ -83,14 +72,12 @@ export default function PaymentForm() {
 
     try {
       const order = await createOrder(orderData).unwrap();
-      console.log(order)
-      reset()
-      setOpenModal(true)
+      console.log(order);
+      reset();
+      setOpenModal(true);
     } catch (error) {
-
+      console.log("Error while placing the order:", error);
     }
-
-    console.log("Order Data:", orderData);
   };
 
   return (
@@ -109,20 +96,9 @@ export default function PaymentForm() {
                 onChange={() => handlePaymentMethodChange("credit-debit")}
                 className="form-radio h-5 w-5 text-blue-600"
               />
-              <span className="text-gray-900 font-medium">Credit / Debit Card</span>
+              <span className="text-gray-900 font-medium">Pay With Card</span>
             </label>
-            <label className="flex items-center space-x-3 cursor-pointer">
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="stripe"
-                {...methods.register("paymentMethod", { required: true })}
-                checked={paymentMethod === "stripe"}
-                onChange={() => handlePaymentMethodChange("stripe")}
-                className="form-radio h-5 w-5 text-blue-600"
-              />
-              <span className="text-gray-900 font-medium">Stripe</span>
-            </label>
+
             <label className="flex items-center space-x-3 cursor-pointer">
               <input
                 type="radio"
@@ -139,7 +115,6 @@ export default function PaymentForm() {
 
           <div className="mt-6">
             {paymentMethod === "credit-debit" && <CredtCard />}
-            {paymentMethod === "stripe" && <Stripe />}
             {paymentMethod === "COD" && <COD />}
           </div>
 
@@ -149,11 +124,9 @@ export default function PaymentForm() {
         </div>
       </form>
 
-      {
-        openModal && (
-          <ImageModal isOpen={openModal} onClose={() => setOpenModal(false)} />
-        )
-      }
+      {openModal && (
+        <ImageModal isOpen={openModal} onClose={() => setOpenModal(false)} />
+      )}
     </FormProvider>
   );
 }

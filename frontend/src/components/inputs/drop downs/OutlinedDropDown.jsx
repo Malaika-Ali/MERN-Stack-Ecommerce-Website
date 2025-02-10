@@ -13,7 +13,7 @@ const OutlinedDropDown = ({
         <div>
             <label className="block text-sm mb-1.5 px-2">{label}</label>
             <select
-                className={`w-full px-4 py-2.5 border border-gray-300 rounded-full text-sm text-gray-700 ${className ? className : ""} transition-all duration-400 ease-linear`}
+                className={`w-full px-4 py-2.5 rounded-full text-sm text-gray-700 ${className ? className : ""} transition-all duration-400 ease-linear`}
                 {...props}
                 ref={ref}
                 id={id}
