@@ -3,9 +3,8 @@ import RatingStars from './RatingStars';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/features/cart/cartSlice';
 import { useNavigate } from 'react-router-dom';
-import RoundedButton from '../buttons/RoundedButton';
 
-import { FaShoppingCart, FaHeart } from 'react-icons/fa';
+import {  FaHeart } from 'react-icons/fa';
 import { FiShoppingCart } from "react-icons/fi";
 import IconButton from '../buttons/IconButton';
 
@@ -17,20 +16,29 @@ const ProductCard = ({
   originalPrice, 
   image ,
   rating,
-  product
+  product,
+  category,
+  color
 }) => {
 
   const [isFavorite, setIsFavorite] = useState(false);
+  const [quantity, setQuantity] = useState(0)
   const dispatch = useDispatch()
   const navigate=useNavigate()
   const id=product._id
 
+  const handleAddToCart = (product) => {
+    setQuantity((prev)=>prev+=1)
+    dispatch(addToCart(product))
+  }
+
 
   return (
-    <div className="flex flex-col cursor-pointer"
-    onClick={()=>navigate(`/product-details/${id}`)}>
+    <div className="flex flex-col"
+   >
       {/* Image Container */}
-      <div className="relative aspect-square bg-[#F5F5F5] rounded-xl overflow-hidden mb-4 border-opacity-0">
+      <div className="relative aspect-square bg-[#F5F5F5] rounded-xl overflow-hidden mb-4 border-opacity-0 cursor-pointer"
+       onClick={()=>navigate(`/product-details/${id}`)}>
         <img
           src={image}
           alt={name}
@@ -57,21 +65,10 @@ const ProductCard = ({
         <div className="flex items-center justify-between">
         <RatingStars rating={rating}/>
 
-        <IconButton onClick={() => dispatch(addToCart(product))} className="text-sm p-2" >    
+        <IconButton onClick={() => handleAddToCart({id, name, price, quantity,image, category, selectedSize:"medium", color })} className="text-sm p-2" >    
         <FiShoppingCart className="w-4 h-4" />
           </IconButton>
         </div>
-        {/* <div className="flex items-center justify-between pt-1"> */}
-          {/* <div className="flex items-center gap-2">
-            <span className="font-medium">Rs.{price}</span>
-            {originalPrice && (
-              <span className="text-sm text-gray-500 line-through">
-                {originalPrice}
-              </span>
-            )}
-          </div> */}
-        
-        {/* </div> */}
       </div>
     </div>
   );

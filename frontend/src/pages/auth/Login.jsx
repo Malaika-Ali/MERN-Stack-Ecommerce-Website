@@ -22,7 +22,7 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const user = await loginUser(data).unwrap(); 
-      dispatch(setUser(user)); // Store the user in Redux state
+      dispatch(setUser(user)); 
       console.log('Login successful:', user);
       navigate("/")
       reset(); 

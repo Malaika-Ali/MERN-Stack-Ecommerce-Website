@@ -8,7 +8,8 @@ const HorizontalCard = ({
   category,
   quantity,
   price,
-  image
+  image,
+  className=""
 }) => {
 
   const dispatch=useDispatch()
@@ -19,11 +20,11 @@ const HorizontalCard = ({
 
 
   return (
-    <div className="flex gap-4 bg-gray-100 p-4 rounded-lg">
-    <div className="w-[100px] h-[100px] bg-gray-50 rounded-md flex items-center justify-center p-2">
+    <div className={`flex gap-4 bg-gray-100 p-4 rounded-xl ${className}`}>
+    <div className="w-[100px] h-[100px] bg-gray-50 rounded-xl flex items-center justify-center p-2">
       <img
         src={image}
-        alt="Sentinel Jacket"
+        alt={name}
         className="w-full h-full object-contain"
       />
     </div>
@@ -42,7 +43,7 @@ const HorizontalCard = ({
         onClick={() => updateItemQuantity('decrement', id)}>
           -
         </button>
-        <span className="text-sm">1</span>
+        <span className="text-sm">{quantity}</span>
         <button className="w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center text-sm bg-black text-white"
         onClick={() => updateItemQuantity('increment', id)}>
           +

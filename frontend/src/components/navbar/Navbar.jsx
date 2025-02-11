@@ -12,25 +12,28 @@ import { FiSearch } from "react-icons/fi";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false)
-  const { user } = useSelector((state) => state.auth);
-  console.log(user)
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
   const toggleCart = () => setIsCartOpen(false)
   const products = useSelector(state => state.cart.products)
   const [isScrolled, setIsScrolled] = useState(false);
+  const {user}  = useSelector((state) => state.auth);
+  console.log("The user is", user)
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0); // Check if user has scrolled
+      // Check if user has scrolled
+      setIsScrolled(window.scrollY > 0); 
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  console.log("products from inside the navbar", products)
+ 
 
   return (
     <header className={`sticky top-0 w-full z-10 bg-white ${isScrolled ? 'shadow-lg' : ""}`}>

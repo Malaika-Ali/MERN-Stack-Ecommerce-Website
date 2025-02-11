@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import HorizontalCard from '../product cards/HorizontalCard';
+
 import { RxCross2 } from "react-icons/rx";
 import { LuMinus, LuPlus } from "react-icons/lu";
+
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCart, removeProduct, updateQuantity } from '../../redux/features/cart/cartSlice';
 
@@ -31,6 +34,7 @@ const CartDrawer = ({ toggleCart, isOpen, products }) => {
 
    
     const discount = 200
+    console.log("products", products)
 
     return (
         <div>
@@ -54,8 +58,8 @@ const CartDrawer = ({ toggleCart, isOpen, products }) => {
                 <div className="p-6 h-full flex flex-col">
                     <div className="flex justify-between items-center mb-6">
                         <div className="flex items-center  gap-6">
-                            <h2 className="text-2xl font-bold">Your Cart</h2>
-                            <span className="text-gray-500">({selectedItems } Items)</span>
+                            <h2 className="text-2xl font-[400]">Your Cart</h2>
+                            <span className="text-grey-color">({selectedItems } Items)</span>
                         </div>
                         <button onClick={toggleCart} className="p-2 rounded-full hover:bg-gray-100 transition-colors">
                             <RxCross2 size={24} />
@@ -67,52 +71,53 @@ const CartDrawer = ({ toggleCart, isOpen, products }) => {
                        {
                         products.length==0 ? <div>No Items in your cart </div>:
                         (products.map((item) => (
-                            <div key={item.id} className="flex gap-4 py-4 border-t">
-                                <img
-                                    src={item.imageUrl}
-                                    alt={item.name}
-                                    width={80}
-                                    height={100}
-                                    className="object-cover rounded"
-                                />
+                            // <div key={item.id} className="flex gap-4 py-4 border-t">
+                            //     <img
+                            //         src={item.imageUrl}
+                            //         alt={item.name}
+                            //         width={80}
+                            //         height={100}
+                            //         className="object-cover rounded"
+                            //     />
 
-                                <div className="flex-grow">
-                                    <h3 className="font-medium">{item.name}</h3>
-                                    <div className="mt-2 flex items-center gap-4">
-                                        {/* <div className="flex items-center gap-2">
-                                            <select
-                                                value={item.size}
-                                                onChange={(e) => updateItemSize(item.id, e.target.value)}
-                                                className="border rounded px-2 py-1 bg-transparent"
-                                            >
-                                                <option value="M">M</option>
-                                                <option value="L">L</option>
-                                                <option value="XL">XL</option>
-                                            </select>
-                                        </div> */}
-                                        <div className="flex items-center gap-2">
-                                            <button className="p-1 rounded-full hover:bg-gray-100" onClick={() => updateItemQuantity('decrement', item.id)}>
-                                                <LuMinus size={16} />
-                                            </button>
-                                            <span className="w-8 text-center">{item.quantity}</span>
-                                            <button className="p-1 rounded-full hover:bg-gray-100" onClick={() => updateItemQuantity('increment', item.id)}>
-                                                <LuPlus size={16} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="mt-2 flex items-center gap-2">
-                                        <span className="font-semibold">Rs. {item.price}</span>
-                                        <button onClick={(e)=>handleRemoveProduct(e,item.id)} className="text-gray-500">Remove</button>
-                                    </div>
-                                </div>
-                            </div>
+                            //     <div className="flex-grow">
+                            //         <h3 className="font-medium">{item.name}</h3>
+                            //         <div className="mt-2 flex items-center gap-4">
+                            //             {/* <div className="flex items-center gap-2">
+                            //                 <select
+                            //                     value={item.size}
+                            //                     onChange={(e) => updateItemSize(item.id, e.target.value)}
+                            //                     className="border rounded px-2 py-1 bg-transparent"
+                            //                 >
+                            //                     <option value="M">M</option>
+                            //                     <option value="L">L</option>
+                            //                     <option value="XL">XL</option>
+                            //                 </select>
+                            //             </div> */}
+                            //             <div className="flex items-center gap-2">
+                            //                 <button className="p-1 rounded-full hover:bg-gray-100" onClick={() => updateItemQuantity('decrement', item.id)}>
+                            //                     <LuMinus size={16} />
+                            //                 </button>
+                            //                 <span className="w-8 text-center">{item.quantity}</span>
+                            //                 <button className="p-1 rounded-full hover:bg-gray-100" onClick={() => updateItemQuantity('increment', item.id)}>
+                            //                     <LuPlus size={16} />
+                            //                 </button>
+                            //             </div>
+                            //         </div>
+                            //         <div className="mt-2 flex items-center gap-2">
+                            //             <span className="font-semibold">Rs. {item.price}</span>
+                            //             <button onClick={(e)=>handleRemoveProduct(e,item.id)} className="text-gray-500">Remove</button>
+                            //         </div>
+                            //     </div>
+                            // </div>
+                            <HorizontalCard key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} image={item.image} category={item.category} className='bg-transparent border-b-2 border-gray-200 rounded-none'/>
                         )))
                        }
                     </div>
 
                     {/* Free shipping notice */}
-                    <div className="py-3 text-sm text-blue-600">
-                        * Add ₹10 more to get free shipping.
+                    <div className="py-3 text-sm text-black-color">
+                        * Add Rs.{5000-grandTotal}  more to get free Delivery.
                     </div>
 
                     {/* Order summary */}
