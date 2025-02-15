@@ -13,7 +13,7 @@ const IconButton = ({
     <button 
     type={type} 
     onClick={handleClick}
-    className={`bg-black text-white text-center flex items-center justify-center text-sm font-normal rounded-full hover:bg-gray-800 ${className}`
+    className={`text-gray-600 text-center flex items-center justify-center text-base font-[600] rounded-full border border-grey-color hover:bg-stone-200 ${className}`
 }
 {...props}
   >

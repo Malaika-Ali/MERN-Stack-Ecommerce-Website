@@ -4,8 +4,6 @@ import SectionHeading from '../headings/SectionHeading';
 
 const ProductsGrid = ({ products, headingTitle, headingSubTitle, textalignment }) => {
 
-  console.log(products)
-
   return (
     <div className={`container mx-auto px-4 py-8 ${headingTitle? 'py-8': "py-2"}`}>
     {headingTitle &&

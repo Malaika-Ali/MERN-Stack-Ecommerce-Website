@@ -1,103 +1,166 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
-import { HiMenu, HiX } from 'react-icons/hi';
-import { useSelector } from 'react-redux';
-import CartDrawer from './CartDrawer';
-import { GoPerson } from "react-icons/go";
-import { BsCart2 } from "react-icons/bs";
-import { FiSearch } from "react-icons/fi";
-
+import { useState, useEffect, useRef } from "react"
+import { NavLink, Link } from "react-router-dom"
+import CartDrawer from "./CartDrawer"
+import { AnimatePresence } from "framer-motion"
+import { useSelector, useDispatch } from "react-redux"
+import { GoPerson } from "react-icons/go"
+import { BsCart2 } from "react-icons/bs"
+import { FiSearch } from "react-icons/fi"
+import { HiMenu, HiX } from "react-icons/hi"
+import { FaSearch, FaShoppingCart, FaUser, FaSignOutAlt, FaBoxOpen } from "react-icons/fa"
+import NavItem from "./NavItem"
+// import { logout } from "../redux/actions/authActions" 
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const toggleCart = () => setIsCartOpen(false)
-  const products = useSelector(state => state.cart.products)
-  const [isScrolled, setIsScrolled] = useState(false);
-  const {user}  = useSelector((state) => state.auth);
-  console.log("The user is", user)
+  const products = useSelector((state) => state.cart.products)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const { user, isAuthenticated } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
+  const dropdownRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
-      // Check if user has scrolled
-      setIsScrolled(window.scrollY > 0); 
-    };
+      setIsScrolled(window.scrollY > 0)
+    }
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    document.addEventListener("mousedown", handleClickOutside)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+    setIsOpen(!isOpen)
+  }
 
-  console.log("products from inside the navbar", products)
- 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen)
+  }
+
+  const handleLogout = () => {
+    dispatch(logout())
+    setIsDropdownOpen(false)
+  }
+
+  const navlinks = [
+    {
+      title: "Clothes",
+      category: "clothes"
+    },
+    {
+      title: "Accessories",
+      category: "accessories"
+    },
+    {
+      title: "Bags",
+      category: "bags"
+    },
+    {
+      title: "Footwear",
+      category: "footwear"
+    }
+  ]
+
 
   return (
-    <header className={`sticky top-0 w-full z-10 bg-white ${isScrolled ? 'shadow-lg' : ""}`}>
-      <nav className={`container mx-auto flex justify-between items-center px-4 py-1 lg:py-2 `}>
+    <header className={`sticky top-0 w-full z-10 bg-white ${isScrolled ? "shadow-lg" : ""}`}>
+      <nav className={`container mx-auto flex justify-between items-center px-4 py-1 lg:py-2`}>
         {/* Left Side for Desktop */}
         <div className="hidden md:flex space-x-4 flex-1 justify-start">
           <ul className="flex space-x-4">
-            <li>
-              <NavLink to="/contact" className={({ isActive }) => `text-black-color font-[400] hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`}>
-                Clothes
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink to="/contact" className={({ isActive }) => `text-black-color font-[400] hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`}>
-                Accessories
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink to="/contact" className={({ isActive }) => `text-black-color font-[400] hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`}>
-                Footwear
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink to="/contact" className={({ isActive }) => `text-black-color font-[400] hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`}>
-                Bags
-              </NavLink>
-            </li>
-
+            {navlinks.map((navlink) => (
+              <li key={navlink.category}>
+                <NavItem category={navlink.category} title={navlink.title} />
+              </li>
+            ))}
           </ul>
         </div>
 
         {/* Center Logo */}
         <div className="text-center justify-center">
-          <Link to='/'> <h1 className="text-3xl font-bold text-black-color">M<span className='text-grey-color text-3xl'>.</span> </h1></Link>
-
+          <Link to="/">
+            {" "}
+            <h1 className="text-4xl font-bold text-black-color font-serif">
+              M<span className="text-grey-color text-3xl">.</span>{" "}
+            </h1>
+          </Link>
         </div>
 
         {/* Right Side for Desktop */}
         <div className="hidden md:flex space-x-4 flex-1 justify-end">
-          <NavLink to='/search' className={({ isActive }) => `${isActive ? 'text-white' : 'text-black'}`}>
-            <FiSearch size={22} className={({ isActive }) => `text-black-color hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`} /></NavLink>
+          <NavLink to="/search" className={({ isActive }) => `${isActive ? "text-white" : "text-black"}`}>
+            <FiSearch
+              size={22}
+              className={({ isActive }) =>
+                `text-black-color hover:text-grey-color ${isActive ? "text-grey-color" : ""}`
+              }
+            />
+          </NavLink>
 
-          <div onClick={() => setIsCartOpen((prev) => !prev)} className='relative'>
-            <BsCart2 size={22} className={({ isActive }) => `text-black-color  hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`} />
+          <div onClick={() => setIsCartOpen((prev) => !prev)} className="relative cursor-pointer">
+            <BsCart2
+              size={22}
+              className={({ isActive }) =>
+                `text-black-color  hover:text-grey-color ${isActive ? "text-grey-color" : ""}`
+              }
+            />
             <span className="absolute -top-2 -right-2 bg-yellow-color text-black-color text-xs rounded-full w-5 h-5 flex items-center justify-center">
               {products?.length}
             </span>
           </div>
 
-          <NavLink to="/login">
-            <GoPerson size={22} className={({ isActive }) => `text-black-color hover:text-grey-color ${isActive ? 'text-grey-color' : ''}`} />
-
-          </NavLink>
+          {isAuthenticated ? (
+            <div className="relative" ref={dropdownRef}>
+              <div onClick={toggleDropdown} className="cursor-pointer">
+                <FaUser size={22} className="text-black-color hover:text-grey-color" />
+              </div>
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                  <div className="px-4 py-2 text-sm text-gray-700">
+                    <p>{user.name}</p>
+                    <p className="text-xs text-gray-500">{user.email}</p>
+                  </div>
+                  <NavLink to="/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <FaBoxOpen className="inline-block mr-2" /> Orders
+                  </NavLink>
+                  <button
+                    // onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    <FaSignOutAlt className="inline-block mr-2" /> Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <NavLink to="/login">
+              <GoPerson
+                size={22}
+                className={({ isActive }) =>
+                  `text-black-color hover:text-grey-color ${isActive ? "text-grey-color" : ""}`
+                }
+              />
+            </NavLink>
+          )}
 
         </div>
 
-        {
-          isCartOpen && (
-            <CartDrawer isOpen={isCartOpen} toggleCart={toggleCart} products={products} />
-          )
-        }
+        <AnimatePresence>
+          {isCartOpen && <CartDrawer isOpen={isCartOpen} toggleCart={toggleCart} products={products} />}
+        </AnimatePresence>
 
         {/* Hamburger Menu for Mobile */}
         <div className="md:hidden flex items-center">
@@ -106,8 +169,6 @@ const Navbar = () => {
           </button>
         </div>
       </nav>
-
-
 
       {/* Mobile Menu */}
       {isOpen && (
@@ -118,29 +179,57 @@ const Navbar = () => {
           </div>
           <ul className="space-y-2">
             <li>
-              <NavLink to="/collections" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
-                Collections
-              </NavLink>
-            </li>
-            {/* <li>
-              <NavLink to="/men" className="text-gray-700 hover:text-blue-500" activeClassName="font-bold">
-                Men
+              <NavLink to="/clothes" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
+                Clothes
               </NavLink>
             </li>
             <li>
-              <NavLink to="/women" className="text-gray-700 hover:text-blue-500" activeClassName="font-bold">
-                Women
+              <NavLink to="/accessories" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
+                Accessories
               </NavLink>
-            </li> */}
+            </li>
             <li>
-              <NavLink to="/contact" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
-                Contact Us
+              <NavLink to="/footwear" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
+                Footwear
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/bags" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
+                Bags
               </NavLink>
             </li>
           </ul>
           <div className="flex space-x-4 mt-4">
-            <FaShoppingCart onClick={() => setIsCartOpen((prev) => !prev)} className="text-gray-700 hover:text-blue-500 cursor-pointer" />
-            <FaUser className="text-gray-700 hover:text-blue-500 cursor-pointer" />
+            <FaShoppingCart
+              onClick={() => setIsCartOpen((prev) => !prev)}
+              className="text-gray-700 hover:text-blue-500 cursor-pointer"
+            />
+            {isAuthenticated ? (
+              <div className="relative">
+                <FaUser onClick={toggleDropdown} className="text-gray-700 hover:text-blue-500 cursor-pointer" />
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                    <div className="px-4 py-2 text-sm text-gray-700">
+                      <p>{user.name}</p>
+                      <p className="text-xs text-gray-500">{user.email}</p>
+                    </div>
+                    <NavLink to="/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <FaBoxOpen className="inline-block mr-2" /> Orders
+                    </NavLink>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      <FaSignOutAlt className="inline-block mr-2" /> Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <NavLink to="/login">
+                <FaUser className="text-gray-700 hover:text-blue-500 cursor-pointer" />
+              </NavLink>
+            )}
           </div>
         </div>
       )}

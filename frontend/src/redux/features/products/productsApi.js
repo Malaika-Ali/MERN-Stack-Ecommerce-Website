@@ -53,6 +53,11 @@ export const productsApi = createApi({
         invalidatesTags: ["Products"]
     }),
 
+    fetchRelatedProducts: builder.query({
+      query: (productId) => `/get-related-products/${productId}`,
+      providesTags: ["Products"],
+    }),
+
     deleteProduct: builder.mutation({
       query: (id)=>(
         {
@@ -67,6 +72,6 @@ export const productsApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useFetchAllProductsQuery, useAddProductQuery, useGetSingleProductQuery, useUpdateProductQuery, useDeleteProductQuery } = productsApi
+export const { useFetchAllProductsQuery, useAddProductQuery, useGetSingleProductQuery, useUpdateProductQuery, useDeleteProductQuery, useFetchRelatedProductsQuery } = productsApi
 
 export default productsApi

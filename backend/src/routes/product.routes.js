@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { createProduct, getAllProducts, getSingleProduct, updateProduct, deleteProduct } from '../controllers/product.controller.js'
+import { createProduct, getAllProducts, getSingleProduct, updateProduct, deleteProduct, getRelatedProducts } from '../controllers/product.controller.js'
 import {upload} from '../middlewares/multer.middleware.js'
 import { verifyJWT, verifyAdmin } from '../middlewares/auth.middleware.js'
 
@@ -10,6 +10,7 @@ router.route('/get-all-products').get( getAllProducts)
 router.route('/get-single-product/:id').get( getSingleProduct)
 router.route('/update-product/:id').patch( updateProduct)
 router.route('/delete-product/:id').delete( deleteProduct)
+router.route('/get-related-products/:productId').get( getRelatedProducts)
 
 
 

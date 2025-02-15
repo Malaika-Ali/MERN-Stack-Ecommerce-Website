@@ -1,11 +1,11 @@
 import React from 'react'
 import { RiStarSFill, RiStarSLine } from "react-icons/ri";
 
-const RatingStars = ({rating}) => {
+const RatingStars = ({rating, className=""}) => {
     const stars=[]
     for (let i = 1; i <= 5; i++) {
         stars.push(
-            <span key={i} className=' text-sm md:text:lg lg:text-xl' >
+            <span key={i} className={`text-sm md:text:lg lg:text-xl ${className}`} >
             {i <= rating ? <RiStarSFill className='text-yellow-400' /> : <RiStarSLine className='text-yellow-400' />}
             </span>
         )        

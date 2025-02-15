@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { updateQuantity } from '../../redux/features/cart/cartSlice'
+import { useNavigate } from 'react-router-dom'
 
 const HorizontalCard = ({
   id,
@@ -12,6 +13,7 @@ const HorizontalCard = ({
   className=""
 }) => {
 
+  const navigate=useNavigate()
   const dispatch=useDispatch()
   const updateItemQuantity=(type,id)=>{
     const payload={type, id}
@@ -21,7 +23,9 @@ const HorizontalCard = ({
 
   return (
     <div className={`flex gap-4 bg-gray-100 p-4 rounded-xl ${className}`}>
-    <div className="w-[100px] h-[100px] bg-gray-50 rounded-xl flex items-center justify-center p-2">
+    <div className="w-[100px] h-[100px] bg-gray-50 rounded-xl flex items-center justify-center p-2
+    cursor-pointer"
+    onClick={()=>navigate(`/product-details/${id}`)}>
       <img
         src={image}
         alt={name}

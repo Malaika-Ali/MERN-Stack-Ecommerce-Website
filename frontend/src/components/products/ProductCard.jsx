@@ -45,28 +45,28 @@ const ProductCard = ({
           fill
           className="object-cover transition-transform duration-300 hover:scale-105"
         />
-        <button
+        {/* <button
           onClick={() => setIsFavorite(!isFavorite)}
           className="absolute right-2 top-2 p-1.5 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white"
         >
           <FaHeart 
             className={`h-3.5 w-3.5 ${isFavorite ? 'text-red-500' : 'text-grey-color'}`}
           />
-        </button>
+        </button> */}
       </div>
 
       {/* Content Container */}
       <div className="space-y-1 lg:px-2">
         <div className="flex flex-row justify-between">
         <h3 className="font-[400] text-base text-black-color">{name}</h3>
-        <h6 className="font-[500]">Rs.{price}</h6>
+        <h6 className="font-[600]">Rs.{price}</h6>
         </div>
         <p className="text-sm text-gray-500">{description}</p>
         <div className="flex items-center justify-between">
         <RatingStars rating={rating}/>
 
         <IconButton onClick={() => handleAddToCart({id, name, price, quantity,image, category, selectedSize:"medium", color })} className="text-sm p-2" >    
-        <FiShoppingCart className="w-4 h-4" />
+        <FiShoppingCart className="w-3 h-3" />
           </IconButton>
         </div>
       </div>

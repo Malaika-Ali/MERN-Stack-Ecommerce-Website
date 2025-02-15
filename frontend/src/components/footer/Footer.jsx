@@ -15,7 +15,7 @@ export default function Footer() {
             <input
               type="email"
               placeholder="Your Email"
-              className="flex-1 h-10 px-4 rounded-full border border-gray-200 text-sm focus:outline-none focus:border-gray-400"
+              className="flex-1 h-10 px-4 rounded-full border border-gray-300 text-sm focus:outline-none focus:border-gray-400"
             />
             <button 
               type="submit" 

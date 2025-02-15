@@ -1,8 +1,5 @@
 import React from 'react';
-import { FaStar, FaRegThumbsUp, FaEllipsisH } from 'react-icons/fa';
-import { BiReply } from 'react-icons/bi';
 import TransparentButton from '../../components/buttons/TransparentButton';
-import { GoArrowDown } from "react-icons/go";
 import { BsArrowDown } from "react-icons/bs";
 import RatingStars from '../../components/products/RatingStars';
 

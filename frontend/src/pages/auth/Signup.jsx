@@ -36,6 +36,7 @@ const [registerUser, { isLoading, isSuccess, isError, error }] = useRegisterUser
     flow: 'auth-code'
   })
   
+  document.title="Signup"
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-white md:bg-black-color p-2 sm:p-6 md:p-4">

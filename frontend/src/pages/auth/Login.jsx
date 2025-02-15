@@ -18,6 +18,7 @@ function Login() {
   const [loginUser, { isLoading }] = useLoginUserMutation();
   const navigate=useNavigate()
   const dispatch=useDispatch()
+  document.title="Login"
 
   const onSubmit = async (data) => {
     try {

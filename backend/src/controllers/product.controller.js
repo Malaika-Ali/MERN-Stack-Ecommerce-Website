@@ -159,5 +159,97 @@ const deleteProduct = asyncHandler(async (req, res) => {
     }
 })
 
+// const getRelatedProducts=asyncHandler(async(req,res)=>{
+//     try {
+//         const { productId } = req.params;
 
-export { createProduct, getAllProducts, getSingleProduct, updateProduct, deleteProduct }
+//         // Find the current product
+//         const currentProduct = await Product.findById(productId);
+//         if (!currentProduct) {
+//             throw new ApiError(404, "The Product does not exist")
+//         }
+
+//         const { category, color } = currentProduct;
+//         console.log(category, color)
+
+        
+//         // Fetch one product from each selected category
+//         const recommendedProducts = await Product.aggregate([
+//             { $match: { color: color, category: { $ne: category } } }, // Match products of the same color but different category
+//             { $sample: { size: 4 } } // Randomly pick 4 products
+//         ]);
+
+      
+
+//         res.status(200).json(
+//             new ApiResponse(201, recommendedProducts, "The recommended products have fetched successfully!")
+//         );
+        
+//     } catch (error) {
+//         throw new ApiError(500, "Couldn't fetch Related products!", error)
+//     }
+// })
+
+const getRelatedProducts = asyncHandler(async (req, res) => {
+    try {
+        const { productId } = req.params;
+
+        // Find the current product
+        const currentProduct = await Product.findById(productId);
+        if (!currentProduct) {
+            throw new ApiError(404, "The Product does not exist");
+        }
+
+        const { category, color } = currentProduct;
+
+        // Define the number of products to fetch from each category
+        const accessoriesLimit = category === "accessories" ? 1 : 2; // Adjust based on the current product's category
+        const otherCategoriesLimit = 1; // Fetch 1 product from each of the other categories
+
+        // Step 1: Fetch products with the same color but different categories
+        let recommendedProducts = await Product.aggregate([
+            { $match: { color: color, category: { $ne: category }, _id: { $ne: currentProduct._id } } }, // Exclude the current product
+            { $sample: { size: 10 } } // Fetch more than needed to ensure we have enough products
+        ]);
+
+        // Step 2: If no products with the same color are found, fetch products from different categories regardless of color
+        if (recommendedProducts.length === 0) {
+            recommendedProducts = await Product.aggregate([
+                { $match: { category: { $ne: category }, _id: { $ne: currentProduct._id } } }, // Exclude the current product
+                { $sample: { size: 10 } } // Fetch more than needed to ensure we have enough products
+            ]);
+        }
+
+        // Step 3: Separate products by category
+        const accessoriesProducts = recommendedProducts
+            .filter(product => product.category === "accessories")
+            .slice(0, accessoriesLimit); // Limit based on the current product's category
+
+        const otherProducts = recommendedProducts
+            .filter(product => product.category !== "accessories")
+            .slice(0, otherCategoriesLimit); // Limit to 1 product per other category
+
+        // Step 4: Combine the results and ensure we have exactly 4 products
+        const finalRecommendedProducts = [...accessoriesProducts, ...otherProducts].slice(0, 4);
+
+        // Step 5: If we still don't have 4 products, fetch additional products from any category
+        if (finalRecommendedProducts.length < 4) {
+            const remainingProductsNeeded = 4 - finalRecommendedProducts.length;
+            const additionalProducts = await Product.aggregate([
+                { $match: { _id: { $ne: currentProduct._id } } }, // Exclude the current product
+                { $sample: { size: remainingProductsNeeded } }
+            ]);
+            finalRecommendedProducts.push(...additionalProducts);
+        }
+
+        res.status(200).json(
+            new ApiResponse(201, finalRecommendedProducts, "The recommended products have been fetched successfully!")
+        );
+
+    } catch (error) {
+        throw new ApiError(500, "Couldn't fetch Related products!", error);
+    }
+});
+
+
+export { createProduct, getAllProducts, getSingleProduct, updateProduct, deleteProduct, getRelatedProducts }
