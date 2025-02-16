@@ -18,12 +18,22 @@ const productSchema= new Schema({
         type: Number,
         required: [true , "Product's price is required"]
     },
+    originalPrice:{
+        type: Number,
+    },
     color:{
         type: String,
     },
     category:{
         type: String,
+        enum:["clothes", "bags", "accessories", "footwear"],
         required: [true , "Product's category is required"]
+    },
+    material:{
+        type: String,
+    },
+    fabric:{
+        type: String,
     },
     quantity:{
         type: Number,

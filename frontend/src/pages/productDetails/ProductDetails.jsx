@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { addToCart } from '../../redux/features/cart/cartSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToCart, updateSize } from '../../redux/features/cart/cartSlice'
 import { FaMinus, FaPlus } from 'react-icons/fa'
 import RatingStars from '../../components/products/RatingStars'
 import { useNavigate, useParams } from 'react-router-dom'
+import SizesSection from './SizesSection'
 
-function ProductDetails({  name, description, image, price, rating, images = [], productQuantity, category }) {
+function ProductDetails({  name, description, image, price, originalPrice, rating, images = [], productQuantity, category, color, material, fabric }) {
   const [selectedSize, setSelectedSize] = useState('medium')
   const [selectedColor, setSelectedColor] = useState('blue')
   const [quantity, setQuantity] = useState(1)
@@ -13,7 +14,7 @@ function ProductDetails({  name, description, image, price, rating, images = [],
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {id}=useParams()
-
+  const {  isAuthenticated } = useSelector((state) => state.auth);
 
   const handleQuantityChange = (action) => {
     if (action === 'decrease' && quantity > 1) {
@@ -24,17 +25,38 @@ function ProductDetails({  name, description, image, price, rating, images = [],
   }
 
   const handleAddToCart = (product) => {
+    dispatch(updateSize({ id, size: selectedSize }));
     dispatch(addToCart(product))
   }
 
   const handleBuyNow = (product) => {
+    dispatch(updateSize({ id, size: selectedSize }));
     dispatch(addToCart(product))
+    if(isAuthenticated){
     navigate('/shipping-information')
-    console.log('Buy Now:', product)
+    }
+    else{
+      navigate('/login')
+    }
+  }
+
+  const handleSizeSelect = (size) => {
+    setSelectedSize(size);
+  }
+
+  let detailName=""
+  let detailValue=""
+  if(category==="clothes"){
+    detailName="Fabric",
+    detailValue=fabric
+  }
+  else{
+    detailName="Material",
+    detailValue=material
   }
 
   return (
-    <div className="mx-auto px-4 sm:px-6 lg:px-8 container lg:pt-24">
+    <div className="mx-auto px-4 sm:px-6 lg:px-8 container pt-6 md:pt-12 lg:pt-18">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Product Images */}
         <div className="space-y-4">
@@ -79,9 +101,6 @@ function ProductDetails({  name, description, image, price, rating, images = [],
                   Out Of Stock
                 </span>)
               }
-              {/* <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                In Stock
-              </span> */}
             </div>
           </div>
 
@@ -111,7 +130,7 @@ function ProductDetails({  name, description, image, price, rating, images = [],
             <div className="text-right">
               <div className="flex items-center gap-3">
                 <span className="text-3xl font-bold text-gray-900">Rs.{price}</span>
-                <span className="text-xl text-gray-400 line-through">Rs.600</span>
+                <span className="text-xl text-gray-400 line-through">Rs.{originalPrice}</span>
               </div>
             </div>
           </div>
@@ -136,46 +155,25 @@ function ProductDetails({  name, description, image, price, rating, images = [],
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Product Details</h2>
             <div className="space-y-4">
               <div className="flex justify-between">
-                <span className="text-gray-600">Size</span>
-                <span className="text-gray-900">Small, Medium, Large</span>
+                <span className="text-gray-600">Category</span>
+                {/* <span className="text-gray-900">{category[0]?.toUpperCase() + category.substring(1)}</span> */}
+                <span className="text-gray-900">{category}</span>
+
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Color</span>
-                <span className="text-gray-900">White, Black, Gray</span>
+                <span className="text-gray-900">{color}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Brand</span>
-                <span className="text-gray-900">Shirt Flex</span>
+                <span className="text-gray-600">{detailName}</span>
+                <span className="text-gray-900">{detailValue}</span>
               </div>
             </div>
           </div>
-
-
           {
-            category === "clothes" &&
-            (
-              <div className="space-y-4">
-                <h3 className="text-base font-semibold text-gray-900">Select Size</h3>
-                <div className="grid grid-cols-5 gap-3">
-                  {['extra small', 'small', 'medium', 'large', 'extra large'].map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`py-2 px-2 rounded-full border transition-all duration-500 ease-in-out ${selectedSize === size
-                          ? 'border-black-color bg-black-color text-white'
-                          : 'border-gray-300 hover:border-black-color text-black-color'
-                        }`}
-                    >
-                      {size.charAt(0).toUpperCase() + size.slice(1)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )
-
+            (category === "clothes" ||category === "bags"|| category === "footwear" ) &&
+            <SizesSection category={category} onSizeSelect={handleSizeSelect} selectedSize={selectedSize}/>
           }
-
-
         </div>
       </div>
     </div>

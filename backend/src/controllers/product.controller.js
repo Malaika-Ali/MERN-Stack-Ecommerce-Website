@@ -8,7 +8,7 @@ import { uploadOnCloudinary } from '../utils/cloudinary.js'
 
 const createProduct = asyncHandler(async (req, res) => {
     try {
-        const { productName, description, price, color, category, quantity, rating } = req.body
+        const { productName, description, price, originalPrice, color, category, quantity, rating, material, fabric } = req.body
 
         if (productName === "") {
             throw new ApiError(400, "Product's name is Required!")
@@ -30,13 +30,13 @@ const createProduct = asyncHandler(async (req, res) => {
         }
 
          // Upload images to Cloudinary
-         const imagePaths = req.files?.map((file) => file?.path); // Get all local file paths
+         const imagePaths = req.files?.map((file) => file?.path); 
          const uploadedImages = [];
          
          for (const path of imagePaths) {
              const result = await uploadOnCloudinary(path);
              if (result) {
-                 uploadedImages.push(result.url); // Save the Cloudinary URLs
+                 uploadedImages.push(result.url); 
              }
          }
 
@@ -46,10 +46,13 @@ const createProduct = asyncHandler(async (req, res) => {
             description,
             color,
             category,
+            originalPrice,
             price,
             quantity,
             rating,
-            images: uploadedImages // Save image URLs
+            images: uploadedImages ,
+            material,
+            fabric
         })
 
         const createdProduct = await Product.findById(product._id)
@@ -159,42 +162,11 @@ const deleteProduct = asyncHandler(async (req, res) => {
     }
 })
 
-// const getRelatedProducts=asyncHandler(async(req,res)=>{
-//     try {
-//         const { productId } = req.params;
-
-//         // Find the current product
-//         const currentProduct = await Product.findById(productId);
-//         if (!currentProduct) {
-//             throw new ApiError(404, "The Product does not exist")
-//         }
-
-//         const { category, color } = currentProduct;
-//         console.log(category, color)
-
-        
-//         // Fetch one product from each selected category
-//         const recommendedProducts = await Product.aggregate([
-//             { $match: { color: color, category: { $ne: category } } }, // Match products of the same color but different category
-//             { $sample: { size: 4 } } // Randomly pick 4 products
-//         ]);
-
-      
-
-//         res.status(200).json(
-//             new ApiResponse(201, recommendedProducts, "The recommended products have fetched successfully!")
-//         );
-        
-//     } catch (error) {
-//         throw new ApiError(500, "Couldn't fetch Related products!", error)
-//     }
-// })
 
 const getRelatedProducts = asyncHandler(async (req, res) => {
     try {
         const { productId } = req.params;
 
-        // Find the current product
         const currentProduct = await Product.findById(productId);
         if (!currentProduct) {
             throw new ApiError(404, "The Product does not exist");
@@ -202,32 +174,31 @@ const getRelatedProducts = asyncHandler(async (req, res) => {
 
         const { category, color } = currentProduct;
 
-        // Define the number of products to fetch from each category
-        const accessoriesLimit = category === "accessories" ? 1 : 2; // Adjust based on the current product's category
-        const otherCategoriesLimit = 1; // Fetch 1 product from each of the other categories
+        const accessoriesLimit = category === "accessories" ? 1 : 2; 
+        const otherCategoriesLimit = 1; 
 
         // Step 1: Fetch products with the same color but different categories
         let recommendedProducts = await Product.aggregate([
-            { $match: { color: color, category: { $ne: category }, _id: { $ne: currentProduct._id } } }, // Exclude the current product
-            { $sample: { size: 10 } } // Fetch more than needed to ensure we have enough products
+            { $match: { color: color, category: { $ne: category }, _id: { $ne: currentProduct._id } } }, 
+            { $sample: { size: 10 } } 
         ]);
 
         // Step 2: If no products with the same color are found, fetch products from different categories regardless of color
         if (recommendedProducts.length === 0) {
             recommendedProducts = await Product.aggregate([
-                { $match: { category: { $ne: category }, _id: { $ne: currentProduct._id } } }, // Exclude the current product
-                { $sample: { size: 10 } } // Fetch more than needed to ensure we have enough products
+                { $match: { category: { $ne: category }, _id: { $ne: currentProduct._id } } }, 
+                { $sample: { size: 10 } } 
             ]);
         }
 
         // Step 3: Separate products by category
         const accessoriesProducts = recommendedProducts
             .filter(product => product.category === "accessories")
-            .slice(0, accessoriesLimit); // Limit based on the current product's category
+            .slice(0, accessoriesLimit); 
 
         const otherProducts = recommendedProducts
             .filter(product => product.category !== "accessories")
-            .slice(0, otherCategoriesLimit); // Limit to 1 product per other category
+            .slice(0, otherCategoriesLimit); 
 
         // Step 4: Combine the results and ensure we have exactly 4 products
         const finalRecommendedProducts = [...accessoriesProducts, ...otherProducts].slice(0, 4);
@@ -236,7 +207,7 @@ const getRelatedProducts = asyncHandler(async (req, res) => {
         if (finalRecommendedProducts.length < 4) {
             const remainingProductsNeeded = 4 - finalRecommendedProducts.length;
             const additionalProducts = await Product.aggregate([
-                { $match: { _id: { $ne: currentProduct._id } } }, // Exclude the current product
+                { $match: { _id: { $ne: currentProduct._id } } }, 
                 { $sample: { size: remainingProductsNeeded } }
             ]);
             finalRecommendedProducts.push(...additionalProducts);

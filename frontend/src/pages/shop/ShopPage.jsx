@@ -74,7 +74,7 @@ const ShopPage = () => {
           <aside className="w-full md:w-64">
             <ShopSidebar
               filters={{
-                category: ["all", "clothes", "shoes", "bags", "accessories"],
+                category: ["all", "clothes", "footwear", "bags", "accessories"],
                 priceRange: [
                   { label: "Under Rs.50", min: 0, max: 50 },
                   { label: "50-100", min: 50, max: 100 },

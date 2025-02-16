@@ -8,6 +8,7 @@ const HorizontalCard = ({
   name,
   category,
   quantity,
+  size,
   price,
   image,
   className=""
@@ -36,6 +37,11 @@ const HorizontalCard = ({
       <h3 className="font-normal">{name}</h3>
       <div className="mt-1 space-y-0.5">
       <div className="text-xs text-gray-500">Category: {category}</div>
+      {
+        category!="accessories" && (
+      <div className="text-xs text-gray-500">Size: {size}</div>
+        )
+      }
         <div className="text-xs text-gray-500">Qty: {quantity}</div> 
       </div>
     

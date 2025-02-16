@@ -14,7 +14,7 @@ const OutlinedInput = ({
     <input
       type={ type || "text"}
       placeholder={placeholder}
-      className={`w-full px-4 py-2.5 border border-gray-200 rounded-full text-sm placeholder:text-gray-400 ${className ? className: ""} transition-all duration-400 ease-linear`}
+      className={`w-full px-4 py-2.5 border border-gray-300 rounded-full text-sm placeholder:text-gray-400 ${className ? className: ""} transition-all duration-400 ease-linear`}
       {...props}
       id={id}
       ref={ref}

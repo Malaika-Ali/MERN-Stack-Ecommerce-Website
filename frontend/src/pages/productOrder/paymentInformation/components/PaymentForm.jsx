@@ -51,18 +51,22 @@ export default function PaymentForm() {
 
     const newProducts = [];
     const optimizeProducts = () => {
-      let newProduct = {};
       products.forEach((item) => {
-        newProduct = {
+        const newProduct = {
           product: item.id || "",
           quantity: item.quantity,
           price: item.price,
         };
+
+        // Add size only if the product belongs to specific categories
+        if (item.category === "clothes" || item.category === "bags" || item.category === "footwear") {
+          newProduct.size = item.size;
+        }
+
         newProducts.push(newProduct);
       });
     };
     optimizeProducts();
-
     const orderData = {
       products: newProducts,
       shippingInfo,

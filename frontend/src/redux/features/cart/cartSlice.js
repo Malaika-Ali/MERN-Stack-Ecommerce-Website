@@ -15,15 +15,40 @@ export const cartSlice = createSlice({
         (product) => product.id === action.payload.id
       );
 
+      // if (!existingProduct) {
+      //   state.products.push({
+      //     ...action.payload,
+      //     quantity: 1,
+      //     image: action.payload.image,
+      //     category: action.payload.category,
+      //     id: action.payload.id,
+      //   }
+      // );
+      // } 
+      
       if (!existingProduct) {
-        state.products.push({
+        // Add a size property if the category is "clothes"
+        const newProduct = {
           ...action.payload,
           quantity: 1,
           image: action.payload.image,
           category: action.payload.category,
           id: action.payload.id,
-        });
-      } else {
+        };
+
+        if (action.payload.category === 'clothes') {
+          newProduct.size = 'medium'; 
+        }
+        else if (action.payload.category === 'footwear') {
+          newProduct.size = '8'; 
+        }
+        else if (action.payload.category === 'bags') {
+          newProduct.size = '18x14x8 inches'; 
+        }
+
+        state.products.push(newProduct);
+      }
+      else {
         existingProduct.quantity += 1;
         console.log('Items already existed');
       }
@@ -73,6 +98,14 @@ export const cartSlice = createSlice({
       state.tax = 0; 
       state.grandTotal = state.totalPrice;
     },
+    updateSize: (state, action) => {
+      const product = state.products.find(
+        (product) => product.id === action.payload.id
+      );
+      if (product && product.category !== 'accessories') {
+        product.size = action.payload.size;
+      }
+    },
   },
 });
 
@@ -92,6 +125,7 @@ export const {
   clearCart,
   applyTaxForCOD,
   removeTax,
+  updateSize
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -18,6 +18,9 @@
                     required: true,
                     default: 1,
                 },
+                size:{
+                    type: String,
+                },
                 price: {
                     type: Number,
                     required: true,

@@ -24,8 +24,10 @@ function index() {
   
   return (
     <>
-      <ProductDetails name={product?.productName} description={product?.description} category={product?.category} image={product?.images[0]} price={product?.price} rating={product?.rating} images={product?.images} productQuantity={product?.quantity}/>
-      <Reviews reviews={reviews} totalRating={product?.rating} totalReviews={totalReviews}/>
+      <ProductDetails name={product?.productName} description={product?.description} category={product?.category} image={product?.images[0]} price={product?.price} originalPrice={product?.originalPrice} rating={product?.rating} images={product?.images} productQuantity={product?.quantity} color={product?.color} material={product?.material} fabric={product?.fabric}/>
+
+      <Reviews reviews={reviews} totalRating={product?.rating} totalReviews={totalReviews} />
+      
       <Suggestions productId={productId}/>
     </>
   )

@@ -82,6 +82,7 @@ const CartDrawer = ({ toggleCart, isOpen, products }) => {
                                                 price={item.price}
                                                 quantity={item.quantity}
                                                 image={item.image}
+                                                size={item.size}
                                                 category={item.category}
                                                 className="bg-transparent border-b-2 border-gray-200 rounded-none"
                                             />

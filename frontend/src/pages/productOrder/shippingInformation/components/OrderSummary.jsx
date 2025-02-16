@@ -11,12 +11,12 @@ export default function OrderSummary() {
     console.log(products)  
    
     return (
-      <div className="w-full max-w-md border border-gray-200 rounded-xl p-6">
+      <div className="w-full max-w-md border border-gray-300 rounded-xl p-6">
         <h2 className="text-2xl font-[500] mb-8">Your Order</h2>
         <div className="space-y-6">
           {
             products.map((item)=>(
-              <HorizontalCard key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} image={item.image} category={item.category} />
+              <HorizontalCard key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} image={item.image} category={item.category} size={item.size} />
             ))
           }
         </div>

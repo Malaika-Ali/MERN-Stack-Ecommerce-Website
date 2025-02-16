@@ -116,7 +116,7 @@ export default function ShippingForm() {
               <OutlinedDropDown
                 label="City"
                 options={["Karachi", "Hyderabad", "Lahore", "Islamabad"]}
-                className={`border ${errors.city ? "border-red-500" : "border-black-color"}`}
+                className={`border border-gray-300 ${errors.city ? "border-red-500" : "border-black-color"}`}
                 {...register("city", { required: "City is required" })}
               />
               {errors.city && <p className="text-red-500 text-sm">{errors.city.message}</p>}
