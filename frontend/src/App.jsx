@@ -9,14 +9,12 @@ function App() {
 
   return (
     <>
-    
-    {/* <Marque/> */}
-    <Navbar />
-     
-     <ScrollToTop>
-     <Outlet />
-     </ScrollToTop>
-      <Footer/>
+      {/* <Marque/> */}
+      <Navbar />
+      <ScrollToTop>
+        <Outlet />
+      </ScrollToTop>
+      <Footer />
     </>
   )
 }

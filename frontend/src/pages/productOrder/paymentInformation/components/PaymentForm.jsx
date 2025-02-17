@@ -25,6 +25,7 @@ export default function PaymentForm() {
 
   // Watch the value of the radio button group
   const selectedPaymentMethod = watch("paymentMethod");
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method);
@@ -42,15 +43,50 @@ export default function PaymentForm() {
       paymentInfo = {
         paymentMethod,
       };
-    } else if (paymentMethod === "credit-debit") {
-      paymentInfo = {
-        paymentMethod,
-        cardNumber: data.cardDetails.cardNumber,
-        expiryDate: data.cardDetails.expiryDate,
-        cvv: data.cardDetails.cvv,
-        cardHolderName: data.cardDetails.cardHolderName,
-      };
+    } 
+    // else if (paymentMethod === "credit-debit") {
+    //   paymentInfo = {
+    //     paymentMethod,
+    //     cardNumber: data.cardDetails.cardNumber,
+    //     expiryDate: data.cardDetails.expiryDate,
+    //     cvv: data.cardDetails.cvv,
+    //     cardHolderName: data.cardDetails.cardHolderName,
+    //   };
+    // }
+    else if (paymentMethod === "credit-debit") {
+      const { paymentMethodId } = data.cardDetails;
+  
+      if (!paymentMethodId) {
+        console.error("Payment method ID is missing");
+        return;
+      }
+
+      // Confirm the payment on the server
+    const { error, paymentIntent } = await fetch("/create-payment-intent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount: grandTotal * 100, // Convert to cents
+        currency: "usd",
+        paymentMethodId,
+      }),
+    }).then((res) => res.json());
+
+    if (error) {
+      console.error(error);
+      return;
     }
+
+    paymentInfo = {
+      paymentMethod: "credit-debit",
+      paymentMethodId,
+      paymentIntentId: paymentIntent.id,
+    };
+  }
+
+
 
     const newProducts = [];
     const optimizeProducts = () => {
@@ -121,7 +157,12 @@ export default function PaymentForm() {
           </div>
 
           <div className="mt-6">
-            {paymentMethod === "credit-debit" && <CredtCard />}
+            {/* {paymentMethod === "credit-debit" && <CredtCard />} */}
+            {paymentMethod === "credit-debit" && (
+  <Elements stripe={stripePromise}>
+    <CredtCard />
+  </Elements>
+)}
             {paymentMethod === "COD" && <COD />}
           </div>
 
