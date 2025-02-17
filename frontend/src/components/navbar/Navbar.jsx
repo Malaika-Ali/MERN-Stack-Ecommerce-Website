@@ -1,22 +1,25 @@
 import { useState, useEffect, useRef } from "react"
 import { NavLink, Link } from "react-router-dom"
 import CartDrawer from "./CartDrawer"
+import NavItem from "./NavItem"
 import { AnimatePresence } from "framer-motion"
 import { useSelector, useDispatch } from "react-redux"
+
 import { GoPerson } from "react-icons/go"
 import { BsCart2 } from "react-icons/bs"
 import { FiSearch } from "react-icons/fi"
 import { HiMenu, HiX } from "react-icons/hi"
 import { FaSearch, FaShoppingCart, FaUser, FaSignOutAlt, FaBoxOpen } from "react-icons/fa"
-import NavItem from "./NavItem"
-// import { logout } from "../redux/actions/authActions" 
 
+import { logout } from "../../redux/features/auth/authSlice"
+import { useLogoutUserMutation } from "../../redux/features/auth/userApi"
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const toggleCart = () => setIsCartOpen(false)
   const products = useSelector((state) => state.cart.products)
+  const [logoutUser] = useLogoutUserMutation();
   const [isScrolled, setIsScrolled] = useState(false)
   const { user, isAuthenticated } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
@@ -50,10 +53,20 @@ const Navbar = () => {
     setIsDropdownOpen(!isDropdownOpen)
   }
 
-  const handleLogout = () => {
-    dispatch(logout())
-    setIsDropdownOpen(false)
+  const handleLogout = async() => {
+    try {
+      await logoutUser().unwrap(); 
+      dispatch(logout()); 
+      setIsDropdownOpen(false);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   }
+
+  useEffect(() => {
+    // This effect will run whenever `isAuthenticated` changes
+    // You can add any additional logic here if needed
+  }, [isAuthenticated]);
 
   const navlinks = [
     {
@@ -177,7 +190,7 @@ const Navbar = () => {
             <FaSearch className="text-gray-700 hover:text-blue-500 cursor-pointer mr-2" />
             <input type="text" placeholder="Search..." className="border border-gray-300 rounded-md p-2 flex-grow" />
           </div>
-          <ul className="space-y-2">
+          <ul className="space-y-2 px-8">
             <li>
               <NavLink to="/clothes" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
                 Clothes
@@ -199,7 +212,7 @@ const Navbar = () => {
               </NavLink>
             </li>
           </ul>
-          <div className="flex space-x-4 mt-4">
+          <div className="flex space-x-4 mt-4 justify-center items-center">
             <FaShoppingCart
               onClick={() => setIsCartOpen((prev) => !prev)}
               className="text-gray-700 hover:text-blue-500 cursor-pointer"
@@ -208,7 +221,7 @@ const Navbar = () => {
               <div className="relative">
                 <FaUser onClick={toggleDropdown} className="text-gray-700 hover:text-blue-500 cursor-pointer" />
                 {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl py-1 z-10 p-12 shadow-xl border-opacity-5">
                     <div className="px-4 py-2 text-sm text-gray-700">
                       <p>{user.name}</p>
                       <p className="text-xs text-gray-500">{user.email}</p>
@@ -218,7 +231,7 @@ const Navbar = () => {
                     </NavLink>
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="block w-full text-left px-4 py-2 cursor-pointer text-sm text-gray-700 hover:bg-gray-100"
                     >
                       <FaSignOutAlt className="inline-block mr-2" /> Logout
                     </button>

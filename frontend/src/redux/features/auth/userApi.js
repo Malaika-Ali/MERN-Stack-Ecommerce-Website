@@ -25,8 +25,16 @@ const userApi = createApi({
       // Transform the response to extract the `user` object
       transformResponse: (response) => response.data.user,
     }),
+
+    logoutUser: builder.mutation({
+      query: (credentials) => ({
+        url: '/logout',
+        method: "POST",
+        body: credentials
+      }),
+    }),
   }),
 })
 
-export const { useRegisterUserMutation, useLoginUserMutation } = userApi
+export const { useRegisterUserMutation, useLoginUserMutation, useLogoutUserMutation } = userApi
 export default userApi

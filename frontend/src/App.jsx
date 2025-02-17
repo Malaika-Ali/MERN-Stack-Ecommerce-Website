@@ -3,6 +3,7 @@ import './App.css'
 import Navbar from './components/navbar/Navbar'
 import Marque from './components/Marque';
 import Footer from './components/footer/Footer';
+import ScrollToTop from './utils/ScrollToTop';
 
 function App() {
 
@@ -12,7 +13,9 @@ function App() {
     {/* <Marque/> */}
     <Navbar />
      
-      <Outlet />
+     <ScrollToTop>
+     <Outlet />
+     </ScrollToTop>
       <Footer/>
     </>
   )

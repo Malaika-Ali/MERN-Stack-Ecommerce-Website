@@ -3,8 +3,10 @@ import ProductsGrid from '../../components/products/ProductsGrid'
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi'
 import TransparentButton from '../../components/buttons/TransparentButton'
 import { GoArrowRight } from "react-icons/go";
+import { useNavigate } from 'react-router-dom';
 
 const ProductsSection = () => {
+  const navigate=useNavigate()
     const { data: response = {}, error, isLoading } = useFetchAllProductsQuery(
         {
           page: 1,
@@ -19,7 +21,7 @@ const ProductsSection = () => {
   <ProductsGrid products={products} headingTitle='Our Latest Arrivals' textalignment='text-center'/> 
 
     <div className="flex justify-center mt-8">
-        <TransparentButton children="Show More" icon={GoArrowRight} />
+        <TransparentButton children="Show More" icon={GoArrowRight} onClick={()=>navigate("/shop")} />
       </div> 
     </div>
   )

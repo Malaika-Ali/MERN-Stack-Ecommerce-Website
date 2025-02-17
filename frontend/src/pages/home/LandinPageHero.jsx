@@ -6,8 +6,12 @@ import heroImage from "../../assets/bg-opt.PNG";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { TbTruckReturn } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 export default function LandingPageHero() {
+
+  const navigate=useNavigate()
+
   return (
     <div className="h-screen flex items-center">
       <section className="container h-full mx-auto pl-8 bg-gray-100 rounded-2xl">
@@ -34,22 +38,23 @@ export default function LandingPageHero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <RoundedButton size="lg" className="font-[400] px-6 py-6">
+              <RoundedButton size="lg" className="font-[400] px-8 py-6 text-lg"
+              onClick={()=>navigate("/shop")}>
                 Shop Now
                 <FaArrowRightLong className="ml-2 h-4 w-4" />
               </RoundedButton>
             </div>
 
-            <div className="grid grid-cols-2 gap-6 pt-8">
-              <div className="flex items-start gap-3">
+            <div className="grid grid-cols-2 gap-6 pt-2">
+              <div className="flex items-start gap-3 bg-white p-4 rounded-xl">
               <MdOutlineLocalShipping className="h-6 w-6 text-stone-600" />
                 <div>
-                  <h3 className="font-medium text-stone-900">Free Shipping</h3>
+                  <h3 className="font-medium text-stone-900">Free Delivery</h3>
                   <p className="text-sm text-stone-500">On orders above Rs.5000</p>
 
                 </div>
               </div>
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-3 bg-white p-4 rounded-xl">
               <TbTruckReturn className="h-6 w-6 text-stone-600" />
                 <div>
                   <h3 className="font-medium text-stone-900">Easy Returns</h3>

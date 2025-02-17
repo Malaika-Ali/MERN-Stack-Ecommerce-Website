@@ -12,6 +12,10 @@ export default {
         'yellow-color': '#edcf5d',
         'grey-color': '#a4a4a4'
       },
+      screens: {
+        'xs': '480px',
+        // => @media (min-width: 480px) { ... }
+      }
     },
   },
   plugins: [],

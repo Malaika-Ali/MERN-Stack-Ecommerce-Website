@@ -16,28 +16,44 @@ const ShopPage = () => {
     priceRange: ""
   });
 
+  const [activeFilters, setActiveFilters] = useState([]);
+
+  
+
   useEffect(() => {
     setFilteredState((prev) => ({
       ...prev,
       category: categoryParam,
     }));
   }, [categoryParam]);
+
+  useEffect(() => {
+    const filters = [];
+    if (filteredState.category !== "all") {
+      filters.push({ id: 'category', label: `Category: ${filteredState.category}` });
+    }
+    if (filteredState.priceRange) {
+      const [minPrice, maxPrice] = filteredState.priceRange.split('-');
+      filters.push({ id: 'priceRange', label: `Price: Rs.${minPrice} - Rs.${maxPrice}` });
+    }
+    setActiveFilters(filters);
+  }, [filteredState]);
+
   
   const { category, priceRange } = filteredState;
   // Extract minPrice and maxPrice from priceRange
   const [minPrice, maxPrice] = priceRange ? priceRange.split('-').map(Number) : [null, null];
 
-  // Fetching Data
   const { data: response = {}, error, isLoading } = useFetchAllProductsQuery({
     category: category !== "all" ? category : "",
-    minPrice: minPrice || "", // Pass empty string if minPrice is null
-    maxPrice: maxPrice || "", // Pass empty string if maxPrice is null
+    minPrice: minPrice || "", 
+    maxPrice: maxPrice || "", 
     page: currentPage,
     limit: productsPerPage
   });
 
   useEffect(() => {
-    setCurrentPage(1); // Reset to the first page whenever filters change
+    setCurrentPage(1);
   }, [category, priceRange]);
 
   if (isLoading) return <div>Loading</div>;
@@ -63,6 +79,22 @@ const ShopPage = () => {
       priceRange: ""
     });
   };
+
+
+  const handleRemoveFilter = (filterId) => {
+    if (filterId === 'category') {
+      setFilteredState((prev) => ({
+        ...prev,
+        category: "all",
+      }));
+    } else if (filterId === 'priceRange') {
+      setFilteredState((prev) => ({
+        ...prev,
+        priceRange: "",
+      }));
+    }
+  };
+
 
   return (
     <div className="bg-white">
@@ -94,7 +126,7 @@ const ShopPage = () => {
             <div className="mb-6">
               <div className="flex items-center justify-start ml-2 mb-4">
                 <div className="text-sm text-gray-500">
-                  Showing <span className="font-bold text-black">{startProduct}</span> to <span className="font-bold text-black">{endProduct}</span> products from total <span className="font-bold text-black">{totalProductsNumber}</span>Products
+                  Showing <span className="font-bold text-black">{startProduct}</span> to <span className="font-bold text-black">{endProduct}</span> products from total <span className="font-bold text-black">{totalProductsNumber}</span> Products
                   
                   {filteredState.category !== "all" && filteredState.priceRange !== "" && (
                     <span> for <span className="font-bold text-black">"Jacket & Coats"</span></span>
@@ -103,9 +135,10 @@ const ShopPage = () => {
               </div>
 
               <FilterChips
-                activeFilters={[]} // Update this if you have active filters
-                onRemoveFilter={() => {}}
+                activeFilters={activeFilters}
+                onRemoveFilter={handleRemoveFilter}
               />
+              
             </div>
 
             <ProductsGrid products={products} />
