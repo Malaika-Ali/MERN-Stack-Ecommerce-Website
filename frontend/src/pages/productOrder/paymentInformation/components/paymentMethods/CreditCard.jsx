@@ -98,11 +98,92 @@
 
 
 
+// import React from "react";
+// import { useFormContext } from "react-hook-form";
+// import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+
+// const CredtCard = () => {
+//   const stripe = useStripe();
+//   const elements = useElements();
+//   const { setValue, formState: { errors } } = useFormContext();
+
+//   const handleCardChange = (event) => {
+//     if (event.error) {
+//       console.error(event.error.message);
+//     }
+//   };
+
+//   const handleCardSubmit = async () => {
+//     if (!stripe || !elements) {
+//       return;
+//     }
+
+//     const cardElement = elements.getElement(CardElement);
+
+//     // Create a PaymentMethod using the card details
+//     const { error, paymentMethod } = await stripe.createPaymentMethod({
+//       type: "card",
+//       card: cardElement,
+//     });
+
+//     if (error) {
+//       console.error(error.message);
+//       return;
+//     }
+
+//     // Set the payment method ID in the form context
+//     setValue("cardDetails.paymentMethodId", paymentMethod.id, { shouldValidate: true });
+//   };
+
+//   return (
+//     <div className="space-y-4">
+//       <div>
+//         <CardElement
+//           options={{
+//             style: {
+//               base: {
+//                 fontSize: "16px",
+//                 color: "#424770",
+//                 "::placeholder": {
+//                   color: "#aab7c4",
+//                 },
+//               },
+//               invalid: {
+//                 color: "#9e2146",
+//               },
+//             },
+//           }}
+//           onChange={handleCardChange}
+//         />
+//         {errors.cardDetails?.paymentMethodId && (
+//           <p className="text-red-500 text-sm">Payment method is required</p>
+//         )}
+//       </div>
+
+//       <button
+//         type="button"
+//         onClick={handleCardSubmit}
+//         className="bg-blue-600 text-white px-4 py-2 rounded"
+//       >
+//         Save Card Details
+//       </button>
+//     </div>
+//   );
+// };
+
+// export default CredtCard;
+
+
+
+
+
+
+
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
-const CredtCard = () => {
+const CreditCard = () => {
   const stripe = useStripe();
   const elements = useElements();
   const { setValue, formState: { errors } } = useFormContext();
@@ -120,7 +201,6 @@ const CredtCard = () => {
 
     const cardElement = elements.getElement(CardElement);
 
-    // Create a PaymentMethod using the card details
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: cardElement,
@@ -131,39 +211,46 @@ const CredtCard = () => {
       return;
     }
 
-    // Set the payment method ID in the form context
     setValue("cardDetails.paymentMethodId", paymentMethod.id, { shouldValidate: true });
   };
 
   return (
     <div className="space-y-4">
       <div>
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: "16px",
-                color: "#424770",
-                "::placeholder": {
-                  color: "#aab7c4",
+        <label className="block text-sm mb-1.5 px-2">Card Details</label>
+        <div 
+          className={`w-full px-4 py-2.5 border ${
+            errors.cardDetails?.paymentMethodId ? "border-red-500" : "border-gray-300"
+          } rounded-full text-sm placeholder:text-gray-400 transition-all duration-400 ease-linear`}
+        >
+          <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: "16px",
+                  color: "#424770",
+                  fontFamily: "'Inter', sans-serif",
+                  "::placeholder": {
+                    color: "#aab7c4",
+                  },
+                },
+                invalid: {
+                  color: "#9e2146",
                 },
               },
-              invalid: {
-                color: "#9e2146",
-              },
-            },
-          }}
-          onChange={handleCardChange}
-        />
+            }}
+            onChange={handleCardChange}
+          />
+        </div>
         {errors.cardDetails?.paymentMethodId && (
-          <p className="text-red-500 text-sm">Payment method is required</p>
+          <p className="text-red-500 text-sm mt-1 px-2">Payment method is required</p>
         )}
       </div>
 
       <button
         type="button"
         onClick={handleCardSubmit}
-        className="bg-blue-600 text-white px-4 py-2 rounded"
+        className="bg-blue-600 text-white px-4 py-2 rounded-full transition-all duration-300 hover:bg-blue-700"
       >
         Save Card Details
       </button>
@@ -171,4 +258,5 @@ const CredtCard = () => {
   );
 };
 
-export default CredtCard;
+export default CreditCard;
+

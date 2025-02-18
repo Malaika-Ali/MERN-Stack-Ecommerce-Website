@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Image from '../../../src/assets/AuthImg.png'
+import logo from '../../assets/logo.PNG'
 import {Link, useNavigate} from 'react-router-dom'
 import TextInput from '../../components/inputs/TextInput'
 import AuthButton from '../../components/buttons/AuthButton'
+import Image from '../../assets/AuthImg.PNG'
 
 import { useLoginUserMutation } from '../../redux/features/auth/userApi'
 import { setUser } from '../../redux/features/auth/authSlice';
@@ -47,13 +48,8 @@ function Login() {
           
           <div className="p-8 sm:p-12">
             <div className="mb-8 flex justify-center">
-              <div className="h-8 w-8">
-                <img
-                  src={Image}
-                  alt="Logo"
-                  width={32}
-                  height={32}
-                />
+              <div className="font-serif text-black-color font-semibold text-2xl cursor-pointer" onClick={()=>navigate('/')}>
+                M<span className='text-grey-color font-serif font-bold'>.</span>
               </div>
             </div>
 

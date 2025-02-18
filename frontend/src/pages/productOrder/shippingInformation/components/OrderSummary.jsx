@@ -11,7 +11,7 @@ export default function OrderSummary() {
     console.log(products)  
    
     return (
-      <div className="w-full max-w-md border border-gray-300 rounded-xl p-6">
+      <div className="w-full max-w-md border border-gray-300 rounded-xl p-6 mt-6 lg:mt-0">
         <h2 className="text-2xl font-[500] mb-8">Your Order</h2>
         <div className="space-y-6">
           {

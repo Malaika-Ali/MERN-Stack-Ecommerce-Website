@@ -5,6 +5,7 @@ import ShopSidebar from './ShopSidebar';
 import FilterChips from './FilterChips';
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
 import { useSearchParams } from 'react-router-dom';
+import FullPageLoader from '../../utils/FullPageLoader';
 
 const ShopPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,7 +19,6 @@ const ShopPage = () => {
 
   const [activeFilters, setActiveFilters] = useState([]);
 
-  
 
   useEffect(() => {
     setFilteredState((prev) => ({
@@ -56,8 +56,6 @@ const ShopPage = () => {
     setCurrentPage(1);
   }, [category, priceRange]);
 
-  if (isLoading) return <div>Loading</div>;
-  if (error) return <div>Error</div>;
 
   const products = response.data?.products || [];
   const totalProductsNumber = response.data?.allProducts || 0;
@@ -95,11 +93,13 @@ const ShopPage = () => {
     }
   };
 
+  document.title="Shop"
 
+if(isLoading) return <FullPageLoader/>
+  
   return (
-    <div className="bg-white">
+    <div>
       <ShopHero />
-
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Sidebar */}
@@ -147,16 +147,19 @@ const ShopPage = () => {
             <div className='mt-6 flex justify-center items-center'>
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
+                className='py-1.5 px-4 border border-black-color text-black-color rounded-full disabled:border-gray-400 disabled:text-gray-400'
                 disabled={currentPage === 1}
-              >Previous</button>
+              >Previous
+              </button>
               {[...Array(totalPages)].map((_, index) => (
                 <button key={index}
-                  className={`w-6 h-6 rounded-full mx-4 text-sm ${currentPage === index + 1 ? 'bg-grey-color' : ''}`}
+                  className={`w-8 h-8 rounded-full mx-4 text-sm ${currentPage === index + 1 ? 'bg-gray-300' : ''}`}
                   onClick={() => handlePageChange(index + 1)}
                 >{index + 1}</button>
               ))}
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
+                 className='py-1.5 px-6 border border-black-color text-black-color rounded-full disabled:border-gray-400 disabled:text-gray-400'
                 disabled={currentPage === totalPages}
               >Next</button>
             </div>
@@ -166,5 +169,6 @@ const ShopPage = () => {
     </div>
   );
 };
+
 
 export default ShopPage;

@@ -90,7 +90,9 @@ const Navbar = () => {
 
   return (
     <header className={`sticky top-0 w-full z-10 bg-white ${isScrolled ? "shadow-lg" : ""}`}>
-      <nav className={`container mx-auto flex justify-between items-center px-4 py-1 lg:py-2`}>
+      {/* <nav className={`container mx-auto flex justify-between items-center px-4 py-1 lg:py-2`}> */}
+      <nav className={` max-w-7xl mx-4 lg:mx-auto flex justify-between items-center px-4 py-1 lg:py-2`}>
+
         {/* Left Side for Desktop */}
         <div className="hidden md:flex space-x-4 flex-1 justify-start">
           <ul className="flex space-x-4">
@@ -106,8 +108,8 @@ const Navbar = () => {
         <div className="text-center justify-center">
           <Link to="/">
             {" "}
-            <h1 className="text-4xl font-bold text-black-color font-serif">
-              M<span className="text-grey-color text-3xl">.</span>{" "}
+            <h1 className="text-3xl md:text-4xl font-bold text-black-color font-serif">
+              M<span className="text-grey-color text-3xl font-serif">.</span>{" "}
             </h1>
           </Link>
         </div>
@@ -191,26 +193,12 @@ const Navbar = () => {
             <input type="text" placeholder="Search..." className="border border-gray-300 rounded-md p-2 flex-grow" />
           </div>
           <ul className="space-y-2 px-8">
-            <li>
-              <NavLink to="/clothes" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
-                Clothes
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/accessories" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
-                Accessories
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/footwear" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
-                Footwear
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/bags" className="text-gray-700 hover:text-blue-500" activeclassname="font-bold">
-                Bags
-              </NavLink>
-            </li>
+          {navlinks.map((navlink) => (
+              <li key={navlink.category}>
+                <NavItem category={navlink.category} title={navlink.title} />
+              </li>
+            ))}
+  
           </ul>
           <div className="flex space-x-4 mt-4 justify-center items-center">
             <FaShoppingCart

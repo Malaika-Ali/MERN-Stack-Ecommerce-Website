@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 pt-8 grid md:grid-cols-2 md:gap-4 lg:gap-2">
         <div className="flex flex-col items-start space-y-4 mb-12">
           <Link href="/" className="inline-block">
-          <h1 className="text-3xl font-bold text-black-color">M<span className='text-grey-color text-3xl'>.</span> </h1>
+          <h1 className="text-3xl font-bold text-black-color font-serif">M<span className='text-grey-color text-3xl font-serif'>.</span> </h1>
           </Link>
           <p className="text-sm text-gray-600 max-w-[280px]">
             Get updates on new products, special promotions, and best discount for all item.

@@ -1,14 +1,14 @@
 import { useForm, FormProvider } from "react-hook-form";
 import RoundedButton from "../../../../components/buttons/RoundedButton";
 import COD from "./paymentMethods/COD";
-import CredtCard from "./paymentMethods/CredtCard";
+import CreditCard from "./paymentMethods/CreditCard";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useCreateOrderMutation } from "../../../../redux/features/order/orderApi";
 import ImageModal from "../../../../components/modals/ImageModal";
 import { applyTaxForCOD, removeTax } from "../../../../redux/features/cart/cartSlice";
-import {loadStripe} from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 export default function PaymentForm() {
@@ -30,7 +30,7 @@ export default function PaymentForm() {
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method);
     if (method === "COD") {
-      dispatch(applyTaxForCOD()); 
+      dispatch(applyTaxForCOD());
     } else {
       dispatch(removeTax());
     }
@@ -38,12 +38,12 @@ export default function PaymentForm() {
 
   const handleForm = async (data) => {
     let paymentInfo = {};
-    const stripe=await loadStripe(`${import.meta.env.VITE_STRIPE_KEY}`)
+    const stripe = await loadStripe(`${import.meta.env.VITE_STRIPE_KEY}`)
     if (paymentMethod === "COD") {
       paymentInfo = {
         paymentMethod,
       };
-    } 
+    }
     // else if (paymentMethod === "credit-debit") {
     //   paymentInfo = {
     //     paymentMethod,
@@ -55,36 +55,36 @@ export default function PaymentForm() {
     // }
     else if (paymentMethod === "credit-debit") {
       const { paymentMethodId } = data.cardDetails;
-  
+
       if (!paymentMethodId) {
         console.error("Payment method ID is missing");
         return;
       }
 
       // Confirm the payment on the server
-    const { error, paymentIntent } = await fetch("/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: grandTotal * 100, // Convert to cents
-        currency: "usd",
+      const { error, paymentIntent } = await fetch("/create-payment-intent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: grandTotal * 100, // Convert to cents
+          currency: "usd",
+          paymentMethodId,
+        }),
+      }).then((res) => res.json());
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      paymentInfo = {
+        paymentMethod: "credit-debit",
         paymentMethodId,
-      }),
-    }).then((res) => res.json());
-
-    if (error) {
-      console.error(error);
-      return;
+        paymentIntentId: paymentIntent.id,
+      };
     }
-
-    paymentInfo = {
-      paymentMethod: "credit-debit",
-      paymentMethodId,
-      paymentIntentId: paymentIntent.id,
-    };
-  }
 
 
 
@@ -159,10 +159,10 @@ export default function PaymentForm() {
           <div className="mt-6">
             {/* {paymentMethod === "credit-debit" && <CredtCard />} */}
             {paymentMethod === "credit-debit" && (
-  <Elements stripe={stripePromise}>
-    <CredtCard />
-  </Elements>
-)}
+              <Elements stripe={stripePromise}>
+                <CreditCard />
+              </Elements>
+            )}
             {paymentMethod === "COD" && <COD />}
           </div>
 

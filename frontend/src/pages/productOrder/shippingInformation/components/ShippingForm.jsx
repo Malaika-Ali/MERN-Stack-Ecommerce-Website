@@ -19,7 +19,7 @@ export default function ShippingForm() {
 
   return (
     <form onSubmit={handleSubmit(handleForm)}>
-      <div className="w-full max-w-xl">
+      <div className="w-full max-w-xl px-4 md:px-0">
         <h2 className="text-2xl font-[500] mb-6">Shipping Information</h2>
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -130,7 +130,7 @@ export default function ShippingForm() {
                 {...register("postalCode", {
                   required: "Postal code is required",
                   pattern: {
-                    value: /^\d{4}$/, // Ensures exactly 4 digits
+                    value: /^\d{5}$/, // Ensures exactly 4 digits
                     message: "Postal code must be a 4-digit number",
                   },
                 })}

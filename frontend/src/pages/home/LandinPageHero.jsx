@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import RoundedButton from "../../components/buttons/RoundedButton";
 
 import heroImage from "../../assets/bg-opt.PNG";
+import heroImage2 from "../../assets/hero-img2.PNG";
 
 import { FaArrowRightLong } from "react-icons/fa6";
 import { MdOutlineLocalShipping } from "react-icons/md";
@@ -13,9 +14,9 @@ export default function LandingPageHero() {
   const navigate=useNavigate()
 
   return (
-    <div className="h-screen flex items-center">
-      <section className="container h-full mx-auto pl-8 bg-gray-100 rounded-2xl">
-        <div className="grid lg:grid-cols-2 lg:gap-[10rem] h-full">
+    <div className="h-full md:h-screen flex items-center">
+      <section className="w-full max-w-7xl mx-4 lg:mx-auto h-full px-4 md:pl-8 bg-gray-100 rounded-3xl">
+        <div className="grid md:grid-cols-2 gap-[1rem] lg:gap-[10rem] h-full">
           {/* Left Column */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -23,7 +24,7 @@ export default function LandingPageHero() {
             transition={{ duration: 0.8 }}
             className="space-y-6 flex flex-col justify-center"
           >
-            <div className="inline-flex w-fit items-center gap-2 bg-white px-4 py-2 rounded-full">
+            <div className="inline-flex w-fit mt-4 lg:mt-1 items-center gap-2 bg-white px-2.5 py-2 rounded-full">
               <span className="px-2 py-1 bg-stone-900 text-white text-xs rounded-full">New</span>
               <span className="text-sm text-stone-600">Spring Collection 2024</span>
             </div>
@@ -33,11 +34,11 @@ export default function LandingPageHero() {
               <span className="text-stone-500">Sophistication</span>
             </h1>
 
-            <p className="text-stone-600 text-lg max-w-md">
+            <p className="text-stone-600 text-lg font-[400]">
               Discover our latest collection of premium fashion pieces, crafted for those who appreciate refined elegance.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col mx-auto md:mx-0 w-full sm:flex-row gap-4">
               <RoundedButton size="lg" className="font-[400] px-8 py-6 text-lg"
               onClick={()=>navigate("/shop")}>
                 Shop Now
@@ -69,11 +70,19 @@ export default function LandingPageHero() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="relative flex items-center justify-end h-full"
+            className="relative flex items-start lg:items-center justify-start md:justify-end h-full"
           >
-            <div className="relative w-full h-full max-h-[100vh] flex items-center justify-end">
+            <div className="hidden relative w-fit h-fit md:w-full md:h-full max-h-[100vh] md:flex md:items-start items-center justify-end">
               <img
                 src={heroImage}
+                alt="Hero"
+                className="w-fit h-fit md:w-full md:h-full max-h-[100vh] rounded-2xl object-contain px-auto md:pl-[2rem]"
+              />
+            </div>
+
+            <div className="relative md:hidden w-full h-full max-h-[100vh] flex items-center justify-end">
+              <img
+                src={heroImage2}
                 alt="Hero"
                 className="w-full h-full max-h-[100vh] rounded-2xl object-contain pl-[2rem]"
               />

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Image from '../../../src/assets/AuthImg.png'
+// import Image from '../../../src/assets/AuthImg.png'
+import Image from '../../assets/right-look.jpg'
 import {Link, useNavigate} from 'react-router-dom'
 import TextInput from '../../components/inputs/TextInput'
 import AuthButton from '../../components/buttons/AuthButton'
@@ -20,13 +21,10 @@ const [registerUser, { isLoading, isSuccess, isError, error }] = useRegisterUser
     try {
       const result = await registerUser(data).unwrap();
       console.log('User registered successfully:', result);
-      // Clear form fields
       reset();
       navigate('/login')
-      // Redirect or display success message
     } catch (err) {
       console.error('Registration failed:', err);
-      // Display error message to the user
     }
   };
 
@@ -50,19 +48,14 @@ const [registerUser, { isLoading, isSuccess, isError, error }] = useRegisterUser
           
           <div className="p-8 sm:p-12">
             <div className="mb-8 flex justify-center">
-              <div className="h-8 w-8">
-                <img
-                  src={Image}
-                  alt="Logo"
-                  width={32}
-                  height={32}
-                />
+            <div className="font-serif text-black-color font-semibold text-2xl cursor-pointer" onClick={()=>navigate('/')}>
+                M<span className='text-grey-color font-serif font-bold'>.</span>
               </div>
             </div>
 
             <div className="space-y-6">
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold text-center">Welcome back!</h1>
+                <h1 className="text-3xl font-bold text-center">Welcome!</h1>
                 <p className="text-sm text-gray-600 text-center">Please enter your details</p>
               </div>
 
@@ -89,7 +82,7 @@ const [registerUser, { isLoading, isSuccess, isError, error }] = useRegisterUser
                   error={errors.password?.message}
                 />
 
-                <div className="space-y-4 flex w-[90%] md:w-[70%] justify-center items-center flex-col mx-auto pt-4">
+                <div className="space-y-4 flex w-[90%] md:w-[90%] justify-center items-center flex-col mx-auto pt-4">
                   <AuthButton type="submit"className='py-3'>Sign Up</AuthButton>
                   <AuthButton variant="google"
                   onClick={googleLogin}>
