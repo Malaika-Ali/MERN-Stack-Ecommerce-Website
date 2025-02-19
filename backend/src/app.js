@@ -33,6 +33,9 @@ import productRouter from "../src/routes/product.routes.js"
 import reviewRouter from "../src/routes/review.routes.js"
 import orderRouter from "../src/routes/order.routes.js"
 
+app.post('/', (req,res)=>{
+    res.send("Hello")
+})
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/products", productRouter)
