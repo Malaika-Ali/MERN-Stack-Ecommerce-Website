@@ -5,6 +5,8 @@ import { FaMinus, FaPlus } from 'react-icons/fa'
 import RatingStars from '../../components/products/RatingStars'
 import { useNavigate, useParams } from 'react-router-dom'
 import SizesSection from './SizesSection'
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 function ProductDetails({  name, description, image, price, originalPrice, rating, images = [], productQuantity, category, color, material, fabric }) {
   const [selectedSize, setSelectedSize] = useState('medium')
@@ -61,9 +63,10 @@ function ProductDetails({  name, description, image, price, originalPrice, ratin
         {/* Product Images */}
         <div className="space-y-4">
           <div className="aspect-square bg-gray-100 rounded-xl border-opacity-5 overflow-hidden">
-            <img
+            <LazyLoadImage
               src={displayImage || image}
               alt="Product"
+              effect="blur"
               className="w-full h-full object-cover"
             />
           </div>
@@ -76,9 +79,10 @@ function ProductDetails({  name, description, image, price, originalPrice, ratin
                   onClick={() => setDisplayImage(img)}
                   className="aspect-square bg-gray-100 rounded-lg overflow-hidden"
                 >
-                  <img
+                  <LazyLoadImage
                     src={img}
                     alt="product image"
+                    effect="blur"
                     className="w-full h-full object-cover"
                   />
                 </button>

@@ -1,4 +1,6 @@
 import img from '../../assets/img.JPG'
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import { FaArrowRightLong } from "react-icons/fa6";
 
@@ -8,9 +10,10 @@ export default function PromotionalBanner() {
       <div className="relative overflow-hidden rounded-2xl flex flex-col md:flex-row">
         {/* Image Section */}
         <div className="w-full md:w-1/2 h-[300px] md:h-[400px]">
-          <img
+          <LazyLoadImage
             src={img}
             alt="Promotional lifestyle image"
+            effect="blur"
             className="h-full w-full object-cover"
           />
         </div>

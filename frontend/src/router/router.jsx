@@ -7,6 +7,7 @@ import { lazy, Suspense } from "react";
 import Error404 from "../utils/Error404";
 import CustomErrorBoundary from "../utils/ErrorBoundary";
 import FullPageLoader from "../utils/FullPageLoader";
+import ComponentLoader from "../utils/ComponentLoader";
 
 const LoginPage=Loadable(lazy(()=>import('../pages/auth/Login')))
 const SignupPage=Loadable(lazy(()=>import('../pages/auth/Signup')))
@@ -72,7 +73,7 @@ const router = createBrowserRouter([
             path: "/shop",
             element: (
                 <CustomErrorBoundary>
-                  <Suspense fallback={<FullPageLoader/>}>
+                  <Suspense fallback={<ComponentLoader/>}>
                     <ShopPage />
                   </Suspense>
                 </CustomErrorBoundary>

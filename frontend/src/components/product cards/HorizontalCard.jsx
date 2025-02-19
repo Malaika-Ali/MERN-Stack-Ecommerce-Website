@@ -3,6 +3,9 @@ import { useDispatch } from 'react-redux'
 import { updateQuantity } from '../../redux/features/cart/cartSlice'
 import { useNavigate } from 'react-router-dom'
 
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
 const HorizontalCard = ({
   id,
   name,
@@ -27,9 +30,10 @@ const HorizontalCard = ({
     <div className="w-[100px] h-[100px] bg-gray-50 rounded-xl flex items-center justify-center p-2
     cursor-pointer"
     onClick={()=>navigate(`/product-details/${id}`)}>
-      <img
+      <LazyLoadImage
         src={image}
         alt={name}
+        effect="blur"
         className="w-full h-full object-contain"
       />
     </div>

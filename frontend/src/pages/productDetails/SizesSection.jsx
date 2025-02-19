@@ -28,7 +28,7 @@ const SizesSection = ({
             key={size}
             // onClick={() => setSelectedSize(size)}
             onClick={()=>onSizeSelect(size)}
-            className={`py-2 px-2 rounded-full border transition-all duration-500 ease-in-out ${selectedSize === size
+            className={`py-1.5 px-1 rounded-full border transition-all duration-500 ease-in-out ${selectedSize === size
               ? 'border-black-color bg-black-color text-white'
               : 'border-gray-300 hover:border-black-color text-black-color'
               }`}

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import RatingStars from './RatingStars';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/features/cart/cartSlice';
 import { useNavigate } from 'react-router-dom';
 
-import {  FaHeart } from 'react-icons/fa';
+// import {  FaHeart } from 'react-icons/fa';
 import { FiShoppingCart } from "react-icons/fi";
 import IconButton from '../buttons/IconButton';
 
@@ -21,7 +23,7 @@ const ProductCard = ({
   color
 }) => {
 
-  const [isFavorite, setIsFavorite] = useState(false);
+  // const [isFavorite, setIsFavorite] = useState(false);
   const [quantity, setQuantity] = useState(0)
   const dispatch = useDispatch()
   const navigate=useNavigate()
@@ -39,10 +41,10 @@ const ProductCard = ({
       {/* Image Container */}
       <div className="relative aspect-square bg-[#F5F5F5] rounded-xl overflow-hidden mb-4 border-opacity-0 cursor-pointer"
        onClick={()=>navigate(`/product-details/${id}`)}>
-        <img
+        <LazyLoadImage
           src={image}
           alt={name}
-          fill
+          effect="blur"
           className="object-cover transition-transform duration-300 hover:scale-105"
         />
       </div>

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import ProductsGrid from '../../components/products/ProductsGrid';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import ShopHero from './ShopHero';
 import ShopSidebar from './ShopSidebar';
 import FilterChips from './FilterChips';
@@ -7,17 +6,23 @@ import { useFetchAllProductsQuery } from '../../redux/features/products/products
 import { useSearchParams } from 'react-router-dom';
 import FullPageLoader from '../../utils/FullPageLoader';
 
+import Loadable from '../../utils/Loadable';
+import ComponentLoader from '../../utils/ComponentLoader';
+import CustomErrorBoundary from '../../utils/ErrorBoundary';
+
 const ShopPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(8);
-  const [searchParams]=useSearchParams()
-  const categoryParam=searchParams.get("category") || "all"
+  const [searchParams] = useSearchParams()
+  const categoryParam = searchParams.get("category") || "all"
   const [filteredState, setFilteredState] = useState({
     category: categoryParam,
     priceRange: ""
   });
 
   const [activeFilters, setActiveFilters] = useState([]);
+
+  const ProductsGrid = Loadable(lazy(() => import('../../components/products/ProductsGrid')))
 
 
   useEffect(() => {
@@ -39,15 +44,15 @@ const ShopPage = () => {
     setActiveFilters(filters);
   }, [filteredState]);
 
-  
+
   const { category, priceRange } = filteredState;
   // Extract minPrice and maxPrice from priceRange
   const [minPrice, maxPrice] = priceRange ? priceRange.split('-').map(Number) : [null, null];
 
   const { data: response = {}, error, isLoading } = useFetchAllProductsQuery({
     category: category !== "all" ? category : "",
-    minPrice: minPrice || "", 
-    maxPrice: maxPrice || "", 
+    minPrice: minPrice || "",
+    maxPrice: maxPrice || "",
     page: currentPage,
     limit: productsPerPage
   });
@@ -93,10 +98,9 @@ const ShopPage = () => {
     }
   };
 
-  document.title="Shop"
+  document.title = "Shop"
 
-if(isLoading) return <FullPageLoader/>
-  
+
   return (
     <div>
       <ShopHero />
@@ -127,10 +131,6 @@ if(isLoading) return <FullPageLoader/>
               <div className="flex items-center justify-start ml-2 mb-4">
                 <div className="text-sm text-gray-500">
                   Showing <span className="font-bold text-black">{startProduct}</span> to <span className="font-bold text-black">{endProduct}</span> products from total <span className="font-bold text-black">{totalProductsNumber}</span> Products
-                  
-                  {filteredState.category !== "all" && filteredState.priceRange !== "" && (
-                    <span> for <span className="font-bold text-black">"Jacket & Coats"</span></span>
-                  )}
                 </div>
               </div>
 
@@ -138,11 +138,14 @@ if(isLoading) return <FullPageLoader/>
                 activeFilters={activeFilters}
                 onRemoveFilter={handleRemoveFilter}
               />
-              
             </div>
 
-            <ProductsGrid products={products} />
-
+            <CustomErrorBoundary>
+              <Suspense fallback={<ComponentLoader />}>
+                <ProductsGrid products={products} />
+              </Suspense>
+            </CustomErrorBoundary>
+            
             {/* Pagination */}
             <div className='mt-6 flex justify-center items-center'>
               <button
@@ -159,7 +162,7 @@ if(isLoading) return <FullPageLoader/>
               ))}
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
-                 className='py-1.5 px-6 border border-black-color text-black-color rounded-full disabled:border-gray-400 disabled:text-gray-400'
+                className='py-1.5 px-6 border border-black-color text-black-color rounded-full disabled:border-gray-400 disabled:text-gray-400'
                 disabled={currentPage === totalPages}
               >Next</button>
             </div>

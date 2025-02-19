@@ -43,11 +43,10 @@ const Suggestions = ({productId}) => {
     //       imageUrl: "https://images.pexels.com/photos/24018568/pexels-photo-24018568/free-photo-of-woman-wearing-black-clothes-in-studio.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     //     },
     //   ];
-    const { data, error, isLoading } = useFetchRelatedProductsQuery(productId);
+    const { data } = useFetchRelatedProductsQuery(productId);
 
     console.log(productId)
     const products = data?.data || [];
-    console.log(data)
       
 
   return (
