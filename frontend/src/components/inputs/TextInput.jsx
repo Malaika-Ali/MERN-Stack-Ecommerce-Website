@@ -3,7 +3,7 @@ import React, { forwardRef, useState } from "react"
 import { FaRegEye } from "react-icons/fa";
 import { ImEyeBlocked } from "react-icons/im";
 
-const TextInput = forwardRef(({ label, error, type: initialType, ...props }, ref) => {
+const TextInput = forwardRef(({ label, error, type: initialType, showPassword, onTogglePassword, ...props }, ref) => {
   const [isFocused, setIsFocused] = useState(false)
   const [type, setType] = useState(initialType)
 
@@ -16,6 +16,9 @@ const TextInput = forwardRef(({ label, error, type: initialType, ...props }, ref
 
   const togglePasswordVisibility = () => {
     setType((prevType) => (prevType === "password" ? "text" : "password"))
+    if (onTogglePassword) {
+      onTogglePassword();
+    }
   }
 
   return (
@@ -40,7 +43,7 @@ const TextInput = forwardRef(({ label, error, type: initialType, ...props }, ref
       </label>
       {initialType === "password" && (
         <button type="button" onClick={togglePasswordVisibility} className="absolute right-0 top-2 text-gray-500">
-          {type === "password" ? <FaRegEye className="h-5 w-5" /> : <ImEyeBlocked className="h-5 w-5" />}
+          {type==="password" ? <FaRegEye className="h-5 w-5" /> :  <ImEyeBlocked className="h-5 w-5" />}
         </button>
       )}
       {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
@@ -49,4 +52,8 @@ const TextInput = forwardRef(({ label, error, type: initialType, ...props }, ref
 })
 
 export default TextInput
+
+
+
+
 
