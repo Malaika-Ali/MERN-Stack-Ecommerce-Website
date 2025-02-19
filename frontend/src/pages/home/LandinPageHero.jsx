@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import RoundedButton from "../../components/buttons/RoundedButton";
 
-import heroImage from "../../assets/bg-opt.PNG";
-import heroImage2 from "../../assets/hero-img2.PNG";
+import heroImage from "../../assets/bg-opt.png";
+import heroImage2 from "../../assets/hero-img2.png";
 
 import { FaArrowRightLong } from "react-icons/fa6";
 import { MdOutlineLocalShipping } from "react-icons/md";
