@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import { NavLink, Link } from "react-router-dom"
 import CartDrawer from "./CartDrawer"
 import NavItem from "./NavItem"
+import { navlinks } from "../../constants"
 import { AnimatePresence } from "framer-motion"
 import { useSelector, useDispatch } from "react-redux"
 
@@ -64,29 +65,7 @@ const Navbar = () => {
   }
 
   useEffect(() => {
-    // This effect will run whenever `isAuthenticated` changes
-    // You can add any additional logic here if needed
   }, [isAuthenticated]);
-
-  const navlinks = [
-    {
-      title: "Clothes",
-      category: "clothes"
-    },
-    {
-      title: "Accessories",
-      category: "accessories"
-    },
-    {
-      title: "Bags",
-      category: "bags"
-    },
-    {
-      title: "Footwear",
-      category: "footwear"
-    }
-  ]
-
 
   return (
     <header className={`sticky top-0 w-full z-10 bg-white ${isScrolled ? "shadow-lg" : ""}`}>

@@ -1,22 +1,26 @@
 import { createBrowserRouter} from "react-router-dom";
 import App from "../App";
-import Home from "../pages/home/Home";
-import Category from "../pages/category/Category";
 import SearchPage from "../pages/search/SearchPage";
-import ShopPage from "../pages/shop/ShopPage";
-import Login from "../pages/auth/Login";
-import Signup from "../pages/auth/Signup";
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import ProductDetails from "../pages/productDetails";
-import ShippingInformation from "../pages/productOrder/shippingInformation";
-import PaymentInformtaion from "../pages/productOrder/paymentInformation";
+import Loadable from "../utils/Loadable";
+import { lazy } from "react";
+
+const LoginPage=Loadable(lazy(()=>import('../pages/auth/Login')))
+const SignupPage=Loadable(lazy(()=>import('../pages/auth/Signup')))
+const HomePage=Loadable(lazy(()=>import('../pages/home/Home')))
+const ShopPage=Loadable(lazy(()=>import('../pages/shop/ShopPage')))
+const ProductDetailsPage=Loadable(lazy(()=>import('../pages/productDetails')))
+const ShippingPage=Loadable(lazy(()=>import('../pages/productOrder/shippingInformation')))
+const PaymentPage=Loadable(lazy(()=>import('../pages/productOrder/paymentInformation')))
+
+
 
 
 const GoogleAuthWrapper=()=>{
     return  (  
     <GoogleOAuthProvider clientId="1036669708423-b0h6qi86bdf18a8lt2165d6d7kpuq91g.apps.googleusercontent.com"
     useOneTap={true}> 
-    <Login/>
+    <LoginPage/>
     </GoogleOAuthProvider>
 )}
 
@@ -24,9 +28,11 @@ const GoogleAuthWrapper2=()=>{
     return  (  
     <GoogleOAuthProvider clientId="1036669708423-b0h6qi86bdf18a8lt2165d6d7kpuq91g.apps.googleusercontent.com"
     useOneTap={true}> 
-    <Signup/>
+    <SignupPage/>
     </GoogleOAuthProvider>
 )}
+
+
 
 const router = createBrowserRouter([
     {
@@ -35,16 +41,8 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Home/>
+                element: <HomePage/>
             },
-            {
-                path: "/about",
-                element: <div>About page it is</div>
-            },
-           {
-            path: "/categories/:categoryName",
-            element: <Category/>
-           },
            {
             path: "/search",
             element: <SearchPage/>
@@ -55,15 +53,15 @@ const router = createBrowserRouter([
            },
            {
             path: "/product-details/:id",
-            element: <ProductDetails/>
+            element: <ProductDetailsPage/>
            },
            {
            path: "/shipping-information",
-           element: <ShippingInformation/>
+           element: <ShippingPage/>
           },
           {
             path: "/payment-information",
-            element: <PaymentInformtaion/>
+            element: <PaymentPage/>
            },
            {
             path: "*",

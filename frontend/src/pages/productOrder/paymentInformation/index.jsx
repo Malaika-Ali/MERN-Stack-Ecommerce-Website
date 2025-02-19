@@ -2,6 +2,9 @@ import OrderSummary from "../shippingInformation/components/OrderSummary"
 import PaymentForm from "./components/PaymentForm"
 
 function PaymentInformation() {
+
+  document.title="Payment Form"
+
   return (
     <div className="min-h-screen lg:pt-2">
       <div className="max-w-7xl mx-auto md:px-6 py-8">

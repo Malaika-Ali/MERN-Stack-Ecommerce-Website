@@ -84,3 +84,23 @@ export const testimonials = [
     },
   },
 ]
+
+
+export const navlinks = [
+  {
+    title: "Clothes",
+    category: "clothes"
+  },
+  {
+    title: "Accessories",
+    category: "accessories"
+  },
+  {
+    title: "Bags",
+    category: "bags"
+  },
+  {
+    title: "Footwear",
+    category: "footwear"
+  }
+]

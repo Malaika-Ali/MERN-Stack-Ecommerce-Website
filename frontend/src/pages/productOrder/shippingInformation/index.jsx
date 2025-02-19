@@ -2,6 +2,10 @@ import ShippingForm from "./components/ShippingForm"
 import OrderSummary from "./components/OrderSummary"
 
 function ShippingInformtaion() {
+
+  document.title="Shipping Form"
+
+  
   return (
     <div className="min-h-screen lg:pt-2">
       <div className="max-w-7xl mx-auto md:px-6 py-8">
