@@ -4,7 +4,7 @@ import logo from '../../assets/logo.PNG'
 import {Link, useNavigate} from 'react-router-dom'
 import TextInput from '../../components/inputs/TextInput'
 import AuthButton from '../../components/buttons/AuthButton'
-import Image from '../../assets/AuthImg.PNG'
+import Image from '../../assets/AuthImg.png'
 
 import { useLoginUserMutation } from '../../redux/features/auth/userApi'
 import { setUser } from '../../redux/features/auth/authSlice';
