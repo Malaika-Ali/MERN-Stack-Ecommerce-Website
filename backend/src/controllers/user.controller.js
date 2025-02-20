@@ -109,6 +109,7 @@ const loginUser = asyncHandler(async (req, res) => {
    // These options make the cookies modifiable only through server and only accessible to frontend and not modifiable through the frontend otherwise cookies are modifiable through frontend also
    const options = {
        httpOnly: true,
+       sameSite: "none",
        secure: process.env.NODE_ENV === "production",
 
    }
@@ -137,6 +138,7 @@ const logoutUser=asyncHandler(async(req,res)=>{
    )
    const options = {
       httpOnly: true,
+      sameSite: "none",
       secure: true,
 
   }
@@ -167,6 +169,7 @@ const refreshAccessToken= asyncHandler(async(req,res)=>{
  
     const options={
        httpOnly: true,
+       sameSite: "none",
        secure: true
     }
  
