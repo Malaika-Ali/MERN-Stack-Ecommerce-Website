@@ -1,5 +1,4 @@
-import React, { forwardRef, useState } from "react"
-// import { Eye, EyeOff } from "lucide-react"
+import React, { forwardRef, useState, useEffect } from "react"
 import { FaRegEye } from "react-icons/fa";
 import { ImEyeBlocked } from "react-icons/im";
 
