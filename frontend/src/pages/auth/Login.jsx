@@ -21,7 +21,8 @@ function Login() {
   const dispatch=useDispatch()
   document.title="Login"
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data, event) => {
+    event.preventDefault()
     try {
       const user = await loginUser(data).unwrap(); 
       dispatch(setUser(user)); 
@@ -59,12 +60,14 @@ function Login() {
                 <p className="text-sm text-gray-600 text-center">Please enter your details</p>
               </div>
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" autoComplete='off'>
+              <form onSubmit={(e) => handleSubmit((data) => onSubmit(data, e))(e)} 
+              className="space-y-6" autoComplete='off'>
                 
                 <TextInput
                   label="Email"
                   defaultValue=""
-                  name='email'
+                  name='login-email'
+                  autoComplete="off" 
                   {...register('email', { required: 'Email is required' })}
                   error={errors.email?.message}
                 />
@@ -74,7 +77,8 @@ function Login() {
                   type={showPassword ? 'text' : 'password'}
                   showPassword={showPassword}
                   defaultValue=""
-                  name='password'
+                  name='login-password'
+                  autoComplete="new-password"
                   onTogglePassword={() => setShowPassword(!showPassword)}
                   {...register('password', { required: 'Password is required' })}
                   error={errors.password?.message}
