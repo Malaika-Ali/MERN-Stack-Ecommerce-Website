@@ -51,7 +51,7 @@ const createOrder = asyncHandler(async (req, res) => {
         return res.status(201).json(new ApiResponse(200, order, "Order successfully created!"))
 
     } catch (error) {
-        console.log(error)
+        console.error("Order creation error:", error);
         throw new ApiError(500, "Order couldn't be placed", error)
     }
 })
