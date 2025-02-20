@@ -49,7 +49,7 @@ const TextInput = forwardRef(({ label, error, type: initialType, showPassword, o
         className={`absolute left-0 top-1 text-black-color text-sm transition-all ${
           // Apply "floated" styles if the input has a value or is focused
           hasValue || isFocused
-            ? "-top-3.5 text-sm text-black-color"
+            ? "-top-4 text-sm text-black-color"
             : "top-2 text-base text-gray-400"
         }`}
       >
