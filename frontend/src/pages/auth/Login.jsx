@@ -67,6 +67,7 @@ function Login() {
                   label="Email"
                   defaultValue=""
                   name='login-email'
+                  value={email}
                   autoComplete="off" 
                   {...register('email', { required: 'Email is required' })}
                   error={errors.email?.message}
@@ -77,6 +78,7 @@ function Login() {
                   type={showPassword ? 'text' : 'password'}
                   showPassword={showPassword}
                   defaultValue=""
+                  value={password}
                   name='login-password'
                   autoComplete="new-password"
                   onTogglePassword={() => setShowPassword(!showPassword)}
