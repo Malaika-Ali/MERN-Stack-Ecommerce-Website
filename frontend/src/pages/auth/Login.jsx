@@ -37,9 +37,40 @@ function Login() {
     }
   };
 
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: responseGoogle,
+  //   onError: responseGoogle,
+  //   flow: "auth-code",
+  // });
+
   const googleLogin = useGoogleLogin({
-    onSuccess: responseGoogle,
-    onError: responseGoogle,
+    onSuccess: async (response) => {
+      console.log("Google login success:", response);
+  
+      if (response.code) {
+        try {
+          // Send the authorization code to the backend
+          const res = await axios.get(
+            `${import.meta.env.VITE_BASE_URL}/api/v1/auth/google?code=${response.code}`
+          );
+  
+          console.log("Backend response:", res.data);
+  
+          // Update Redux state with the user data
+          dispatch(setUser(res.data.user));
+  
+          // Redirect to the home page
+          navigate("/");
+        } catch (error) {
+          console.error("Error sending code to backend:", error);
+          alert("Google login failed. Please try again.");
+        }
+      }
+    },
+    onError: (error) => {
+      console.error("Google login error:", error);
+      alert("Google login failed. Please try again.");
+    },
     flow: "auth-code",
   });
 

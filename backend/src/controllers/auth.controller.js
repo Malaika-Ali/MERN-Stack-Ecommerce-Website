@@ -4,7 +4,6 @@ import { ApiError } from '../utils/ApiError.js'
 import {oauth2Client} from '../utils/oath2Client.js'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
-import { promisify } from 'util'
 import { User } from '../models/user.model.js'
 
 const signToken = (id) => {
@@ -23,7 +22,7 @@ const createSendToken = (user, statusCode, res) => {
         expires: new Date(Date.now() + +process.env.REFRESH_TOKEN_EXPIRY),
         httpOnly: true,
         path: '/',
-        // sameSite: "none",
+        sameSite: "none",
         secure: false,
     };
     if (process.env.NODE_ENV === 'production') {
