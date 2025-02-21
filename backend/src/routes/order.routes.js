@@ -4,7 +4,7 @@ import { verifyJWT } from '../middlewares/auth.middleware.js'
 
 const router=Router()
 
-router.route("/create-payment-intent").post(verifyJWT, createPaymentIntent);
+// router.route("/create-payment-intent").post(verifyJWT, createPaymentIntent);
 router.route("/create-order").post(verifyJWT,createOrder)
 
 export default router
