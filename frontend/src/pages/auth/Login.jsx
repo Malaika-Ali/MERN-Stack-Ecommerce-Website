@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import TextInput from "../../components/inputs/TextInput";
 import AuthButton from "../../components/buttons/AuthButton";
 import Image from "../../assets/AuthImg.png";
+import { googleAuth } from './googleApi'
 
 import { useLoginUserMutation } from "../../redux/features/auth/userApi";
 import { setUser } from "../../redux/features/auth/authSlice";
