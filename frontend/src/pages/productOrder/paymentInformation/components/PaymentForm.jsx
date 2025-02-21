@@ -1,7 +1,7 @@
 import { useForm, FormProvider } from "react-hook-form";
 import RoundedButton from "../../../../components/buttons/RoundedButton";
 import COD from "./paymentMethods/COD";
-import CredtCard from "./paymentMethods/CredtCard";
+import CredtCard from "./paymentMethods/CreditCard";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
