@@ -9,7 +9,7 @@ import { useLoginUserMutation } from "../../redux/features/auth/userApi";
 import { setUser } from "../../redux/features/auth/authSlice";
 
 import { useGoogleLogin } from "@react-oauth/google";
-import { responseGoogle } from "../../utils/googleAuthResponse";
+// import { responseGoogle } from "../../utils/googleAuthResponse";
 import { useDispatch } from "react-redux";
 
 import google from '../../assets/google_cover.jpg'
@@ -39,11 +39,11 @@ function Login() {
     }
   };
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: responseGoogle,
-    onError: responseGoogle,
-    flow: "auth-code",
-  });
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: responseGoogle,
+  //   onError: responseGoogle,
+  //   flow: "auth-code",
+  // });
 
   // const googleLogin = useGoogleLogin({
   //   onSuccess: async (response) => {
@@ -75,6 +75,28 @@ function Login() {
   //   },
   //   flow: "auth-code",
   // });
+
+
+  const responseGoogle = async (authResult) => {
+    try {
+      if (authResult['code']) {
+        const result = await googleAuth(authResult['code']);
+        dispatch(setUser(result.data.user));
+        const { email, name } = result.data.user;
+        console.log('Result.data.user from login page', result?.data?.user);
+        navigate("/");
+      }
+      console.log(authResult);
+    } catch (error) {
+      console.log("Error while requesting Google code!", error);
+    }
+  };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: responseGoogle,
+    onError: responseGoogle,
+    flow: "auth-code",
+  });
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-white md:bg-black-color p-2 sm:p-6 md:p-4">
