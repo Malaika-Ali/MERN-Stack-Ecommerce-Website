@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-// import Image from '../../../src/assets/AuthImg.png'
+import { useForm, useWatch } from 'react-hook-form'
 import Image from '../../assets/right-look.jpg'
 import {Link, useNavigate} from 'react-router-dom'
 import TextInput from '../../components/inputs/TextInput'
@@ -11,13 +10,17 @@ import { responseGoogle } from '../../utils/googleAuthResponse'
 
 function Signup() {
   const [showPassword, setShowPassword] = useState(false)
-  const { register, handleSubmit, formState: { errors }, reset } = useForm()
+  const { register, handleSubmit, formState: { errors }, reset, control } = useForm()
+  const nameValue = useWatch({ control, name: "name" });
+  const emailValue = useWatch({ control, name: "email" });
+  const passwordValue = useWatch({ control, name: "password" });
   const navigate=useNavigate()
 
 // Initialize the mutation hook
 const [registerUser, { isLoading, isSuccess, isError, error }] = useRegisterUserMutation();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data, event) => {
+    event.preventDefault();
     try {
       const result = await registerUser(data).unwrap();
       console.log('User registered successfully:', result);
@@ -59,16 +62,25 @@ const [registerUser, { isLoading, isSuccess, isError, error }] = useRegisterUser
                 <p className="text-sm text-gray-600 text-center">Please enter your details</p>
               </div>
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={(e) => handleSubmit((data) => onSubmit(data, e))(e)} 
+              className="space-y-6"
+              autoComplete='off'>
               <TextInput
                   label="Name"
                   type='text'
+                  autoComplete='off'
+                  name="signup-name"
+                  value={nameValue || ""}
                   {...register('name', { required: 'Name is required' })}
                   error={errors.name?.message}
                 />
 
                 <TextInput
                   label="Email"
+                  type="email"
+                  autoComplete='off'
+                  name="signup-email"
+                  value={emailValue || ""}
                   {...register('email', { required: 'Email is required' })}
                   error={errors.email?.message}
                 />
@@ -76,6 +88,9 @@ const [registerUser, { isLoading, isSuccess, isError, error }] = useRegisterUser
                 <TextInput
                   label="Password"
                   type={showPassword ? 'text' : 'password'}
+                  name="signup-password"
+                  autoComplete='new-password'
+                  value={passwordValue || ""}
                   showPassword={showPassword}
                   onTogglePassword={() => setShowPassword(!showPassword)}
                   {...register('password', { required: 'Password is required' })}
