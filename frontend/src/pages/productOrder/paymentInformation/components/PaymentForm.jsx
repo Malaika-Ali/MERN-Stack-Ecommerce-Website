@@ -207,7 +207,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useCreateOrderMutation } from "../../../../redux/features/order/orderApi";
 import ImageModal from "../../../../components/modals/ImageModal";
 import { applyTaxForCOD, removeTax } from "../../../../redux/features/cart/cartSlice";
-import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
