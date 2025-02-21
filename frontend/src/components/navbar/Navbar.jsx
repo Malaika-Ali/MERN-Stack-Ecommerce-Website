@@ -95,14 +95,19 @@ const Navbar = () => {
 
         {/* Right Side for Desktop */}
         <div className="hidden md:flex space-x-4 flex-1 justify-end">
-          <NavLink to="/search" className={({ isActive }) => `${isActive ? "text-white" : "text-black"}`}>
+          {/* <NavLink to="/" className={({ isActive }) => `${isActive ? "text-white" : "text-black"}`}>
             <FiSearch
               size={22}
               className={({ isActive }) =>
                 `text-black-color hover:text-grey-color ${isActive ? "text-grey-color" : ""}`
               }
             />
-          </NavLink>
+          </NavLink> */}
+
+<div className="cursor-pointer">
+  <FiSearch size={22} className="text-black-color hover:text-grey-color" />
+</div>
+
 
           <div onClick={() => setIsCartOpen((prev) => !prev)} className="relative cursor-pointer">
             <BsCart2
