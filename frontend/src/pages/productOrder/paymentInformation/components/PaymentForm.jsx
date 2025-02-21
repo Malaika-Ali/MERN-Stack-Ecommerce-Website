@@ -256,7 +256,7 @@ export default function PaymentForm() {
       }
 
       try {
-        const response = await fetch("/create-payment-intent", {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/create-payment-intent`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
