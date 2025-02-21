@@ -1,7 +1,7 @@
 import { googleAuth } from '../pages/auth/googleApi'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-// const navigate=useNavigate()
+const navigate=useNavigate()
 
 export const responseGoogle= async(authResult)=>{
     try {
@@ -9,8 +9,8 @@ export const responseGoogle= async(authResult)=>{
         const result=await googleAuth(authResult['code'])
         console.log(result)
         const {email, name}=result.data.user
-        console.log(`Resylt.data.user from login page ${result?.data?.user}`)
-        // navigate("/")
+        console.log('Result.data.user from login page', result?.data?.user)
+        navigate("/")
       }
       console.log(authResult)
     } catch (error) {
