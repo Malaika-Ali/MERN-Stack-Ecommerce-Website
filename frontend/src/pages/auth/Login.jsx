@@ -12,6 +12,8 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { responseGoogle } from "../../utils/googleAuthResponse";
 import { useDispatch } from "react-redux";
 
+import google from '../../assets/google_cover.jpg'
+
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit, formState: { errors }, reset, control } = useForm(); 
@@ -128,7 +130,8 @@ function Login() {
                   </AuthButton>
                   <AuthButton variant="google" onClick={googleLogin}>
                     <img
-                      src="https://www.loginradius.com/blog/static/a9dad0fc4bf1af95243aa5e2d017bc22/a8669/google_cover.jpg"
+                      // src="https://www.loginradius.com/blog/static/a9dad0fc4bf1af95243aa5e2d017bc22/a8669/google_cover.jpg"
+                       src={google}
                       alt="Google"
                       width={25}
                       height={25}

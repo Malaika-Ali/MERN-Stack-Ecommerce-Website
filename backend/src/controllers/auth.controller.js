@@ -89,7 +89,7 @@ const googleAuth = asyncHandler(async (req, res, next) => {
 );
 
 return res.status(200).json({
-    message: "Success",
+    message: "User Logged In Successfully",
     token,
     user
 })
