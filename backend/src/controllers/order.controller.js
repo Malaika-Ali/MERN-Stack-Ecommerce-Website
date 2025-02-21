@@ -89,4 +89,4 @@ const createOrder = asyncHandler(async (req, res) => {
 // });
 
 
-export { createOrder, createPaymentIntent }
+export { createOrder }
