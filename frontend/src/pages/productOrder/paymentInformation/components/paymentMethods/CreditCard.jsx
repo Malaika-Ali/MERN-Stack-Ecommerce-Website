@@ -2,7 +2,7 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import OutlinedInput from "../../../../../components/inputs/text fields/OutlinedInput";
 
-const CredtCard = () => {
+const CreditCard = () => {
   const {
     register,
     formState: { errors },
@@ -91,7 +91,7 @@ const CredtCard = () => {
   );
 };
 
-export default CredtCard;
+export default CreditCard;
 
 
 
