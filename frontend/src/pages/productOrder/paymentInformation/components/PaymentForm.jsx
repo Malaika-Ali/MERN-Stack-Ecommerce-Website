@@ -145,7 +145,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useCreateOrderMutation } from "../../../../redux/features/order/orderApi";
 import ImageModal from "../../../../components/modals/ImageModal";
-import { applyTaxForCOD, removeTax } from "../../../../redux/features/cart/cartSlice"; // Import actions
+import { applyTaxForCOD, removeTax } from "../../../../redux/features/cart/cartSlice"; 
 
 export default function PaymentForm() {
   const [paymentMethod, setPaymentMethod] = useState("credit-debit");

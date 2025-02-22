@@ -40,10 +40,10 @@ const createOrder = asyncHandler(async (req, res) => {
             })),
             shippingInfo,
             paymentInfo,
-            paymentInfo: {
-                ...paymentInfo,
-                status: paymentInfo.paymentMethod === "credit-debit" ? "paid" : "pending",
-              },
+            // paymentInfo: {
+            //     ...paymentInfo,
+            //     status: paymentInfo.paymentMethod === "credit-debit" ? "paid" : "pending",
+            //   },
             totalAmount
         })
 

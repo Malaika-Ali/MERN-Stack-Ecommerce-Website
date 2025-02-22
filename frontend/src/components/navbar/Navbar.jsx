@@ -127,7 +127,7 @@ const Navbar = () => {
                 <FaUser size={22} className="text-black-color hover:text-grey-color" />
               </div>
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                <div className="absolute right-0 mt-2 p-4 bg-white rounded-md shadow-lg py-1 z-10">
                   <div className="px-4 py-2 text-sm text-gray-700">
                     <p>{user.name}</p>
                     <p className="text-xs text-gray-500">{user.email}</p>
