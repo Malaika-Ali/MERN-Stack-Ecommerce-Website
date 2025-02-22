@@ -143,9 +143,9 @@ import CreditCard from "./paymentMethods/CreditCard";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useCreateOrderMutation } from "../../../../redux/features/order/orderApi";
 import ImageModal from "../../../../components/modals/ImageModal";
 import { applyTaxForCOD, removeTax } from "../../../../redux/features/cart/cartSlice"; 
+import {useCreateOrderMutation} from '../../../../redux/features/order/orderApi'
 
 export default function PaymentForm() {
   const [paymentMethod, setPaymentMethod] = useState("credit-debit");
@@ -155,7 +155,7 @@ export default function PaymentForm() {
   const grandTotal = useSelector((state) => state.cart.grandTotal);
   const [openModal, setOpenModal] = useState(false);
   const [createOrder, { isLoading, isSuccess, isError, error }] = useCreateOrderMutation();
-  const dispatch = useDispatch(); // Add dispatch
+  const dispatch = useDispatch(); 
   const methods = useForm();
   const { handleSubmit, watch, reset } = methods;
 
