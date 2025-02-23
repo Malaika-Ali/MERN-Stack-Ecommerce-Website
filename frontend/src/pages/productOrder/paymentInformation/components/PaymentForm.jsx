@@ -218,7 +218,7 @@ export default function PaymentForm() {
       reset();
       setOpenModal(true);
     } catch (error) {
-      console.log("Error while placing the order:", error);
+      console.log("Error while placing the order:", error.data);
     }
   };
 
