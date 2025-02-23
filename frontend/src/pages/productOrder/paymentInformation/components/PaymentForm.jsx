@@ -144,8 +144,8 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ImageModal from "../../../../components/modals/ImageModal";
-import { applyTaxForCOD, removeTax } from "../../../../redux/features/cart/cartSlice"; 
-import {useCreateOrderMutation} from '../../../../redux/features/order/orderApi'
+import { applyTaxForCOD, removeTax } from "../../../../redux/features/cart/cartSlice";
+import { useCreateOrderMutation } from '../../../../redux/features/order/orderApi'
 
 export default function PaymentForm() {
   const [paymentMethod, setPaymentMethod] = useState("credit-debit");
@@ -155,7 +155,7 @@ export default function PaymentForm() {
   const grandTotal = useSelector((state) => state.cart.grandTotal);
   const [openModal, setOpenModal] = useState(false);
   const [createOrder, { isLoading, isSuccess, isError, error }] = useCreateOrderMutation();
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   const methods = useForm();
   const { handleSubmit, watch, reset } = methods;
 
@@ -165,7 +165,7 @@ export default function PaymentForm() {
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method);
     if (method === "COD") {
-      dispatch(applyTaxForCOD()); 
+      dispatch(applyTaxForCOD());
     } else {
       dispatch(removeTax());
     }
@@ -189,26 +189,41 @@ export default function PaymentForm() {
 
     console.log("payment Info", paymentInfo)
 
+    // const newProducts = [];
+    // const optimizeProducts = () => {
+    //   products.forEach((item) => {
+    //     const newProduct = {
+    //       product: item.id || "",
+    //       quantity: item.quantity,
+    //       price: item.price,
+    //     };
+
+
     const newProducts = [];
     const optimizeProducts = () => {
+      let newProduct = {};
       products.forEach((item) => {
-        const newProduct = {
+        newProduct = {
           product: item.id || "",
           quantity: item.quantity,
           price: item.price,
         };
+        newProducts.push(newProduct);
+      });
+    };
+    optimizeProducts();
 
     console.log("new products", newProducts)
 
 
-        // Add size only if the product belongs to specific categories
-        if (item.category === "clothes" || item.category === "bags" || item.category === "footwear") {
-          newProduct.size = item.size;
-        }
+    // Add size only if the product belongs to specific categories
+    //     if (item.category === "clothes" || item.category === "bags" || item.category === "footwear") {
+    //       newProduct.size = item.size;
+    //     }
 
-        newProducts.push(newProduct);
-      });
-    };
+    //     newProducts.push(newProduct);
+    //   });
+    // };
     optimizeProducts();
     const orderData = {
       products: newProducts,
