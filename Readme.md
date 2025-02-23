@@ -1,7 +1,7 @@
 # MERN Stack E-commerce Website
 
 ## Overview
-This is a fully functional **MERN stack** E-commerce website built for a fictional fashion brand. It includes user authentication, secure payment processing, image storage, and scalable backend architecture. The project follows best practices for both frontend and backend development to ensure maintainability and scalability.
+This is a fully functional **MERN stack** E-commerce website built for a fictional fashion brand. It includes user authentication, image storage, and scalable backend architecture. The project follows best practices for both frontend and backend development to ensure maintainability and scalability.
 
 ## Features
 ### User Features
