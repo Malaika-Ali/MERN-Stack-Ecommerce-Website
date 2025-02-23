@@ -17,6 +17,7 @@ function ProductDetails({  name, description, image, price, originalPrice, ratin
   const navigate = useNavigate()
   const {id}=useParams()
   const {  isAuthenticated } = useSelector((state) => state.auth);
+  const cart = useSelector((state) => state.cart); 
 
   const handleQuantityChange = (action) => {
     if (action === 'decrease' && quantity > 1) {
@@ -32,8 +33,14 @@ function ProductDetails({  name, description, image, price, originalPrice, ratin
   }
 
   const handleBuyNow = (product) => {
-    dispatch(updateSize({ id, size: selectedSize }));
-    dispatch(addToCart(product))
+    // dispatch(updateSize({ id, size: selectedSize }));
+    // dispatch(addToCart(product))
+    const productInCart = cart.items.find(item => item.id === product.id && item.selectedSize === product.selectedSize);
+
+    if (!productInCart) {
+      dispatch(updateSize({ id, size: selectedSize }));
+      dispatch(addToCart(product));
+    }
     if(isAuthenticated){
     navigate('/shipping-information')
     }

@@ -7,8 +7,8 @@ const ImageModal = ({ isOpen, onClose }) => {
           {/* Image Section */}
           <div className="w-full md:w-1/2 h-64 md:h-auto relative">
             <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ss.PNG-Gqk565m9Z8NDpJHrBvc8qhNVfqxy5E.png"
-              alt="Snowboarder in winter"
+              src="https://images.unsplash.com/photo-1513094735237-8f2714d57c13?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Order Successfull!"
               className="w-full h-full object-cover"
             />
           </div>
