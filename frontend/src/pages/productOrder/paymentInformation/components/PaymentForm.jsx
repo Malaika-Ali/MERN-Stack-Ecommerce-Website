@@ -177,7 +177,7 @@ export default function PaymentForm() {
       paymentInfo = {
         paymentMethod,
       };
-    } else if (paymentMethod === "credit-debit") {
+    } else if (paymentMethod === "CreditCard/DebitCard") {
       paymentInfo = {
         paymentMethod,
         cardNumber: data.cardDetails.cardNumber,
@@ -252,10 +252,10 @@ export default function PaymentForm() {
               <input
                 type="radio"
                 name="paymentMethod"
-                value="credit-debit"
+                value="CreditCard/DebitCard"
                 {...methods.register("paymentMethod", { required: true })}
-                checked={paymentMethod === "credit-debit"}
-                onChange={() => handlePaymentMethodChange("credit-debit")}
+                checked={paymentMethod === "CreditCard/DebitCard"}
+                onChange={() => handlePaymentMethodChange("CreditCard/DebitCard")}
                 className="form-radio h-5 w-5 text-blue-600"
               />
               <span className="text-gray-900 font-medium">Pay With Card</span>
@@ -276,7 +276,7 @@ export default function PaymentForm() {
           </div>
 
           <div className="mt-6">
-            {paymentMethod === "credit-debit" && <CreditCard />}
+            {paymentMethod === "CreditCard/DebitCard" && <CreditCard />}
             {paymentMethod === "COD" && <COD />}
           </div>
 
