@@ -187,6 +187,8 @@ export default function PaymentForm() {
       };
     }
 
+    console.log("payment Info", paymentInfo)
+
     const newProducts = [];
     const optimizeProducts = () => {
       products.forEach((item) => {
@@ -195,6 +197,9 @@ export default function PaymentForm() {
           quantity: item.quantity,
           price: item.price,
         };
+
+    console.log("new products", newProducts)
+
 
         // Add size only if the product belongs to specific categories
         if (item.category === "clothes" || item.category === "bags" || item.category === "footwear") {
