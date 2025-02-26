@@ -76,7 +76,7 @@ export default function LandingPageHero() {
               <img
                 src={heroImage}
                 alt="Hero"
-                className="w-fit h-fit md:w-full md:h-full max-h-[100vh] rounded-2xl object-contain px-auto md:pl-[2rem]"
+                className="w-fit h-fit md:w-full md:h-full max-h-[100vh] rounded-2xl object-contain px-auto md:pl-[1rem]"
               />
             </div>
 
