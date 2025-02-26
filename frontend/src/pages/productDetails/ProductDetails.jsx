@@ -44,7 +44,7 @@ function ProductDetails({  name, description, image, price, originalPrice, ratin
     if(isAuthenticated){
     navigate('/shipping-information')
     }
-    else{
+    if(!isAuthenticated){
       navigate('/login')
     }
   }
