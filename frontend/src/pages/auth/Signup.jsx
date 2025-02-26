@@ -6,21 +6,21 @@ import TextInput from '../../components/inputs/TextInput'
 import AuthButton from '../../components/buttons/AuthButton'
 import { useRegisterUserMutation } from '../../redux/features/auth/userApi'
 import {useGoogleLogin} from '@react-oauth/google'
-import { responseGoogle } from '../../utils/googleAuthResponse'
+// import { responseGoogle } from '../../utils/googleAuthResponse'
 
 function Signup() {
+
+  const navigate=useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const { register, handleSubmit, formState: { errors }, reset, control } = useForm()
   const nameValue = useWatch({ control, name: "name" });
   const emailValue = useWatch({ control, name: "email" });
   const passwordValue = useWatch({ control, name: "password" });
-  const navigate=useNavigate()
 
 // Initialize the mutation hook
 const [registerUser, { isLoading, isSuccess, isError, error }] = useRegisterUserMutation();
 
-  const onSubmit = async (data, event) => {
-    event.preventDefault();
+  const onSubmit = async (data) => {
     try {
       const result = await registerUser(data).unwrap();
       console.log('User registered successfully:', result);
@@ -31,11 +31,26 @@ const [registerUser, { isLoading, isSuccess, isError, error }] = useRegisterUser
     }
   };
 
-  const googleLogin=useGoogleLogin({
-    onSuccess: responseGoogle,
-    onError: responseGoogle,
-    flow: 'auth-code'
-  })
+  const responseGoogle = async (authResult) => {
+      try {
+        if (authResult['code']) {
+          const result = await googleAuth(authResult['code']);
+          dispatch(setUser(result.data.user));
+          const { email, name } = result.data.user;
+          console.log('Result.data.user from login page', result?.data?.user);
+          navigate("/login");
+        }
+        console.log(authResult);
+      } catch (error) {
+        console.log("Error while requesting Google code!", error);
+      }
+    };
+  
+    const googleLogin = useGoogleLogin({
+      onSuccess: responseGoogle,
+      onError: responseGoogle,
+      flow: "auth-code",
+    });
   
   document.title="Signup"
 
@@ -62,7 +77,7 @@ const [registerUser, { isLoading, isSuccess, isError, error }] = useRegisterUser
                 <p className="text-sm text-gray-600 text-center">Please enter your details</p>
               </div>
 
-              <form onSubmit={(e) => handleSubmit((data) => onSubmit(data, e))(e)} 
+              <form onSubmit={handleSubmit(onSubmit) } 
               className="space-y-6"
               autoComplete='off'>
               <TextInput
