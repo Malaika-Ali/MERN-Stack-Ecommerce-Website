@@ -15,37 +15,40 @@ const signToken = (id) => {
 
 // Create and send Cookie ->
 const createSendToken = (user, statusCode, res) => {
-    const token = signToken(user.id);
+    // Generate access token
+    const accessToken = signToken(user.id);
 
-    console.log(process.env.REFRESH_TOKEN_EXPIRY);
+    // Generate refresh token
+    const refreshToken = jwt.sign({ id: user.id }, process.env.REFRESH_TOKEN_SECRET, {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+    });
+
+    // Save the refresh token in the database
+    user.refreshToken = refreshToken;
+    user.save({ validateBeforeSave: false });
+
     const cookieOptions = {
         expires: new Date(Date.now() + +process.env.REFRESH_TOKEN_EXPIRY),
         httpOnly: true,
         path: '/',
-        sameSite: "none",
-        secure: false,
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production',
     };
-    if (process.env.NODE_ENV === 'production') {
-        cookieOptions.secure = true;
-        cookieOptions.sameSite = 'none';
-    }
 
+    res.cookie('accessToken', accessToken, cookieOptions);
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     user.password = undefined;
 
-    res.cookie('jwt', token, cookieOptions);
-
-    console.log(user);
-
     res.status(statusCode).json({
         message: 'success',
-        token,
+        accessToken,
+        refreshToken,
         data: {
             user,
         },
     });
 };
-
 
 /* GET Google Authentication API. */
 const googleAuth = asyncHandler(async (req, res, next) => {
@@ -88,11 +91,14 @@ const googleAuth = asyncHandler(async (req, res, next) => {
     }
 );
 
-return res.status(200).json({
-    message: "User Logged In Successfully",
-    token,
-    user
-})
+// return res.status(200).json({
+//     message: "User Logged In Successfully",
+//     token,
+//     user
+// })
+// Generate and send tokens
+createSendToken(user, 200, res);
+
     
   } catch (error) {
     console.log(error)
