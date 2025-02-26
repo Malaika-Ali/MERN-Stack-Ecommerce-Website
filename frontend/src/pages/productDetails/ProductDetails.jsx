@@ -37,7 +37,7 @@ function ProductDetails({  name, description, image, price, originalPrice, ratin
     // dispatch(addToCart(product))
     const productInCart = cart.items.find(item => item.id === product.id && item.selectedSize === product.selectedSize);
 
-    if (!productInCart) {
+    if(!productInCart) {
       dispatch(updateSize({ id, size: selectedSize }));
       dispatch(addToCart(product));
     }
