@@ -5,7 +5,7 @@ import {oauth2Client} from '../utils/oath2Client.js'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
 import { User } from '../models/user.model.js'
-import {convertExpiryToMilliseconds} from '../utils/convertExpiryToMilliseconds.js'
+// import {convertExpiryToMilliseconds} from '../utils/convertExpiryToMilliseconds.js'
 
 const signToken = (id) => {
     return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {

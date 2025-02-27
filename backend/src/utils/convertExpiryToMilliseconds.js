@@ -1,4 +1,4 @@
-const convertExpiryToMilliseconds = (expiry) => {
+export const convertExpiryToMilliseconds = (expiry) => {
     const unit = expiry.slice(-1); // Get the last character (e.g., 'd' for days)
     const value = parseInt(expiry.slice(0, -1)); // Get the numeric value (e.g., 7)
   
