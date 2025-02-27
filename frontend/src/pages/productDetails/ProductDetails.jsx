@@ -33,21 +33,24 @@ function ProductDetails({  name, description, image, price, originalPrice, ratin
   }
 
   const handleBuyNow = (product) => {
-    // dispatch(updateSize({ id, size: selectedSize }));
-    // dispatch(addToCart(product))
-    const productInCart = cart.items.find(item => item.id === product.id && item.selectedSize === product.selectedSize);
-
-    if(!productInCart) {
-      dispatch(updateSize({ id, size: selectedSize }));
-      dispatch(addToCart(product));
+    // Check if the product is already in the cart with the selected size
+    const productInCart = cart.items.find(
+      (item) => item.id === product.id && item.selectedSize === selectedSize
+    );
+  
+    // If the product is not in the cart, add it
+    if (!productInCart) {
+      dispatch(updateSize({ id: product.id, size: selectedSize }));
+      dispatch(addToCart({ ...product, selectedSize }));
     }
-    if(isAuthenticated){
-    navigate('/shipping-information')
+  
+    // Navigate based on authentication status
+    if (isAuthenticated) {
+      navigate('/shipping-information');
+    } else {
+      navigate('/login');
     }
-    if(!isAuthenticated){
-      navigate('/login')
-    }
-  }
+  };
 
   const handleSizeSelect = (size) => {
     setSelectedSize(size);

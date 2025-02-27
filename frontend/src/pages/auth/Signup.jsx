@@ -35,10 +35,9 @@ const [registerUser, { isLoading, isSuccess, isError, error }] = useRegisterUser
       try {
         if (authResult['code']) {
           const result = await googleAuth(authResult['code']);
-          dispatch(setUser(result.data.user));
-          const { email, name } = result.data.user;
-          console.log('Result.data.user from login page', result?.data?.user);
-          navigate("/login");
+          dispatch(setUser(result.data.data.user));
+          const { email, name } = result.data.data.user;
+          navigate("/");
         }
         console.log(authResult);
       } catch (error) {
