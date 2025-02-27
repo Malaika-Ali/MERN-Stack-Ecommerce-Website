@@ -82,10 +82,9 @@ function Login() {
     try {
       if (authResult['code']) {
         const result = await googleAuth(authResult['code']);
-        dispatch(setUser(result.data.user));
-        console.log("result", result)
-        console.log("user data", result.data)
-        const { email, name } = result.data.user;
+        dispatch(setUser(result.data.data.user));
+        console.log("user data", result.data.data.user)
+        const { email, name } = result.data.data.user;
         console.log('Result.data.user from login page', result?.data?.user);
         navigate("/");
       }
