@@ -34,7 +34,7 @@ function ProductDetails({  name, description, image, price, originalPrice, ratin
 
   const handleBuyNow = (product) => {
     // Check if the product is already in the cart with the selected size
-    const productInCart = cart.items.find(
+    const productInCart = cart.products.find(
       (item) => item.id === product.id && item.selectedSize === selectedSize
     );
   
