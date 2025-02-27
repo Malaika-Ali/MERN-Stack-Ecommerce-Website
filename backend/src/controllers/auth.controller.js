@@ -174,7 +174,7 @@ const googleAuth = asyncHandler(async (req, res, next) => {
   
         // Set cookie options
         const cookieOptions = {
-            expires: new Date(Date.now() + +process.env.REFRESH_TOKEN_EXPIRY),
+            expires: new Date(Date.now() + convertExpiryToMilliseconds(process.env.REFRESH_TOKEN_EXPIRY)),
             httpOnly: true,
             path: '/',
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
