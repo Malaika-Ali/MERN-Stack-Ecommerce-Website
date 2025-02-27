@@ -5,6 +5,7 @@ import FilterChips from './FilterChips';
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
 import { useSearchParams } from 'react-router-dom';
 import FullPageLoader from '../../utils/FullPageLoader';
+import ProductsGrid from '../../components/products/ProductsGrid'
 
 import Loadable from '../../utils/Loadable';
 import ComponentLoader from '../../utils/ComponentLoader';
@@ -22,7 +23,7 @@ const ShopPage = () => {
 
   const [activeFilters, setActiveFilters] = useState([]);
 
-  const ProductsGrid = Loadable(lazy(() => import('../../components/products/ProductsGrid')))
+  // const ProductsGrid = Loadable(lazy(() => import('../../components/products/ProductsGrid')))
 
 
   useEffect(() => {
@@ -140,11 +141,9 @@ const ShopPage = () => {
               />
             </div>
 
-            <CustomErrorBoundary>
-              <Suspense fallback={<ComponentLoader />}>
+        
                 <ProductsGrid products={products} />
-              </Suspense>
-            </CustomErrorBoundary>
+            
             
             {/* Pagination */}
             <div className='mt-6 flex justify-center items-center'>
