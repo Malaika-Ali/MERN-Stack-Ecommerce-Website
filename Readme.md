@@ -1,4 +1,8 @@
 # MERN Stack E-commerce Website
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/docs/)
+[![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/en/docs)
 
 ## Overview
 This is a fully functional **MERN stack** E-commerce website built for a fictional fashion brand. It includes user authentication, image storage, and scalable backend architecture. The project follows best practices for both frontend and backend development to ensure maintainability and scalability.
