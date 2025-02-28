@@ -40,7 +40,7 @@ function ProductDetails({  name, description, image, price, originalPrice, ratin
   
     // If the product is not in the cart, add it
     if (!productInCart) {
-      dispatch(updateSize({ id: product.id, size: selectedSize }));
+      dispatch(updateSize({ id, size: selectedSize }));
       dispatch(addToCart({ ...product, selectedSize }));
     }
   
