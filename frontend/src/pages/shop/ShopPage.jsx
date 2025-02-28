@@ -7,6 +7,7 @@ import { useSearchParams } from 'react-router-dom';
 import FullPageLoader from '../../utils/FullPageLoader';
 import ProductsGrid from '../../components/products/ProductsGrid'
 
+import { FaArrowRightLong, FaArrowLeftLong } from "react-icons/fa6";
 import Loadable from '../../utils/Loadable';
 import ComponentLoader from '../../utils/ComponentLoader';
 import CustomErrorBoundary from '../../utils/ErrorBoundary';
@@ -149,9 +150,9 @@ const ShopPage = () => {
             <div className='mt-6 flex justify-center items-center'>
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
-                className='py-1.5 px-4 border border-black-color text-black-color rounded-full disabled:border-gray-400 disabled:text-gray-400'
+                className='py-1.5 px-4 border border-black-color text-black-color rounded-full disabled:border-gray-400 disabled:text-gray-400 flex justify-between items-center gap-2'
                 disabled={currentPage === 1}
-              >Previous
+              > <FaArrowLeftLong/>  Previous
               </button>
               {[...Array(totalPages)].map((_, index) => (
                 <button key={index}
@@ -161,9 +162,9 @@ const ShopPage = () => {
               ))}
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
-                className='py-1.5 px-6 border border-black-color text-black-color rounded-full disabled:border-gray-400 disabled:text-gray-400'
+                className='py-1.5 px-6 border border-black-color text-black-color rounded-full disabled:border-gray-400 disabled:text-gray-400 flex justify-between items-center gap-2'
                 disabled={currentPage === totalPages}
-              >Next</button>
+              >Next <FaArrowRightLong/></button>
             </div>
           </main>
         </div>
