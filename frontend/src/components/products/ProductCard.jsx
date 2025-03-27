@@ -39,13 +39,13 @@ const ProductCard = ({
     <div className="flex flex-col"
    >
       {/* Image Container */}
-      <div className="relative aspect-square bg-[#F5F5F5] rounded-xl overflow-hidden mb-4 border-opacity-0 cursor-pointer"
+      <div className="relative aspect-square bg-[#F5F5F5] rounded-xl overflow-hidden mb-4 cursor-pointer"
        onClick={()=>navigate(`/product-details/${id}`)}>
         <LazyLoadImage
           src={image}
           alt={name}
           effect="blur"
-          className="object-cover transition-transform duration-300 hover:scale-105"
+          className="object-cover max-w-full w-full transition-transform duration-300 hover:scale-105"
         />
       </div>
 
