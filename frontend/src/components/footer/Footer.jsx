@@ -3,7 +3,7 @@ export default function Footer() {
   return (
     <footer className="w-full bg-white mt-4">
       {/* Logo and Newsletter Section */}
-      <div className="container mx-auto px-4 pt-8 grid md:grid-cols-2 md:gap-4 lg:gap-2">
+      <div className="container mx-auto px-4 pt-8 grid grid-cols-1 md:grid-cols-2 md:gap-4 lg:gap-2">
         <div className="flex flex-col items-start space-y-4 mb-12">
           <Link href="/" className="inline-block">
           <h1 className="text-3xl font-bold text-black-color font-serif">M<span className='text-grey-color text-3xl font-serif'>.</span> </h1>
@@ -11,15 +11,15 @@ export default function Footer() {
           <p className="text-sm text-gray-600 max-w-[280px]">
             Get updates on new products, special promotions, and best discount for all item.
           </p>
-          <form className="flex w-full max-w-[400px] gap-2">
+          <form className="flex flex-col md:flex-row w-full max-w-[400px] gap-2">
             <input
               type="email"
               placeholder="Your Email"
-              className="flex-1 h-10 px-4 rounded-full border border-gray-300 text-sm focus:outline-none focus:border-gray-400"
+              className="px-4 h-8 md:px-6 md:h-10 rounded-full border border-gray-300 text-sm focus:outline-none focus:border-gray-400"
             />
             <button 
               type="submit" 
-              className="px-6 h-10 bg-black text-white text-sm font-normal rounded-full hover:bg-gray-800"
+              className="px-4 h-8 md:px-6 md:h-10 bg-black text-white text-sm font-normal rounded-full hover:bg-gray-800"
             >
               Submit
             </button>

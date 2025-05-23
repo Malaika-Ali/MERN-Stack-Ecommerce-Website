@@ -50,7 +50,7 @@ const router = createBrowserRouter([
         errorElement: <Error404 />,
         children: [
             {
-                path: "/",
+                path: "",
                 element: (
                     <CustomErrorBoundary>
                     <Suspense fallback={<FullPageLoader/>}>
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
                 )
             },
            {
-            path: "/search",
+            path: "search",
             element: (
                 <CustomErrorBoundary>
                   <Suspense fallback={<FullPageLoader/>}>
@@ -70,7 +70,7 @@ const router = createBrowserRouter([
               ),
            },
            {
-            path: "/shop",
+            path: "shop",
             element: (
                 <CustomErrorBoundary>
                   <Suspense fallback={<ComponentLoader/>}>
@@ -80,7 +80,7 @@ const router = createBrowserRouter([
               ),
            },
            {
-            path: "/product-details/:id",
+            path: "product-details/:id",
             element: (
                 <CustomErrorBoundary>
                   <Suspense fallback={<FullPageLoader/>}>
@@ -90,7 +90,7 @@ const router = createBrowserRouter([
               ),
            },
            {
-           path: "/shipping-information",
+           path: "shipping-information",
            element:(
             <CustomErrorBoundary>
               <Suspense fallback={<FullPageLoader/>}>
@@ -100,7 +100,7 @@ const router = createBrowserRouter([
           ),
           },
           {
-            path: "/payment-information",
+            path: "payment-information",
             element: (
                 <CustomErrorBoundary>
                   <Suspense fallback={<FullPageLoader/>}>

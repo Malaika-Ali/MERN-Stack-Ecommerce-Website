@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import products from '../../data/products.json'
 import ProductsGrid from '../../components/products/ProductsGrid'
+import ShopHero from '../shop/ShopHero'
+import SearchInput from './SearchInput'
 
 const SearchPage = () => {
 
@@ -15,17 +17,20 @@ const SearchPage = () => {
     setSearchedProducts(searched)
    }
 
+   console.log(searchQuery)
+
 
   return (
-    <div className='mt-20'>
-        <div>banner same as caegories page</div>
-        <div>wide input field
+    <>
+        <ShopHero/>
+        <SearchInput setSearchQuery={setSearchQuery}/>
+        {/* <div>wide input field
             <input type="text" value={searchQuery} onChange={(e)=>setSearchQuery(e.target.value)} />
             <button type='button' onClick={handleSearch}>search</button>
         </div>
-        <ProductsGrid products={searchedProducts}/>
-      
-    </div>
+        <ProductsGrid products={searchedProducts}/> */}
+        </>
+   
   )
 }
 

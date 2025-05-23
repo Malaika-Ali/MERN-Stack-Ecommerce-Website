@@ -103,10 +103,11 @@ const Navbar = () => {
               }
             />
           </NavLink> */}
-
+<NavLink to='/search'>
 <div className="cursor-pointer">
   <FiSearch size={22} className="text-black-color hover:text-grey-color" />
 </div>
+</NavLink>
 
 
           <div onClick={() => setIsCartOpen((prev) => !prev)} className="relative cursor-pointer">
