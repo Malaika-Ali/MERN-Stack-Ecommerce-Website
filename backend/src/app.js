@@ -32,6 +32,7 @@ import authRouter from "../src/routes/auth.routes.js"
 import productRouter from "../src/routes/product.routes.js"
 import reviewRouter from "../src/routes/review.routes.js"
 import orderRouter from "../src/routes/order.routes.js"
+import searchRouter from "../src/routes/search.route.js"
 
 app.post('/', (req,res)=>{
     res.send("Hello")
@@ -41,6 +42,7 @@ app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/products", productRouter)
 app.use("/api/v1/reviews", reviewRouter)
 app.use("/api/v1/orders", orderRouter)
+app.use("/api/v1/search", searchRouter)
 
 
 export {app}
