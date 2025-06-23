@@ -17,15 +17,24 @@ import { Product } from "../models/product.model.js";
 // 10. If nothing matching that search string is available in the databse throw an error
 
 
-const searchProduct=asyncHandler(async(req,res)=>{
+const searchProduct = asyncHandler(async (req, res) => {
 
-    const searchTerm= req.query.q
+    const searchTerm = req.query.q
 
     try {
-        const products=await Product.find({
+        const exactProduct = await Product.findOne({ productName: { $regex: `^${searchTerm}$`, $options: 'i' } });
+        if (exactProduct) {
+            // If exact match found, return it as a single-item array
+            return res.status(200).json(
+                new ApiResponse(200, [exactProduct], "Exact product match found")
+            );
+        }
+
+        // 2. Otherwise, do a regex search
+        const products = await Product.find({
             $or: [
                 { productName: { $regex: searchTerm, $options: 'i' } },
-                { price: { $regex: searchTerm, $options: 'i' } },
+                // { price: { $regex: searchTerm, $options: 'i' } },
                 { color: { $regex: searchTerm, $options: 'i' } },
                 { category: { $regex: searchTerm, $options: 'i' } },
                 { material: { $regex: searchTerm, $options: 'i' } },
@@ -36,12 +45,12 @@ const searchProduct=asyncHandler(async(req,res)=>{
         return res.status(201).json(
             new ApiResponse(200, products, "Products Searched Successfully!")
         )
-        
+
     } catch (error) {
         throw new ApiError(500, "Products couldn't be searched", error)
-        
+
     }
 })
 
 
-export {searchProduct}
+export { searchProduct }

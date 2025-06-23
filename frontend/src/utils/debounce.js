@@ -1,10 +1,9 @@
-function debounce(fn,delay){
-    let timerId;
-    return function(...args){
-        clearTimeout(timerId)
-        timerId=setTimeout(()=>{
-            fn(...args)
-        }, delay)
-        
-    }
+export const debounce = (func, delay) => {
+  let timer;
+  return (...args) => {
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(() => {
+      func(...args)
+    }, delay)
+  }
 }
