@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ShopSidebar = ({ filters, filteredState, setFilteredState, clearFilters }) => {
   const [expandedSections, setExpandedSections] = useState({
@@ -20,6 +20,8 @@ const ShopSidebar = ({ filters, filteredState, setFilteredState, clearFilters })
     }));
   };
 
+  useEffect(() => console.log("sidebar rendered"))
+
   return (
     <div className="w-full md:w-64 bg-white border border-gray-200 shadow-sm p-8 rounded-xl">
       <div className="border-b pb-4">
@@ -34,7 +36,7 @@ const ShopSidebar = ({ filters, filteredState, setFilteredState, clearFilters })
         >
           <span className="font-medium">Category</span>
         </button>
-        
+
         {expandedSections.category && (
           <div className="space-y-3">
             {filters.category.map((cat) => (
@@ -66,7 +68,7 @@ const ShopSidebar = ({ filters, filteredState, setFilteredState, clearFilters })
         >
           <span className="font-medium">Price</span>
         </button>
-        
+
         {expandedSections.price && (
           <div className="space-y-3">
             {filters.priceRange.map((range) => (
@@ -96,4 +98,4 @@ const ShopSidebar = ({ filters, filteredState, setFilteredState, clearFilters })
   );
 };
 
-export default ShopSidebar;
+export default React.memo(ShopSidebar);
