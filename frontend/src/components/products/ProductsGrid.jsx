@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import SectionHeading from '../headings/SectionHeading';
 
 import Loadable from '../../utils/Loadable';
@@ -7,7 +7,9 @@ import CustomErrorBoundary from '../../utils/ErrorBoundary';
 
 const ProductsGrid = ({ products, headingTitle, headingSubTitle, textalignment }) => {
 
-  const ProductCard=Loadable(lazy(()=>import('./ProductCard')))
+  const ProductCard = Loadable(lazy(() => import('./ProductCard')))
+
+  useEffect(() => console.log("products grid rendered"))
 
   return (
     <div className={`container mx-auto px-4 py-8 ${headingTitle ? 'py-8' : "py-2"}`}>
@@ -28,5 +30,5 @@ const ProductsGrid = ({ products, headingTitle, headingSubTitle, textalignment }
   );
 };
 
-export default ProductsGrid;
+export default React.memo(ProductsGrid);
 

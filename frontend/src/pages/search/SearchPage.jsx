@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import ProductsGrid from '../../components/products/ProductsGrid'
 import ShopHero from '../shop/ShopHero'
 import SearchInput from './SearchInput'
@@ -27,7 +27,7 @@ const SearchPage = () => {
     if (showSearchResults) setSearchedProducts(suggestions)
   }
 
-  const debouncedHandleSearch = useCallback(debounce(handleSuggestions, 2000), [])
+  const debouncedHandleSearch = useCallback(debounce(handleSuggestions, 1000), [])
   useEffect(() => {
     if (searchQuery) {
       debouncedHandleSearch(searchQuery)
