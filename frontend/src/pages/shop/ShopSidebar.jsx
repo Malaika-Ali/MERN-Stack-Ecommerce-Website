@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const ShopSidebar = ({ filters, filteredState, setFilteredState, clearFilters }) => {
-  useEffect(() => console.log("sidebar rendered"))
 
   const [expandedSections, setExpandedSections] = useState({
     category: true,
