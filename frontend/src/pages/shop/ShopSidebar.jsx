@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
 const ShopSidebar = ({ filters, filteredState, setFilteredState, clearFilters }) => {
+  useEffect(() => console.log("sidebar rendered"))
+
   const [expandedSections, setExpandedSections] = useState({
     category: true,
     price: true
@@ -19,8 +21,6 @@ const ShopSidebar = ({ filters, filteredState, setFilteredState, clearFilters })
       priceRange: `${range.min}-${range.max}`
     }));
   };
-
-  useEffect(() => console.log("sidebar rendered"))
 
   return (
     <div className="w-full md:w-64 bg-white border border-gray-200 shadow-sm p-8 rounded-xl">
