@@ -10,7 +10,8 @@ export default {
         'black-color': '#010101',
         'white-color': '#f2fOea',
         'yellow-color': '#edcf5d',
-        'grey-color': '#a4a4a4'
+        'grey-color': '#a4a4a4',
+        'light-bg-color': '#F3F3F3',
       },
       screens: {
         'xs': '480px',
