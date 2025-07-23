@@ -7,16 +7,30 @@ import Navbar from '../components/admin/Navbar'
 
 const AdminLayout = () => {
     return (
-        <div className='grid grid-cols-1 lg:grid-cols-[16rem_1fr] grid-rows-[auto_1fr_auto] grid-area min-h-screen'>
+        <div className='grid grid-cols-1 lg:grid-cols-[14rem_1fr] grid-rows-[auto_1fr_auto] grid-area min-h-screen'>
             {/* <Header className="header-grid-area" /> */}
             <div className="header-grid-area flex flex-col">
-                <Navbar/>
-                <Header/>
+                <Navbar />
+                <Header />
             </div>
             <Sidebar />
             <Outlet className="main-grid-area bg-[#F7F7F7]" />
 
         </div>
+
+
+        // <div className='flex min-h-screen'>
+        //     <Sidebar />
+        //     {/* <Header className="header-grid-area" /> */}
+        //     <div className="header-grid-area flex flex-col">
+        //         <Navbar />
+        //         <Header />
+        //         <Outlet className="main-grid-area bg-[#F7F7F7]" />
+
+        //     </div>
+
+
+        // </div>
     )
 }
 

@@ -25,22 +25,12 @@ const products = [
 
 export default function MostSellingProducts() {
     return (
-        <div className="bg-white rounded-xl shadow-sm p-5 w-full max-w-md lg:max-w-full h-fit">
+        <div className="bg-black-color rounded-2xl shadow-sm px-5 py-8 w-full max-w-md lg:max-w-full h-fit col-span-12 md:col-span-6 lg:col-span-4 my-6">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold text-gray-800">
+                <h2 className="text-lg font-[500] text-white">
                     Top Selling Products
                 </h2>
-                <button className="text-gray-400 hover:text-gray-600">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v.01M12 12v.01M12 18v.01" />
-                    </svg>
-                </button>
+
             </div>
 
             <ul className="space-y-4">

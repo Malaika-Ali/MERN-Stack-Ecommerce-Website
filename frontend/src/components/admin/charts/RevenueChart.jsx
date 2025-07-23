@@ -102,7 +102,7 @@ const RevenueChart = () => {
     };
 
     return (
-        <div className="relative bg-white rounded-2xl shadow-sm p-4 w-full h-[340px] my-6">
+        <div className="relative bg-white rounded-2xl shadow-sm p-4 w-full h-[340px] my-6 col-span-12 md:col-span-6 lg:col-span-8">
             <div className="flex justify-between items-start mb-3">
                 <h2 className="text-lg font-[500] text-black-color">Revenue Analytics</h2>
                 <div className="flex items-center gap-4">
@@ -128,7 +128,7 @@ const RevenueChart = () => {
                     updateMode="none"
                     onUpdate={handleChartUpdate}
                 />
-       
+
             </div>
         </div>
     );

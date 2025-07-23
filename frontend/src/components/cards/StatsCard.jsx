@@ -2,7 +2,7 @@ import React from 'react'
 
 const StatsCard = ({ statsTitle, statsNumber, arrow, icon }) => {
     return (
-        <div className='flex flex-col justify-between gap-5 bg-white rounded-2xl p-4 w-60 2xl:w-auto flex-wrap'>
+        <div className='flex flex-col justify-between gap-5 bg-white rounded-2xl p-4 col-span-12 md:col-span-6 lg:col-span-3 2xl:w-auto flex-wrap'>
             <div className='flex justify-between gap-12 items-start'>
                 <div className="flex flex-col">
                     <h4 className='font-[500]'>{statsTitle}</h4>

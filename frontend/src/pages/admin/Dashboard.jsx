@@ -7,6 +7,8 @@ import { LiaLongArrowAltUpSolid } from "react-icons/lia";
 import { LiaLongArrowAltDownSolid } from "react-icons/lia";
 import RevenueChart from '../../components/admin/charts/RevenueChart';
 import MostSellingProducts from '../../components/cards/MostSellingProducts';
+import RecentOrders from '../../components/admin/tables/RecentOrders';
+import WeeklyTopCustomers from '../../components/cards/WeeklyTopCustomers';
 
 const Dashboard = () => {
     const stats = [
@@ -36,19 +38,31 @@ const Dashboard = () => {
         },
     ]
     return (
-        <div className='bg-[#F3F3F3] px-8'>
-            <div className='flex justify-between items-center'>
-                {
-                    stats.map((stat) => (
-                        <StatsCard statsTitle={stat.title} statsNumber={stat.stat} arrow={stat.arrowIcon} icon={stat.icon} />
-                    ))
-                }
-            </div>
+        <div className='bg-[#F3F3F3] px-6 grid grid-cols-12 gap-5 w-full'>
+            {/* <div className='grid grid-cols-4 gap-4'> */}
+            {
+                stats.map((stat) => (
+                    <StatsCard statsTitle={stat.title} statsNumber={stat.stat} arrow={stat.arrowIcon} icon={stat.icon} />
+                ))
+            }
+            {/* </div> */}
 
+            {/* <div className="grid gap-4 grid-cols-[1fr_200px]"> */}
             <RevenueChart />
             <MostSellingProducts />
 
+            {/* </div>   */}
+
+            {/* <RevenueChart />
+            <MostSellingProducts /> */}
+            <RecentOrders />
+
+            <WeeklyTopCustomers />
+
         </div>
+
+
+
     )
 }
 

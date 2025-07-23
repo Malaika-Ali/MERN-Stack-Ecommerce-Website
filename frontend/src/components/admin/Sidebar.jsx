@@ -1,4 +1,3 @@
-"use client"
 import { NavLink } from "react-router-dom"
 import {
     LayoutDashboard,
@@ -66,13 +65,15 @@ const Sidebar = ({ isOpen, onClose }) => {
             <aside
                 // fixed top-0 left-0
                 className={`
-       fixed top-0 left-0
-         h-screen bg-white rounded-r-2xl shadow-md z-50 
+
+        fixed top-0 left-0
+         h-screen bg-white rounded-r-2xl shadow-md z-50
         transform transition-transform duration-300 ease-in-out
         lg:translate-x-0 lg:static lg:z-auto sidebar-grid-area
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
-      `}
-            >
+      `} >
+                {/* Sticky inner container */}
+                {/* <div className="sticky top-0"> */}
                 {/* Mobile Close Button */}
                 <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 lg:hidden">
                     <X className="h-5 w-5 text-gray-500" />
@@ -122,6 +123,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                         })}
                     </nav>
                 </div>
+                {/* </div> */}
             </aside>
         </>
     )
