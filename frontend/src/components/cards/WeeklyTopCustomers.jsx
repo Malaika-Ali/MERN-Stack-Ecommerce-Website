@@ -20,7 +20,9 @@ const customers = [
 
 const WeeklyTopCustomers = () => {
     return (
-        <div className="bg-white rounded-2xl shadow-sm px-6 py-8 w-full max-w-md col-span-4">
+        // <div className="bg-white rounded-2xl shadow-sm px-6 py-8 w-full max-w-md col-span-4 top-customers">
+        <div className="bg-white rounded-2xl shadow-sm px-6 py-8 w-full max-w-md lg:col-span-4 top-customers">
+
             <h2 className="text-md font-semibold text-gray-800 mb-4">Weekly Top Customers</h2>
             <div className="space-y-4">
                 {customers.map((customer, index) => (

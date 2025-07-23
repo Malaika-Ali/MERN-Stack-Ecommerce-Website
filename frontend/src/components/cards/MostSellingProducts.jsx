@@ -25,7 +25,8 @@ const products = [
 
 export default function MostSellingProducts() {
     return (
-        <div className="bg-black-color rounded-2xl shadow-sm px-5 py-8 w-full max-w-md lg:max-w-full h-fit col-span-12 md:col-span-6 lg:col-span-4 my-6">
+        // <div className="bg-black-color rounded-2xl shadow-sm px-5 py-8 w-full max-w-md lg:max-w-full h-fit col-span-12 md:col-span-4 lg:col-span-4 my-6 selling-products">
+        <div className="bg-black-color rounded-2xl shadow-sm px-5 py-8 w-full max-w-md lg:max-w-full h-fit lg:col-span-4 my-6 selling-products">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-[500] text-white">
                     Top Selling Products

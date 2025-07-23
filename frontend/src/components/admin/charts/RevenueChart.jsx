@@ -102,7 +102,8 @@ const RevenueChart = () => {
     };
 
     return (
-        <div className="relative bg-white rounded-2xl shadow-sm p-4 w-full h-[340px] my-6 col-span-12 md:col-span-6 lg:col-span-8">
+        // <div className="relative bg-white rounded-2xl shadow-sm p-4 w-full h-[340px] my-6 col-span-12 md:col-span-8 lg:col-span-8 revenue-area">
+        <div className="relative bg-white rounded-2xl shadow-sm p-4 w-full h-[340px] my-6 revenue-area lg:col-span-8">
             <div className="flex justify-between items-start mb-3">
                 <h2 className="text-lg font-[500] text-black-color">Revenue Analytics</h2>
                 <div className="flex items-center gap-4">
@@ -114,7 +115,7 @@ const RevenueChart = () => {
                         <div className="w-6 h-0.5 border-t-2 border-[#010101] border-dashed"></div>
                         <span className="text-sm text-gray-600">Order</span>
                     </div>
-                    <button className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-md hover:bg-gray-200">
+                    <button className="hidden sm:block text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-md hover:bg-gray-200">
                         Last 8 Days
                     </button>
                 </div>

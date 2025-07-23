@@ -111,7 +111,9 @@ export default function RecentOrders() {
     });
 
     return (
-        <div className="bg-white rounded-2xl p-6 shadow-sm col-span-8">
+        // <div className="bg-white rounded-2xl p-6 shadow-sm col-span-12 lg:col-span-8 recent-orders">
+        <div className="bg-white rounded-2xl p-6 shadow-sm recent-orders lg:col-span-8">
+
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
                 <h2 className="text-lg font-[500] text-black-color">Recent Orders</h2>

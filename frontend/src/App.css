@@ -73,10 +73,95 @@ body {
 }
 
 @media (max-width: 1024px) {
-.grid-area{
-    grid-template-areas: 
-    'header'
-    'main'
-    'footer';
+    .grid-area {
+        grid-template-areas:
+            'header'
+            'main'
+            'footer';
+    }
 }
+
+.stats1 {
+    grid-area: stats1;
+}
+
+.stats2 {
+    grid-area: stats2;
+}
+
+.stats3 {
+    grid-area: stats3;
+}
+
+.stats4 {
+    grid-area: stats4;
+}
+
+.revenue-area {
+    grid-area: revenue;
+}
+
+.selling-products {
+    grid-area: selling-products;
+}
+
+.top-customers {
+    grid-area: top-customers;
+}
+
+.recent-orders {
+    grid-area: recent-orders;
+}
+
+.dashboard-grid-area {
+    display: grid;
+    grid-template-areas:
+        'stats1 stats1 stats1 stats2 stats2 stats2 stats3 stats3 stats3 stats4 stats4 stats4'
+        'revenue revenue revenue revenue revenue revenue revenue revenue selling-products selling-products selling-products selling-products'
+        'recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders top-customers top-customers top-customers top-customers'
+}
+
+/* @media (min-width: 1024px) {
+    .dashboard-grid-area {
+        grid-template-areas:
+            'stats stats stats stats stats stats'
+            'revenue revenue revenue revenue selling-products selling-products'
+            'recent-orders recent-orders recent-orders top-customers top-customers'
+    }
+} */
+
+@media (max-width: 1024px) {
+    .dashboard-grid-area {
+        grid-template-areas:
+            'stats1 stats1 stats2 stats2 stats3 stats3 stats4 stats4'
+            'revenue revenue revenue revenue revenue revenue revenue revenue'
+            'selling-products selling-products selling-products selling-products top-customers top-customers top-customers top-customers'
+            'recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders';
+    }
+}
+
+@media (max-width: 900px) {
+    .dashboard-grid-area {
+        grid-template-areas:
+            'stats1 stats1 stats1 stats1 stats2 stats2 stats2 stats2'
+            'stats3 stats3 stats3 stats3 stats4 stats4 stats4 stats4'
+            'revenue revenue revenue revenue revenue revenue revenue revenue'
+            'selling-products selling-products selling-products selling-products top-customers top-customers top-customers top-customers'
+            'recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders';
+    }
+}
+
+
+@media (max-width: 640px) {
+    .dashboard-grid-area {
+        grid-template-areas:
+            'stats1'
+            'stats2'
+            'stats3'
+            'stats4'
+            'revenue'
+            'selling-products'
+            'top-customers'
+            'recent-orders';
+    }
 }

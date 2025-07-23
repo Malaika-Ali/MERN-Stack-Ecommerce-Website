@@ -38,31 +38,25 @@ const Dashboard = () => {
         },
     ]
     return (
-        <div className='bg-[#F3F3F3] px-6 grid grid-cols-12 gap-5 w-full'>
-            {/* <div className='grid grid-cols-4 gap-4'> */}
+        // <div className='bg-[#F3F3F3] px-6 grid grid-cols-12 gap-5 w-full dashboard-grid-area'>
+        <div className='bg-[#F3F3F3] px-6 grid grid-cols-1 sm:grid-cols-8 lg:grid-cols-12 gap-5 w-full dashboard-grid-area'>
+
+            {/* First row of cards */}
             {
-                stats.map((stat) => (
-                    <StatsCard statsTitle={stat.title} statsNumber={stat.stat} arrow={stat.arrowIcon} icon={stat.icon} />
+                stats.map((stat, index) => (
+                    <StatsCard statsTitle={stat.title} statsNumber={stat.stat} arrow={stat.arrowIcon} icon={stat.icon} gridAreaNumber={index + 1} />
                 ))
             }
-            {/* </div> */}
 
-            {/* <div className="grid gap-4 grid-cols-[1fr_200px]"> */}
+            {/* Second row of line chart and card */}
             <RevenueChart />
             <MostSellingProducts />
 
-            {/* </div>   */}
-
-            {/* <RevenueChart />
-            <MostSellingProducts /> */}
+            {/* Third row of table and card */}
             <RecentOrders />
-
             <WeeklyTopCustomers />
 
         </div>
-
-
-
     )
 }
 
