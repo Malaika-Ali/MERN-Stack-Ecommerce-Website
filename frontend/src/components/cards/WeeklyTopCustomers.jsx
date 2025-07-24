@@ -16,19 +16,24 @@ const customers = [
         orders: 23,
         image: 'https://randomuser.me/api/portraits/men/34.jpg',
     },
+    {
+        name: 'Jhony Peters',
+        orders: 23,
+        image: 'https://randomuser.me/api/portraits/men/34.jpg',
+    },
 ];
 
 const WeeklyTopCustomers = () => {
     return (
         // <div className="bg-white rounded-2xl shadow-sm px-6 py-8 w-full max-w-md col-span-4 top-customers">
-        <div className="bg-white rounded-2xl shadow-sm px-6 py-8 w-full max-w-md lg:col-span-4 top-customers">
+        <div className="bg-[#DBDBDB] rounded-3xl shadow-sm px-4 py-8 w-full max-w-md lg:col-span-4 top-customers">
 
-            <h2 className="text-md font-semibold text-gray-800 mb-4">Weekly Top Customers</h2>
-            <div className="space-y-4">
+            <h2 className="text-md font-[500] text-gray-800 mb-6 px-2">Weekly Top Customers</h2>
+            <div className="space-y-2">
                 {customers.map((customer, index) => (
                     <div
                         key={index}
-                        className="flex items-center justify-between bg-gray-50 hover:bg-gray-100 rounded-xl py-3 transition"
+                        className="flex items-center justify-between bg-gray-50 hover:bg-gray-100 rounded-xl p-3 transition"
                     >
                         <div className="flex items-center space-x-4">
                             <img
@@ -41,9 +46,9 @@ const WeeklyTopCustomers = () => {
                                 <p className="text-xs text-gray-500">{customer.orders} Orders</p>
                             </div>
                         </div>
-                        <button className="text-blue-600 text-sm font-medium hover:underline">
-                            View
-                        </button>
+                        <p className="text-black-color opacity-70 text-xs font-[400] hover:underline">
+                            Karachi
+                        </p>
                     </div>
                 ))}
             </div>

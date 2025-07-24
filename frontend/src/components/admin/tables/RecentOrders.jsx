@@ -118,11 +118,11 @@ export default function RecentOrders() {
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
                 <h2 className="text-lg font-[500] text-black-color">Recent Orders</h2>
 
-                <div className="flex flex-wrap gap-2 sm:gap-4">
+                <div className="flex flex-wrap rounded-full gap-2 sm:gap-4">
                     <input
                         type="text"
                         placeholder="Search orders..."
-                        className="px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        className="px-3 py-2 text-sm border rounded-full focus:outline-none focus:ring-2 focus:ring-black"
                         value={filterText}
                         onChange={(e) => setFilterText(e.target.value)}
                     />
