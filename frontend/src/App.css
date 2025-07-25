@@ -70,16 +70,16 @@ body {
     grid-area: main;
 }
 
-.footer-grid-area {
+/* .footer-grid-area {
     grid-area: footer;
-}
+} */
 
-@media (max-width: 1024px) {
+@media (max-width: 1023px) {
     .grid-area {
         grid-template-areas:
             'header'
             'main'
-            'footer';
+            /* 'sidebar footer'; */
     }
 }
 
@@ -118,15 +118,17 @@ body {
     grid-area: recent-orders;
 }
 
-.dashboard-grid-area {
+/* .dashboard-grid-area {
     display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.25rem;
     grid-template-areas:
         'stats1 stats1 stats1 stats2 stats2 stats2 stats3 stats3 stats3 stats4 stats4 stats4'
         'revenue revenue revenue revenue revenue revenue revenue revenue selling-products selling-products selling-products selling-products'
         'recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders top-customers top-customers top-customers top-customers'
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1023px) {
     .dashboard-grid-area {
         grid-template-areas:
             'stats1 stats1 stats2 stats2 stats3 stats3 stats4 stats4'
@@ -159,6 +161,56 @@ body {
             'selling-products'
             'top-customers'
             'recent-orders';
+    }
+} */
+
+
+.dashboard-grid-area {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.25rem;
+    grid-template-areas:
+        'stats1'
+        'stats2'
+        'stats3'
+        'stats4'
+        'revenue'
+        'selling-products'
+        'top-customers'
+        'recent-orders';
+}
+
+
+@media (min-width: 640px) {
+    .dashboard-grid-area {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        grid-template-areas:
+            'stats1 stats1 stats1 stats1 stats2 stats2 stats2 stats2'
+            'stats3 stats3 stats3 stats3 stats4 stats4 stats4 stats4'
+            'revenue revenue revenue revenue revenue revenue revenue revenue'
+            'selling-products selling-products selling-products selling-products top-customers top-customers top-customers top-customers'
+            'recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders';
+    }
+}
+
+@media (min-width: 900px) {
+    .dashboard-grid-area {
+        grid-template-areas:
+            'stats1 stats1 stats1 stats1 stats2 stats2 stats2 stats2'
+            'stats3 stats3 stats3 stats3 stats4 stats4 stats4 stats4'
+            'revenue revenue revenue revenue revenue revenue revenue revenue'
+            'selling-products selling-products selling-products selling-products top-customers top-customers top-customers top-customers'
+            'recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders';
+    }
+}
+
+@media (min-width: 1024px) {
+    .dashboard-grid-area {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        grid-template-areas:
+            'stats1 stats1 stats1 stats2 stats2 stats2 stats3 stats3 stats3 stats4 stats4 stats4'
+            'revenue revenue revenue revenue revenue revenue revenue revenue selling-products selling-products selling-products selling-products'
+            'recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders top-customers top-customers top-customers top-customers';
     }
 }
 

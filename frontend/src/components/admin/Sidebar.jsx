@@ -55,7 +55,13 @@ const navigationItems = [
     },
 ]
 
-const Sidebar = ({ isOpen, onClose }) => {
+
+const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
+
+    const onClose = () => {
+        setIsSidebarOpen(false)
+    }
+
     return (
         <>
             {/* Mobile Overlay */}
@@ -69,7 +75,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         fixed top-0 left-0
          h-screen bg-white rounded-r-2xl shadow-md z-50
         transform transition-transform duration-300 ease-in-out
-        lg:translate-x-0 lg:static lg:z-auto sidebar-grid-area
+        lg:translate-x-0 lg:sticky lg:z-auto sidebar-grid-area sm:min-w-sm
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
       `} >
                 {/* Sticky inner container */}
@@ -112,7 +118,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 </div>
 
                 {/* Navigation */}
-                <div className="px-4 pb-4">
+                <div className="px-8 lg:px-4 pb-4">
                     <nav className="space-y-1">
                         {navigationItems.map((item) => {
                             const Icon = item.icon
@@ -122,7 +128,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                                     to={item.url}
                                     onClick={() => onClose()} // Close mobile sidebar on navigation
                                     className={({ isActive }) =>
-                                        `flex items-center gap-3 px-3 ${item.title == "Settings" ? "pt-24 pb-2.5" : "py-2.5"} text-sm font-medium rounded-xl transition-colors ${isActive ? "bg-black-color text-white" : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                                        `flex items-center gap-3 px-6 lg:px-3 ${item.title == "Settings" ? "pt-24 pb-2.5" : "py-2.5"} text-sm font-medium rounded-xl transition-colors ${isActive ? "bg-black-color text-white" : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                                         }`
                                     }
                                 >

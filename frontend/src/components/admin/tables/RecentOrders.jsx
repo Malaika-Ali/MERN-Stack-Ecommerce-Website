@@ -293,7 +293,7 @@ const CustomDropdown = ({ value, onChange, options }) => {
         <div className="relative">
             <button
                 type="button"
-                className="flex items-center justify-between w-full px-4 py-2 text-sm bg-white border border-gray-300 rounded-full hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-[#9B9B9B] transition-colors duration-200 min-w-[140px]"
+                className="flex items-center justify-between w-full px-2 sm:px-4 py-1 sm:py-2 text-sm bg-white border border-gray-300 rounded-full hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-[#9B9B9B] transition-colors duration-200 min-w-[140px]"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <span className="text-gray-700">{value}</span>
@@ -390,7 +390,7 @@ export default function RecentOrders() {
     return (
         <div className="bg-white rounded-2xl p-6 shadow-sm recent-orders lg:col-span-8">
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-2 px-2">
+            <div className="flex flex-row justify-between items-center gap-4 mb-2 sm:px-2">
                 <h2 className="text-lg font-[500] text-black-color">Recent Orders</h2>
                 <div className="flex flex-wrap rounded-full gap-2 sm:gap-4">
                     <CustomDropdown value={filterStatus} onChange={handleDropdownChange} options={dropdownOptions} />

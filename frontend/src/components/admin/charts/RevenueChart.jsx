@@ -294,7 +294,7 @@ const RevenueChart = () => {
         <div className="relative bg-white rounded-2xl shadow-sm p-4 w-full h-[340px] my-6 revenue-area lg:col-span-8">
             <div className="flex justify-between items-start mb-3">
                 <h2 className="text-lg font-[500] text-black-color mb-9">Revenue Analytics</h2>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col sm:flex-row items-center gap-4">
                     <div className="flex items-center gap-1">
                         <div className="w-6 h-0.5 bg-[#010101]"></div>
                         <span className="text-sm text-black-color">Revenue</span>
