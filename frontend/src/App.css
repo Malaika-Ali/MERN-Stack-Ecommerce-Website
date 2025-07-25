@@ -49,6 +49,8 @@ body {
     background: #9ca3af;
 }
 
+/* ------------------------------------------Admin Layout Grid Area--------------------------------------------- */
+
 .grid-area {
     grid-template-areas:
         'sidebar header'
@@ -80,6 +82,9 @@ body {
             'footer';
     }
 }
+
+
+/* ------------------------------------------Dashboard Grid Area Layout--------------------------------------------- */
 
 .stats1 {
     grid-area: stats1;
@@ -121,15 +126,6 @@ body {
         'recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders top-customers top-customers top-customers top-customers'
 }
 
-/* @media (min-width: 1024px) {
-    .dashboard-grid-area {
-        grid-template-areas:
-            'stats stats stats stats stats stats'
-            'revenue revenue revenue revenue selling-products selling-products'
-            'recent-orders recent-orders recent-orders top-customers top-customers'
-    }
-} */
-
 @media (max-width: 1024px) {
     .dashboard-grid-area {
         grid-template-areas:
@@ -164,4 +160,9 @@ body {
             'top-customers'
             'recent-orders';
     }
+}
+
+/* Completely remove row borders in the data table */
+.rdt_TableRow {
+    border-bottom: none !important;
 }

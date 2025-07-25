@@ -138,8 +138,6 @@
 // export default RevenueChart;
 
 
-
-
 import { Chart as ChartJS, LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Filler } from "chart.js"
 import { Line } from "react-chartjs-2"
 import { useRef, useEffect, useState, useCallback } from "react"
@@ -213,7 +211,7 @@ const RevenueChart = () => {
             {
                 label: "Order",
                 data: orderData,
-                borderColor: "#010101",
+                borderColor: "#9B9B9B",
                 borderDash: [6, 6],
                 borderWidth: 2,
                 tension: 0.4,
@@ -299,14 +297,14 @@ const RevenueChart = () => {
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1">
                         <div className="w-6 h-0.5 bg-[#010101]"></div>
-                        <span className="text-sm text-gray-600">Revenue</span>
+                        <span className="text-sm text-black-color">Revenue</span>
                     </div>
                     <div className="flex items-center gap-1">
-                        <div className="w-6 h-0.5 border-t-2 border-[#010101] border-dashed"></div>
-                        <span className="text-sm text-gray-600">Order</span>
+                        <div className="w-6 h-0.5 border-t-2 border-[#9B9B9B] border-dashed"></div>
+                        <span className="text-sm text-black-color">Order</span>
                     </div>
                     <button className="hidden sm:block text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-md hover:bg-gray-200">
-                        Last 8 Days
+                        Last 7 Days
                     </button>
                 </div>
             </div>

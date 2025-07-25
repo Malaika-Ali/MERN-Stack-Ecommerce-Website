@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { NavLink, Link } from "react-router-dom"
 import {
     LayoutDashboard,
     TrendingUp,
@@ -81,7 +81,7 @@ const Sidebar = ({ isOpen, onClose }) => {
 
                 {/* Header */}
                 <div className="p-4 pb-8">
-                    <div className="flex items-center gap-3 p-2 rounded-xl border border-gray-200">
+                    {/* <div className="flex items-center gap-3 p-2 rounded-xl border border-gray-200">
                         <div className="h-10 w-10 rounded-lg bg-gray-800 flex items-center justify-center overflow-hidden">
                             <img
                                 src="/placeholder.svg?height=40&width=40"
@@ -98,6 +98,16 @@ const Sidebar = ({ isOpen, onClose }) => {
                                 <ChevronDown className="h-4 w-4 text-gray-400 flex-shrink-0" />
                             </div>
                         </div>
+                    </div> */}
+
+                    {/* Center Logo */}
+                    <div className="text-center justify-center">
+                        <Link to="/">
+                            {" "}
+                            <h1 className="text-3xl md:text-4xl font-bold text-black-color font-serif">
+                                M<span className="text-grey-color text-3xl font-serif">.</span>{" "}
+                            </h1>
+                        </Link>
                     </div>
                 </div>
 

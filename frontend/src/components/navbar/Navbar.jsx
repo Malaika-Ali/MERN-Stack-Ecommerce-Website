@@ -54,10 +54,10 @@ const Navbar = () => {
     setIsDropdownOpen(!isDropdownOpen)
   }
 
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     try {
-      await logoutUser().unwrap(); 
-      dispatch(logout()); 
+      await logoutUser().unwrap();
+      dispatch(logout());
       setIsDropdownOpen(false);
     } catch (error) {
       console.error("Logout failed:", error);
@@ -103,11 +103,11 @@ const Navbar = () => {
               }
             />
           </NavLink> */}
-<NavLink to='/search'>
-<div className="cursor-pointer">
-  <FiSearch size={22} className="text-black-color hover:text-grey-color" />
-</div>
-</NavLink>
+          <NavLink to='/search'>
+            <div className="cursor-pointer">
+              <FiSearch size={22} className="text-black-color hover:text-grey-color" />
+            </div>
+          </NavLink>
 
 
           <div onClick={() => setIsCartOpen((prev) => !prev)} className="relative cursor-pointer">
@@ -178,12 +178,12 @@ const Navbar = () => {
             <input type="text" placeholder="Search..." className="border border-gray-300 rounded-md p-2 flex-grow" />
           </div>
           <ul className="space-y-2 px-8">
-          {navlinks.map((navlink) => (
+            {navlinks.map((navlink) => (
               <li key={navlink.category}>
                 <NavItem category={navlink.category} title={navlink.title} />
               </li>
             ))}
-  
+
           </ul>
           <div className="flex space-x-4 mt-4 justify-center items-center">
             <FaShoppingCart
