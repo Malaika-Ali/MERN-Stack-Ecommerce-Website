@@ -128,7 +128,7 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
                                     to={item.url}
                                     onClick={() => onClose()} // Close mobile sidebar on navigation
                                     className={({ isActive }) =>
-                                        `flex items-center gap-3 px-6 lg:px-3 ${item.title == "Settings" ? "pt-24 pb-2.5" : "py-2.5"} text-sm font-medium rounded-xl transition-colors ${isActive ? "bg-black-color text-white" : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                                        `flex items-center gap-3 px-6 lg:px-3 ${item.title == "Settings" ? "mt-24 pt-2 pb-2.5" : "py-2.5"} text-sm font-medium rounded-xl transition-colors ${isActive ? "bg-black-color text-white" : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                                         }`
                                     }
                                 >

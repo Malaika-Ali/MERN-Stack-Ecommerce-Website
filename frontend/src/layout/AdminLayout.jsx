@@ -12,7 +12,7 @@ const AdminLayout = () => {
     return (
         <div className='grid grid-cols-1 lg:grid-cols-[15rem_1fr]  grid-area min-h-screen'>
             {/* <Header className="header-grid-area" /> */}
-            <Sidebar isOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen}/>
+            <Sidebar isOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 
             <div className="header-grid-area flex flex-col">
                 <Navbar setIsSidebarOpen={setIsSidebarOpen} />
@@ -21,20 +21,6 @@ const AdminLayout = () => {
             <Outlet className="main-grid-area bg-[#F7F7F7]" />
 
         </div>
-
-
-        // <div className='flex min-h-screen w-full'>
-        //     <Sidebar />
-        //     {/* <Header className="header-grid-area" /> */}
-        //     <div className="flex flex-col">
-        //         <Navbar />
-        //         <Header />
-        //         <Outlet className="bg-[#F7F7F7]" />
-
-        //     </div>
-
-
-        // </div>
     )
 }
 
