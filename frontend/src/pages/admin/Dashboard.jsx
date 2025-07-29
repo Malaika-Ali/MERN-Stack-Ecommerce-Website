@@ -9,26 +9,36 @@ import RevenueChart from '../../components/admin/charts/RevenueChart';
 import MostSellingProducts from '../../components/cards/MostSellingProducts';
 import RecentOrders from '../../components/admin/tables/RecentOrders';
 import WeeklyTopCustomers from '../../components/cards/WeeklyTopCustomers';
+import { useGetStatsQuery } from '../../redux/features/admin/dashboardApi';
 
 const Dashboard = () => {
+
+    const { data, isLoading, error } = useGetStatsQuery({
+        startDate: "2025-02-03",
+        endDate: "2025-02-23"
+    })
+
+    console.log(data)
+
+
     const stats = [
         {
             title: "Total sales",
             icon: <PiHandCoinsLight size={25} />,
             arrowIcon: <LiaLongArrowAltUpSolid color='green' size={22} />,
-            stat: 'Rs 30000'
+            stat: data.data.totalSales
         },
         {
             title: "Total Orders",
             icon: <CiShoppingTag size={25} />,
             arrowIcon: <LiaLongArrowAltDownSolid color='red' />,
-            stat: 24
+            stat: data.data.totalOrdersCount
         },
         {
             title: "New Customers",
             icon: <GoPeople size={25} />,
             arrowIcon: <LiaLongArrowAltUpSolid color='green' />,
-            stat: 5
+            stat: data.data.newCustomersCount
         },
         {
             title: "Conversion Rate",

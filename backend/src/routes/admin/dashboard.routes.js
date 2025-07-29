@@ -1,9 +1,10 @@
 import { Router } from 'express'
-import { getDashboardStats } from '../../controllers/admin/dashboard.controller.js'
+import { getDashboardStats, getTopProducts } from '../../controllers/admin/dashboard.controller.js'
 
 const router = Router()
 
 router.route("/stats").get(getDashboardStats)
+router.route("/topProducts").get(getTopProducts)
 
 export default router
 
