@@ -67,13 +67,79 @@ const getDashboardStats = asyncHandler(async (req, res) => {
         ]);
 
         // Top 4 Customers
+        // const topCustomers = await Order.aggregate([
+        //     { $match: { createdAt: { $gte: start, $lte: end } } },
+        //     {
+        //         $group: {
+        //             _id: "$user",
+        //             totalSpent: { $sum: "$totalAmount" },
+        //             orderCount: { $sum: 1 }
+        //         }
+        //     },
+        //     { $sort: { totalSpent: -1 } },
+        //     { $limit: 4 },
+        //     {
+        //         $lookup: {
+        //             from: "users",
+        //             localField: "_id",
+        //             foreignField: "_id",
+        //             as: "user"
+        //         }
+        //     },
+        //     { $unwind: "$user" },
+        //     {
+        //         $project: {
+        //             _id: 0,
+        //             userId: "$_id",
+        //             name: "$user.name",
+        //             email: "$user.email",
+        //             totalSpent: 1,
+        //             orderCount: 1
+        //         }
+        //     }
+        // ]);
+
         const topCustomers = await Order.aggregate([
-            { $match: { createdAt: { $gte: start, $lte: end } } },
+            {
+                $match: {
+                    createdAt: { $gte: start, $lte: end }
+                }
+            },
             {
                 $group: {
-                    _id: "$user",
-                    totalSpent: { $sum: "$totalAmount" },
-                    orderCount: { $sum: 1 }
+                    _id: { user: "$user", city: "$shippingInfo.city" },
+                    totalSpentByCity: { $sum: "$totalAmount" },
+                    orderCountByCity: { $sum: 1 }
+                }
+            },
+            {
+                $group: {
+                    _id: "$_id.user",
+                    totalSpent: { $sum: "$totalSpentByCity" },
+                    orderCount: { $sum: "$orderCountByCity" },
+                    cities: {
+                        $push: {
+                            city: "$_id.city",
+                            count: "$orderCountByCity"
+                        }
+                    }
+                }
+            },
+            {
+                $addFields: {
+                    mostUsedCity: {
+                        $reduce: {
+                            input: "$cities",
+                            initialValue: { city: null, count: 0 },
+                            in: {
+                                $cond: [
+                                    { $gt: ["$$this.count", "$$value.count"] },
+                                    "$$this",
+                                    "$$value"
+                                ]
+                            }
+                        }
+                    }
                 }
             },
             { $sort: { totalSpent: -1 } },
@@ -94,13 +160,16 @@ const getDashboardStats = asyncHandler(async (req, res) => {
                     name: "$user.name",
                     email: "$user.email",
                     totalSpent: 1,
-                    orderCount: 1
+                    orderCount: 1,
+                    city: "$mostUsedCity.city"
                 }
             }
         ]);
 
 
-        return res.status(201).json(new ApiResponse(200, { totalOrdersCount, totalSales, newCustomersCount }, "Dashboard stats Successfully fetched!"))
+
+
+        return res.status(201).json(new ApiResponse(200, { totalOrdersCount, totalSales, newCustomersCount, topProducts, topCustomers }, "Dashboard stats Successfully fetched!"))
 
     }
     catch (e) {
@@ -203,55 +272,112 @@ const getDashboardStats = asyncHandler(async (req, res) => {
 // }
 
 
-const getTopProducts = async (req, res) => {
-    try {
-        const { startDate, endDate } = req.query;
+// const getTopProducts = async (req, res) => {
+//     try {
+//         const { startDate, endDate } = req.query;
 
-        if (!startDate || !endDate) {
-            return res.status(400).json({ message: "Start date and end date are required." });
-        }
+//         if (!startDate || !endDate) {
+//             return res.status(400).json({ message: "Start date and end date are required." });
+//         }
 
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        end.setHours(23, 59, 59, 999); // Include the full end date
+//         const start = new Date(startDate);
+//         const end = new Date(endDate);
+//         end.setHours(23, 59, 59, 999); // Include the full end date
 
-        // Fetch orders within date range
-        const orders = await Order.find({
-            createdAt: { $gte: start, $lte: end }
-        }).populate("products.product");
+//         // Fetch orders within date range
+//         const orders = await Order.find({
+//             createdAt: { $gte: start, $lte: end }
+//         }).populate("products.product");
 
-        const productSalesMap = new Map();
+//         const productSalesMap = new Map();
 
-        orders.forEach(order => {
-            order.products.forEach(item => {
-                if (!item.product) return; // skip if product is deleted
+//         orders.forEach(order => {
+//             order.products.forEach(item => {
+//                 if (!item.product) return; // skip if product is deleted
 
-                const productId = item.product._id.toString();
-                const productName = item.product.name;
-                const quantity = item.quantity;
+//                 const productId = item.product._id.toString();
+//                 const productName = item.product.name;
+//                 const quantity = item.quantity;
 
-                if (productSalesMap.has(productId)) {
-                    productSalesMap.get(productId).quantity += quantity;
-                } else {
-                    productSalesMap.set(productId, {
-                        productId,
-                        name: productName,
-                        quantity
-                    });
-                }
-            });
-        });
+//                 if (productSalesMap.has(productId)) {
+//                     productSalesMap.get(productId).quantity += quantity;
+//                 } else {
+//                     productSalesMap.set(productId, {
+//                         productId,
+//                         name: productName,
+//                         quantity
+//                     });
+//                 }
+//             });
+//         });
 
-        // Convert Map to Array, sort by quantity, and get top 4
-        const topProducts = Array.from(productSalesMap.values())
-            .sort((a, b) => b.quantity - a.quantity)
-            .slice(0, 4);
+//         // Convert Map to Array, sort by quantity, and get top 4
+//         const topProducts = Array.from(productSalesMap.values())
+//             .sort((a, b) => b.quantity - a.quantity)
+//             .slice(0, 4);
 
-        return res.status(200).json({ topProducts });
-    } catch (error) {
-        console.error("Error fetching top selling products:", error);
-        res.status(500).json({ message: "Internal server error." });
+//         return res.status(200).json({ topProducts });
+//     } catch (error) {
+//         console.error("Error fetching top selling products:", error);
+//         res.status(500).json({ message: "Internal server error." });
+//     }
+// };
+
+
+const getTopProducts = asyncHandler(async (req, res) => {
+    const { startDate, endDate } = req.query;
+
+    if (!startDate || !endDate) {
+        throw new ApiError(400, "Start date and end date are required!");
     }
-};
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    try {
+        const topProducts = await Order.aggregate([
+            { $match: { createdAt: { $gte: start, $lte: end } } },
+            { $unwind: "$products" },
+            {
+                $group: {
+                    _id: "$products.product",
+                    totalQuantity: { $sum: "$products.quantity" }
+                }
+            },
+            { $sort: { totalQuantity: -1 } },
+            { $limit: 4 },
+            {
+                $lookup: {
+                    from: "products", // should match the collection name in MongoDB
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "productInfo"
+                }
+            },
+            { $unwind: "$productInfo" },
+            {
+                $project: {
+                    _id: 0,
+                    productId: "$productInfo._id",
+                    name: "$productInfo.name",
+                    totalQuantity: 1
+                }
+            }
+        ]);
+
+        return res.status(200).json(
+            new ApiResponse(200, topProducts, "Top selling products fetched successfully")
+        );
+    } catch (error) {
+        console.error("Error fetching top selling products", error);
+        throw new ApiError(500, "Error fetching top selling products");
+    }
+});
+
+
+const getTopCustomers = asyncHandler(async (req, res) => {
+
+})
+
 
 export { getDashboardStats, getTopProducts }

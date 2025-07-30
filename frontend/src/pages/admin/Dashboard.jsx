@@ -18,7 +18,9 @@ const Dashboard = () => {
         endDate: "2025-02-23"
     })
 
-    console.log(data)
+    console.log(data?.data?.topCustomers)
+    console.log(data?.data?.topProducts)
+
 
 
     const stats = [
@@ -26,19 +28,19 @@ const Dashboard = () => {
             title: "Total sales",
             icon: <PiHandCoinsLight size={25} />,
             arrowIcon: <LiaLongArrowAltUpSolid color='green' size={22} />,
-            stat: data.data.totalSales
+            stat: data?.data?.totalSales
         },
         {
             title: "Total Orders",
             icon: <CiShoppingTag size={25} />,
             arrowIcon: <LiaLongArrowAltDownSolid color='red' />,
-            stat: data.data.totalOrdersCount
+            stat: data?.data?.totalOrdersCount
         },
         {
             title: "New Customers",
             icon: <GoPeople size={25} />,
             arrowIcon: <LiaLongArrowAltUpSolid color='green' />,
-            stat: data.data.newCustomersCount
+            stat: data?.data?.newCustomersCount
         },
         {
             title: "Conversion Rate",
@@ -53,7 +55,7 @@ const Dashboard = () => {
 
             {/* First row of cards */}
             {
-                stats.map((stat, index) => (
+                stats?.map((stat, index) => (
                     <StatsCard statsTitle={stat.title} statsNumber={stat.stat} arrow={stat.arrowIcon} icon={stat.icon} gridAreaNumber={index + 1} />
                 ))
             }
@@ -64,7 +66,7 @@ const Dashboard = () => {
 
             {/* Third row of table and card */}
             <RecentOrders />
-            <WeeklyTopCustomers />
+            <WeeklyTopCustomers customers={data?.data?.topCustomers} />
 
         </div>
     )
