@@ -20,10 +20,17 @@ const dashboardApi = createApi({
                 params: { startDate, endDate },
             }),
         }),
+
+        getRecentOrders: builder.query({
+            query: ({ startDate, endDate }) => ({
+                url: '/recent-orders',
+                params: { startDate, endDate },
+            }),
+        }),
     })
 
 }
 )
 
-export const { useGetStatsQuery, useGetTopProductsQuery } = dashboardApi
+export const { useGetStatsQuery, useGetTopProductsQuery, useGetRecentOrdersQuery } = dashboardApi
 export default dashboardApi

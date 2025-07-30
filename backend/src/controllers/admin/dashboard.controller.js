@@ -380,4 +380,40 @@ const getTopCustomers = asyncHandler(async (req, res) => {
 })
 
 
-export { getDashboardStats, getTopProducts }
+const getRecentOrders = asyncHandler(async (req, res) => {
+    const { startDate, endDate } = req.query
+    if (!startDate || !endDate) {
+        throw new ApiError(400, "Start date and end date are required!")
+    }
+
+    const start = new Date(startDate)
+    const end = new Date(endDate)
+
+    try {
+        const orders = await Order.find({
+            createdAt: {
+                $gte: start,
+                $lte: end
+            }
+        })
+        // sorts the orders in descending order(recent ones come first)
+        .sort({ createdAt: -1 })
+        .limit(5)
+        // select only id, creation date total amount and status of order
+        .select('_id createdAt totalAmount orderStatus')
+        // adding user' name by using the external reference of his id
+        .populate({
+            path: 'user',
+            select: 'name'
+        })
+
+        return res.status(201).json(new ApiResponse(200, orders, "Recent orders have been fetched successfully!"))
+        
+    } catch (error) {
+        console.log(error)
+        throw new ApiError(500, "The recent orders can not be fetched successfully due to some internal server issue", error)
+    }
+})
+
+
+export { getDashboardStats, getTopProducts, getRecentOrders }
