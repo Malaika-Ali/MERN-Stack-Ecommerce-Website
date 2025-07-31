@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sun, Moon } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleMode } from "../redux/features/theme/themeSlice";
 
 export function ThemeToggler() {
-    const [isDark, setIsDark] = useState(false);
+    // const [isDark, setIsDark] = useState(false);
+    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+    const dispatch = useDispatch()
 
     const toggleTheme = () => {
-        setIsDark(!isDark);
-        document.documentElement.classList.toggle("dark", !isDark); // optional: Tailwind dark mode toggle
+        dispatch(toggleMode());
+        // document.documentElement.classList.toggle("dark", isDarkMode);
     };
+
+    useEffect(() => {
+        document.documentElement.classList.toggle("dark", isDarkMode);
+    }, [isDarkMode]);
+
 
     return (
         <button
@@ -20,13 +29,13 @@ export function ThemeToggler() {
 
             {/* Icon transition (Sun ↔ Moon) */}
             <Sun
-                className={`absolute h-6 w-6 text-yellow-500 transition-all duration-300 transform ${isDark
+                className={`absolute h-6 w-6 text-yellow-500 transition-all duration-300 transform ${!isDarkMode
                     ? "scale-0 rotate-90 opacity-0"
                     : "scale-100 rotate-0 opacity-100"
                     }`}
             />
             <Moon
-                className={`absolute h-6 w-6 text-purple-500 transition-all duration-300 transform ${isDark
+                className={`absolute h-6 w-6 text-purple-500 transition-all duration-300 transform ${!isDarkMode
                     ? "scale-100 rotate-0 opacity-100"
                     : "scale-0 -rotate-90 opacity-0"
                     }`}
