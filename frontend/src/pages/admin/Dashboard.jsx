@@ -28,7 +28,7 @@ const Dashboard = () => {
             title: "Total sales",
             icon: <PiHandCoinsLight size={25} />,
             arrowIcon: <LiaLongArrowAltUpSolid color='green' size={22} />,
-            stat: data?.data?.totalSales
+            stat: `Rs. ${data?.data?.totalSales}`
         },
         {
             title: "Total Orders",
@@ -46,7 +46,7 @@ const Dashboard = () => {
             title: "Conversion Rate",
             icon: <PiTargetLight size={25} />,
             arrowIcon: <LiaLongArrowAltUpSolid color='green' />,
-            stat: '4.2%'
+            stat: `${data?.data?.conversionRate}%`
         },
     ]
     return (
@@ -61,7 +61,7 @@ const Dashboard = () => {
             }
 
             {/* Second row of line chart and card */}
-            <RevenueChart />
+            {/* <RevenueChart /> */}
             <MostSellingProducts />
 
             {/* Third row of table and card */}

@@ -30,7 +30,7 @@ const getDashboardStats = asyncHandler(async (req, res) => {
         // Total new customers
         const newCustomers = await User.find({
             createdAt: { $gte: start, $lte: end }
-        });
+        }).select("_id");
         const newCustomersCount = newCustomers.length
 
         // Top 4 Selling Products
@@ -167,9 +167,22 @@ const getDashboardStats = asyncHandler(async (req, res) => {
         ]);
 
 
+        // Conversion Rate
+
+        const newCustomerIds = newCustomers.map(user => user._id);
+        // Find how many of these new customers placed at least one order
+        const convertedNewCustomers = await Order.find({
+            user: { $in: newCustomerIds },
+            createdAt: { $gte: start, $lte: end }
+        }).distinct("user");
+
+        const conversionRate = newCustomersCount > 0
+            ? ((convertedNewCustomers.length / newCustomersCount) * 100).toFixed(2)
+            : 0;
 
 
-        return res.status(201).json(new ApiResponse(200, { totalOrdersCount, totalSales, newCustomersCount, topProducts, topCustomers }, "Dashboard stats Successfully fetched!"))
+
+        return res.status(201).json(new ApiResponse(200, { totalOrdersCount, totalSales, newCustomersCount, topProducts, topCustomers, conversionRate }, "Dashboard stats Successfully fetched!"))
 
     }
     catch (e) {
@@ -396,24 +409,66 @@ const getRecentOrders = asyncHandler(async (req, res) => {
                 $lte: end
             }
         })
-        // sorts the orders in descending order(recent ones come first)
-        .sort({ createdAt: -1 })
-        .limit(5)
-        // select only id, creation date total amount and status of order
-        .select('_id createdAt totalAmount orderStatus')
-        // adding user' name by using the external reference of his id
-        .populate({
-            path: 'user',
-            select: 'name'
-        })
+            // sorts the orders in descending order(recent ones come first)
+            .sort({ createdAt: -1 })
+            .limit(5)
+            // select only id, creation date total amount and status of order
+            .select('_id createdAt totalAmount orderStatus')
+            // adding user' name by using the external reference of his id
+            .populate({
+                path: 'user',
+                select: 'name'
+            })
 
         return res.status(201).json(new ApiResponse(200, orders, "Recent orders have been fetched successfully!"))
-        
+
     } catch (error) {
         console.log(error)
         throw new ApiError(500, "The recent orders can not be fetched successfully due to some internal server issue", error)
     }
 })
 
+const getRevenueAnalytics = asyncHandler(async (req, res) => {
+    const { startDate, endDate } = req.query
+    if (!startDate || !endDate) {
+        throw new ApiError(400, "Start date and end date are required!");
+    }
 
-export { getDashboardStats, getTopProducts, getRecentOrders }
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    try {
+        const data = await Order.aggregate([
+            {
+                $match: {
+                    createdAt: { $gte: start, $lte: end }
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        $dateToString: { format: "%d %b", date: "$createdAt" }
+                    },
+                    totalRevenue: { $sum: "$totalAmount" },
+                    orderCount: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ])
+
+        const chartData = data.map(entry => ({
+            date: entry._id,
+            revenue: entry.totalRevenue,
+            orders: entry.orderCount
+        }))
+
+        return res.status(201).json(new ApiResponse(200, chartData, "Revenue Analytics have been fetched successfully!"))
+
+    } catch (error) {
+        console.log(error)
+        throw new ApiError(500, "There was an internal server error while trying to fetch the revenue analytics", error)
+    }
+})
+
+
+export { getDashboardStats, getTopProducts, getRecentOrders, getRevenueAnalytics }

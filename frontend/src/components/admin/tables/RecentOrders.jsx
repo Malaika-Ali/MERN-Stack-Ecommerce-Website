@@ -3,45 +3,6 @@ import DataTable from "react-data-table-component"
 import { ChevronDown } from "lucide-react"
 import { useGetRecentOrdersQuery } from "../../../redux/features/admin/dashboardApi"
 
-// Sample order data
-// const ordersData = [
-//     {
-//         id: "#0234",
-//         customer: "Amaya Weller",
-//         date: "July 19, 2025",
-//         total: "$100",
-//         status: "Cancelled",
-//     },
-//     {
-//         id: "#0235",
-//         customer: "Sebastian Adams",
-//         date: "July 18, 2025",
-//         total: "$120",
-//         status: "Shipped",
-//     },
-//     {
-//         id: "#0236",
-//         customer: "Suzanne Bright",
-//         date: "July 18, 2025",
-//         total: "$99",
-//         status: "Shipped",
-//     },
-//     {
-//         id: "#0237",
-//         customer: "Peter Howl",
-//         date: "July 17, 2025",
-//         total: "$150",
-//         status: "Pending",
-//     },
-//     {
-//         id: "#0238",
-//         customer: "Anita Singh",
-//         date: "July 16, 2025",
-//         total: "$200",
-//         status: "Delivered",
-//     },
-// ]
-
 // Status badge colors
 const statusBadge = (status) => {
     const baseClasses = "text-xs font-medium px-3 py-1 rounded-full inline-block"
@@ -161,7 +122,7 @@ export default function RecentOrders() {
     ]
 
     const formattedOrders = ordersData?.map((order) => ({
-        id: `#${order._id.slice(-4)}`, // or full ID if you prefer
+        id: `#${order._id.slice(-4)}`,
         customer: order.user?.name || "Unknown",
         date: new Date(order.createdAt).toLocaleDateString('en-US', {
             year: 'numeric',
