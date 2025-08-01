@@ -13,6 +13,10 @@ export default {
         'yellow-color': '#edcf5d',
         'grey-color': '#a4a4a4',
         'light-bg-color': '#F3F3F3',
+
+        'dark-sidebar-bg': '#141414',
+        'dark-bg': '#333333',
+        'light-gray': '#575757'
       },
       screens: {
         'xs': '480px',

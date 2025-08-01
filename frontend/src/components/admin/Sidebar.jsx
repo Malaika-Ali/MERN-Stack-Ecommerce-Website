@@ -76,7 +76,7 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
          h-screen bg-white rounded-r-2xl shadow-md z-50
         transform transition-transform duration-300 ease-in-out
         lg:translate-x-0 lg:sticky lg:z-auto sidebar-grid-area sm:min-w-sm
-        ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        ${isOpen ? "translate-x-0" : "-translate-x-full"} dark:bg-dark-sidebar-bg
       `} >
                 {/* Sticky inner container */}
                 {/* <div className="sticky top-0"> */}
@@ -110,7 +110,7 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
                     <div className="text-center justify-center">
                         <Link to="/">
                             {" "}
-                            <h1 className="text-3xl md:text-4xl font-bold text-black-color font-serif">
+                            <h1 className="text-3xl md:text-4xl font-bold text-black-color font-serif dark:text-[#F8F8F8]">
                                 M<span className="text-grey-color text-3xl font-serif">.</span>{" "}
                             </h1>
                         </Link>
@@ -128,7 +128,7 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
                                     to={item.url}
                                     onClick={() => onClose()} // Close mobile sidebar on navigation
                                     className={({ isActive }) =>
-                                        `flex items-center gap-3 px-6 lg:px-3 ${item.title == "Settings" ? "mt-24 pt-2 pb-2.5" : "py-2.5"} text-sm font-medium rounded-xl transition-colors ${isActive ? "bg-black-color text-white" : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                                        `flex items-center gap-3 px-6 lg:px-3 ${item.title == "Settings" ? "mt-24 pt-2 pb-2.5" : "py-2.5"} text-sm font-medium rounded-xl transition-colors ${isActive ? "bg-black-color text-white dark:bg-gray-100 dark:text-gray-600" : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-[#FDFDFD] dark:hover:bg-light-gray"
                                         }`
                                     }
                                 >

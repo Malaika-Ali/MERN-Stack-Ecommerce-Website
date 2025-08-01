@@ -43,7 +43,7 @@ export default function MostSellingProducts() {
 
     return (
         // <div className="bg-black-color rounded-2xl shadow-sm px-5 py-8 w-full max-w-md lg:max-w-full h-fit col-span-12 md:col-span-4 lg:col-span-4 my-6 selling-products">
-        <div className="bg-[#111111] rounded-3xl  px-5 py-8 w-full max-w-md lg:max-w-full h-fit lg:col-span-4 my-6 selling-products">
+        <div className="bg-[#111111] rounded-3xl  px-5 py-8 w-full max-w-md lg:max-w-full h-fit lg:col-span-4 my-6 selling-products dark:bg-[#000000]">
             <div className="flex justify-between items-center mb-8">
                 <h2 className="text-md font-[500] text-white">
                     Top Selling Products

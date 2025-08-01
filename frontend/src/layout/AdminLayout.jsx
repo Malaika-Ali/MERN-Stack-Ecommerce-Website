@@ -10,7 +10,7 @@ const AdminLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState("")
 
     return (
-        <div className='grid grid-cols-1 lg:grid-cols-[15rem_1fr]  grid-area min-h-screen'>
+        <div className='grid grid-cols-1 lg:grid-cols-[15rem_1fr]  grid-area min-h-screen bg-[#F7F7F7] dark:bg-dark-bg'>
             {/* <Header className="header-grid-area" /> */}
             <Sidebar isOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 
@@ -18,7 +18,7 @@ const AdminLayout = () => {
                 <Navbar setIsSidebarOpen={setIsSidebarOpen} />
                 <Header />
             </div>
-            <Outlet className="main-grid-area bg-[#F7F7F7]" />
+            <Outlet className="main-grid-area" />
 
         </div>
     )

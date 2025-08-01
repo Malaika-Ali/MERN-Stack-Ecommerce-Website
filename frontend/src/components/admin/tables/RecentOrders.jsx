@@ -2,6 +2,8 @@ import { useState } from "react"
 import DataTable from "react-data-table-component"
 import { ChevronDown } from "lucide-react"
 import { useGetRecentOrdersQuery } from "../../../redux/features/admin/dashboardApi"
+import { useSelector } from "react-redux";
+
 
 // Status badge colors
 const statusBadge = (status) => {
@@ -146,12 +148,15 @@ export default function RecentOrders() {
         setFilterStatus(value === "All" ? "All Categories" : value)
     }
 
+    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+
+
 
     return (
-        <div className="bg-white rounded-2xl p-6 shadow-sm recent-orders lg:col-span-8">
+        <div className="bg-white rounded-2xl p-6 shadow-sm recent-orders lg:col-span-8 dark:bg-[#1D1D1D]">
             {/* Header */}
             <div className="flex flex-row justify-between items-center gap-4 mb-2 sm:px-2">
-                <h2 className="text-lg font-[500] text-black-color">Recent Orders</h2>
+                <h2 className="text-lg font-[500] text-black-color dark:text-white">Recent Orders</h2>
                 <div className="flex flex-wrap rounded-full gap-2 sm:gap-4">
                     <CustomDropdown value={filterStatus} onChange={handleDropdownChange} options={dropdownOptions} />
                 </div>
@@ -179,7 +184,8 @@ export default function RecentOrders() {
                             fontSize: "14px",
                             fontWeight: 600,
                             color: "#6b7280",
-                            backgroundColor: "#fff",
+                            // backgroundColor: "#fff",
+                            backgroundColor: isDarkMode ? "#333333" : "#fff",
                             paddingLeft: "16px",
                             paddingRight: "16px",
                         },
@@ -189,7 +195,9 @@ export default function RecentOrders() {
                             paddingLeft: "16px",
                             paddingRight: "16px",
                             fontSize: "14px",
-                            color: "#374151",
+                            backgroundColor: isDarkMode ? "#333333" : "#fff",
+                            // color: "#374151",
+                            color: isDarkMode ? "#D5D5D5" : "374151",
                             borderBottom: "none",
                         },
                     },

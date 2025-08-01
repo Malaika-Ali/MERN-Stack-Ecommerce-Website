@@ -35,7 +35,7 @@ export function ThemeToggler() {
                     }`}
             />
             <Moon
-                className={`absolute h-6 w-6 text-purple-500 transition-all duration-300 transform ${!isDarkMode
+                className={`absolute h-6 w-6 text-dark-bg transition-all duration-300 transform ${!isDarkMode
                     ? "scale-100 rotate-0 opacity-100"
                     : "scale-0 -rotate-90 opacity-0"
                     }`}
