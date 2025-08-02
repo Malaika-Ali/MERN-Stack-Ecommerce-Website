@@ -1,3 +1,4 @@
+import React from 'react'
 import { Chart as ChartJS, LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Filler } from "chart.js"
 import { Line } from "react-chartjs-2"
 import { useRef, useEffect, useState, useCallback } from "react"
@@ -282,4 +283,4 @@ const RevenueChart = () => {
     )
 }
 
-export default RevenueChart
+export default React.memo(RevenueChart)

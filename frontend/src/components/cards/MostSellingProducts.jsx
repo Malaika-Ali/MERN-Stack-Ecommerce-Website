@@ -1,6 +1,4 @@
-import { FaShoePrints } from "react-icons/fa";
-import { BsBackpack2Fill } from "react-icons/bs";
-import { FaBottleWater } from "react-icons/fa6";
+import React from 'react'
 import { useGetTopProductsQuery } from "../../redux/features/admin/dashboardApi";
 
 const products = [
@@ -31,15 +29,15 @@ const products = [
 ];
 
 
-export default function MostSellingProducts() {
+function MostSellingProducts() {
 
-    // const { data, isLoading, error } = useGetTopProductsQuery({
-    //     startDate: "2025-01-03",
-    //     endDate: "2025-02-28"
-    // })
+    const { data, isLoading, error } = useGetTopProductsQuery({
+        startDate: "2025-01-03",
+        endDate: "2025-02-28"
+    })
 
-    // console.log(data)
-    // const products = data?.topProducts || [];
+    console.log("top products", data?.data)
+    const products = data?.data || [];
 
     return (
         // <div className="bg-black-color rounded-2xl shadow-sm px-5 py-8 w-full max-w-md lg:max-w-full h-fit col-span-12 md:col-span-4 lg:col-span-4 my-6 selling-products">
@@ -52,23 +50,25 @@ export default function MostSellingProducts() {
             </div>
 
             <ul className="space-y-4">
-                {products.map((product, idx) => (
+                {products?.map((product, idx) => (
                     <li key={idx} className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <img className="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-md" src={product.icon}>
+                            <img className="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-md object-cover" src={product.image}>
                                 {/* {product.icon} */}
                             </img>
                             <div className="text-sm">
                                 <p className="font-medium text-white opacity-90">{product.name}</p>
                                 {/* <p className="text-xs text-white opacity-70">ID: {product.id}</p> */}
-                                <p className="text-xs text-gray-500">ID: {product.id}</p>
+                                <p className="text-xs text-gray-500">ID: {product._id.slice(0, 8)}</p>
 
                             </div>
                         </div>
-                        <span className="text-sm text-white opacity-80">{product.sales}</span>
+                        <span className="text-sm text-white opacity-80">{product.totalSales} Sales</span>
                     </li>
                 ))}
             </ul>
         </div>
     );
 }
+
+export default React.memo(MostSellingProducts)

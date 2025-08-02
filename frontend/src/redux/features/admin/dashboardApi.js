@@ -16,7 +16,7 @@ const dashboardApi = createApi({
 
         getTopProducts: builder.query({
             query: ({ startDate, endDate }) => ({
-                url: '/topProducts',
+                url: '/top-products',
                 params: { startDate, endDate },
             }),
         }),
