@@ -33,72 +33,6 @@ const getDashboardStats = asyncHandler(async (req, res) => {
         }).select("_id");
         const newCustomersCount = newCustomers.length
 
-        // Top 4 Selling Products
-        const topProducts = await Order.aggregate([
-            { $match: { createdAt: { $gte: start, $lte: end } } },
-            { $unwind: "$items" }, // assuming order.items is an array
-            {
-                $group: {
-                    _id: "$items.productId",
-                    quantitySold: { $sum: "$items.quantity" },
-                    revenue: { $sum: { $multiply: ["$items.quantity", "$items.price"] } }
-                }
-            },
-            { $sort: { quantitySold: -1 } },
-            { $limit: 4 },
-            {
-                $lookup: {
-                    from: "products",
-                    localField: "_id",
-                    foreignField: "_id",
-                    as: "product"
-                }
-            },
-            { $unwind: "$product" },
-            {
-                $project: {
-                    _id: 0,
-                    productId: "$_id",
-                    name: "$product.name",
-                    quantitySold: 1,
-                    revenue: 1
-                }
-            }
-        ]);
-
-        // Top 4 Customers
-        // const topCustomers = await Order.aggregate([
-        //     { $match: { createdAt: { $gte: start, $lte: end } } },
-        //     {
-        //         $group: {
-        //             _id: "$user",
-        //             totalSpent: { $sum: "$totalAmount" },
-        //             orderCount: { $sum: 1 }
-        //         }
-        //     },
-        //     { $sort: { totalSpent: -1 } },
-        //     { $limit: 4 },
-        //     {
-        //         $lookup: {
-        //             from: "users",
-        //             localField: "_id",
-        //             foreignField: "_id",
-        //             as: "user"
-        //         }
-        //     },
-        //     { $unwind: "$user" },
-        //     {
-        //         $project: {
-        //             _id: 0,
-        //             userId: "$_id",
-        //             name: "$user.name",
-        //             email: "$user.email",
-        //             totalSpent: 1,
-        //             orderCount: 1
-        //         }
-        //     }
-        // ]);
-
         const topCustomers = await Order.aggregate([
             {
                 $match: {
@@ -182,7 +116,7 @@ const getDashboardStats = asyncHandler(async (req, res) => {
 
 
 
-        return res.status(201).json(new ApiResponse(200, { totalOrdersCount, totalSales, newCustomersCount, topProducts, topCustomers, conversionRate }, "Dashboard stats Successfully fetched!"))
+        return res.status(201).json(new ApiResponse(200, { totalOrdersCount, totalSales, newCustomersCount, topCustomers, conversionRate }, "Dashboard stats Successfully fetched!"))
 
     }
     catch (e) {
@@ -192,205 +126,70 @@ const getDashboardStats = asyncHandler(async (req, res) => {
 })
 
 
-// const getTopProducts = async (req, res) => {
-//     const { startDate, endDate } = req.query
-
-//     if (!startDate || !endDate) {
-//         throw new ApiError(400, "Start date and end date are required!")
-//     }
-
-//     const start = new Date(startDate)
-//     const end = new Date(endDate)
-
-//     try {
-//         // Top 4 Selling Products
-//         // const topProducts = await Order.aggregate([
-//         //     { $match: { createdAt: { $gte: start, $lte: end } } },
-//         //     { $unwind: "$items" }, // assuming order.items is an array
-//         //     {
-//         //         $group: {
-//         //             _id: "$items.productId",
-//         //             quantitySold: { $sum: "$items.quantity" },
-//         //             revenue: { $sum: { $multiply: ["$items.quantity", "$items.price"] } }
-//         //         }
-//         //     },
-//         //     { $sort: { quantitySold: -1 } },
-//         //     { $limit: 4 },
-//         //     {
-//         //         $lookup: {
-//         //             from: "products",
-//         //             localField: "_id",
-//         //             foreignField: "_id",
-//         //             as: "product"
-//         //         }
-//         //     },
-//         //     { $unwind: "$product" },
-//         //     {
-//         //         $project: {
-//         //             _id: 0,
-//         //             productId: "$_id",
-//         //             name: "$product.name",
-//         //             quantitySold: 1,
-//         //             revenue: 1
-//         //         }
-//         //     }
-//         // ]);
-
-//         // ✅ Fetch the orders first
-//         // const orders = await Order.find({
-//         //     createdAt: { $gte: start, $lte: end }
-//         // }).populate('products.product'); // Assuming your Order model has products with a `product` field that references Product
-
-//         const orders = await Order.find({
-//             createdAt: { $gte: start, $lte: end }
-//         });
-
-//         await Order.populate(orders, {
-//             path: "products.product"
-//         });
-
-//         const productSalesMap = new Map();
-
-//         orders.forEach(order => {
-//             order.products.forEach(item => {
-//                 const productId = item.product._id.toString(); // populated
-//                 const productName = item.product.name; // populated
-//                 const quantity = item.quantity;
-
-//                 if (productSalesMap.has(productId)) {
-//                     productSalesMap.get(productId).quantity += quantity;
-//                 } else {
-//                     productSalesMap.set(productId, {
-//                         productId,
-//                         name: productName,
-//                         quantity,
-//                     });
-//                 }
-//             });
-//         });
-
-//         const topSellingProducts = Array.from(productSalesMap.values())
-//             .sort((a, b) => b.quantity - a.quantity)
-//             .slice(0, 4);
-
-//         console.log(topSellingProducts)
-
-//         return res.status(201).json(new ApiResponse(200, topSellingProducts, "Top 4 selling products have been Successfully fetched!"))
-
-//     } catch (error) {
-//         console.log("There was an error while fetching the top products", error)
-//         throw new ApiError(500, "There was an error in  fetching the top products", error)
-//     }
-
-// }
-
-
-// const getTopProducts = async (req, res) => {
-//     try {
-//         const { startDate, endDate } = req.query;
-
-//         if (!startDate || !endDate) {
-//             return res.status(400).json({ message: "Start date and end date are required." });
-//         }
-
-//         const start = new Date(startDate);
-//         const end = new Date(endDate);
-//         end.setHours(23, 59, 59, 999); // Include the full end date
-
-//         // Fetch orders within date range
-//         const orders = await Order.find({
-//             createdAt: { $gte: start, $lte: end }
-//         }).populate("products.product");
-
-//         const productSalesMap = new Map();
-
-//         orders.forEach(order => {
-//             order.products.forEach(item => {
-//                 if (!item.product) return; // skip if product is deleted
-
-//                 const productId = item.product._id.toString();
-//                 const productName = item.product.name;
-//                 const quantity = item.quantity;
-
-//                 if (productSalesMap.has(productId)) {
-//                     productSalesMap.get(productId).quantity += quantity;
-//                 } else {
-//                     productSalesMap.set(productId, {
-//                         productId,
-//                         name: productName,
-//                         quantity
-//                     });
-//                 }
-//             });
-//         });
-
-//         // Convert Map to Array, sort by quantity, and get top 4
-//         const topProducts = Array.from(productSalesMap.values())
-//             .sort((a, b) => b.quantity - a.quantity)
-//             .slice(0, 4);
-
-//         return res.status(200).json({ topProducts });
-//     } catch (error) {
-//         console.error("Error fetching top selling products:", error);
-//         res.status(500).json({ message: "Internal server error." });
-//     }
-// };
-
-
-const getTopProducts = asyncHandler(async (req, res) => {
-    const { startDate, endDate } = req.query;
-
-    if (!startDate || !endDate) {
-        throw new ApiError(400, "Start date and end date are required!");
-    }
-
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
+const getTopSellingProducts = asyncHandler(async (req, res) => {
     try {
+        const { startDate, endDate } = req.query;
+
+        if (!startDate || !endDate) {
+            throw new ApiError(400, "Start and End dates are required to continue")
+        }
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        // Ensure end includes the entire end date (till 23:59:59)
+        end.setHours(23, 59, 59, 999);
+
         const topProducts = await Order.aggregate([
-            { $match: { createdAt: { $gte: start, $lte: end } } },
-            { $unwind: "$products" },
+            {
+                $match: {
+                    createdAt: { $gte: start, $lte: end }
+                }
+            },
+            {
+                $unwind: "$products"
+            },
             {
                 $group: {
                     _id: "$products.product",
-                    totalQuantity: { $sum: "$products.quantity" }
+                    totalQuantity: { $sum: "$products.quantity" },
+                    totalSales: { $sum: { $multiply: ["$products.quantity", "$products.price"] } }
                 }
             },
-            { $sort: { totalQuantity: -1 } },
-            { $limit: 4 },
             {
                 $lookup: {
-                    from: "products", // should match the collection name in MongoDB
+                    from: "products",
                     localField: "_id",
                     foreignField: "_id",
                     as: "productInfo"
                 }
             },
-            { $unwind: "$productInfo" },
+            {
+                $unwind: "$productInfo"
+            },
             {
                 $project: {
-                    _id: 0,
-                    productId: "$productInfo._id",
-                    name: "$productInfo.name",
-                    totalQuantity: 1
+                    _id: 1,
+                    name: "$productInfo.productName",
+                    image: { $arrayElemAt: ["$productInfo.images", 0] },
+                    totalSales: 1
                 }
+            },
+            {
+                $sort: { totalSales: -1 }
+            },
+            {
+                $limit: 4
             }
         ]);
 
-        return res.status(200).json(
-            new ApiResponse(200, topProducts, "Top selling products fetched successfully")
-        );
+        return res.status(201).json(new ApiResponse(200, topProducts, "Top Selling Products have been Successfully fetched!"))
     } catch (error) {
-        console.error("Error fetching top selling products", error);
-        throw new ApiError(500, "Error fetching top selling products");
+        console.error("Internal Error fetching top selling products:", error);
+        // res.status(500).json({ success: false, message: "Server Error" });
+        throw new ApiError(500, "There was an internal error while fetching the top selling products", error)
     }
 });
-
-
-const getTopCustomers = asyncHandler(async (req, res) => {
-
-})
 
 
 const getRecentOrders = asyncHandler(async (req, res) => {
@@ -471,4 +270,4 @@ const getRevenueAnalytics = asyncHandler(async (req, res) => {
 })
 
 
-export { getDashboardStats, getTopProducts, getRecentOrders, getRevenueAnalytics }
+export { getDashboardStats, getTopSellingProducts, getRecentOrders, getRevenueAnalytics }
