@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState } from "react"
 import DataTable from "react-data-table-component"
 import { ChevronDown } from "lucide-react"
@@ -102,15 +103,13 @@ const columns = [
     },
 ]
 
-export default function RecentOrders() {
+function RecentOrders() {
 
     const { data, isLoading, error } = useGetRecentOrdersQuery({
         startDate: "2025-01-09",
         endDate: "2025-02-28"
     })
-
     const ordersData = data?.data
-    console.log(ordersData, ordersData)
 
     const [filterText, setFilterText] = useState("")
     const [filterStatus, setFilterStatus] = useState("All Categories")
@@ -206,3 +205,5 @@ export default function RecentOrders() {
         </div>
     )
 }
+
+export default React.memo(RecentOrders)

@@ -2,29 +2,59 @@ import { Chart as ChartJS, LineElement, PointElement, LinearScale, CategoryScale
 import { Line } from "react-chartjs-2"
 import { useRef, useEffect, useState, useCallback } from "react"
 import { useGetRevenueAnalyticsQuery } from "../../../redux/features/admin/dashboardApi"
+import { useSelector } from "react-redux";
+
 
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Filler)
 
 const RevenueChart = () => {
 
 
-    const { data, isLoading, error } = useGetRevenueAnalyticsQuery({
-        startDate: "2025-02-03",
-        endDate: "2025-02-23"
-    })
+    // const { data, isLoading, error } = useGetRevenueAnalyticsQuery({
+    //     startDate: "2025-02-03",
+    //     endDate: "2025-02-23"
+    // })
 
-    const responseData = data?.data
+    // const responseData = data?.data
 
-    console.log("data", data?.data)
+    // console.log("data", data?.data)
 
     const chartRef = useRef(null)
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0, show: false })
     const [peakPointPosition, setPeakPointPosition] = useState({ x: 0, y: 0, show: false })
     const [isChartReady, setIsChartReady] = useState(false)
+    const [responseData, setResponseData] = useState([]);
 
-    if (isLoading || error || !responseData || responseData.length === 0) {
-        return;
+
+    // if (isLoading || error || !responseData || responseData.length === 0) {
+    //     return;
+    // }
+
+    const fetchData = async () => {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/admin/dashboard/revenue-analytics?` + new URLSearchParams({
+            startDate: "2025-02-03",
+            endDate: "2025-02-23"
+        }).toString())
+        const data = await res.json()
+        return data?.data
     }
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const data = await fetchData();
+                setResponseData(data);
+            } catch (err) {
+                console.error("Failed to fetch chart data", err);
+            }
+        };
+
+        getData();
+    }, []);
+
+    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+
+
 
     // const labels = ["12 Aug", "13 Aug", "14 Aug", "15 Aug", "16 Aug", "17 Aug", "18 Aug", "19 Aug"]
     const labels = responseData?.map(label => label.date)
@@ -34,8 +64,10 @@ const RevenueChart = () => {
     // if(!revenueData){
     //     revenueData= []
     // }
-    // const orderData = [4000, 5000, 4700, 6000, 6100, 5800, 7000, 6800]
-    const orderData = responseData?.map(item => item.orders)
+    const orderData = [400, 500, 2000, 600, 610, 580, 300, 680]
+    console.log("revenue data", revenueData)
+    // const orderData = responseData?.map(item => item.orders)
+    console.log("orders data", orderData)
 
     const maxRevenue = Math.max(...revenueData)
     const maxRevenueIndex = revenueData.indexOf(maxRevenue)
@@ -85,7 +117,9 @@ const RevenueChart = () => {
             {
                 label: "Revenue",
                 data: revenueData,
-                borderColor: "#010101",
+                // borderColor: "#010101",
+                borderColor: isDarkMode ? "#fff" : "#010101",
+
                 borderWidth: 2,
                 tension: 0.4,
                 pointRadius: 0,
@@ -94,7 +128,9 @@ const RevenueChart = () => {
             {
                 label: "Order",
                 data: orderData,
-                borderColor: "#9B9B9B",
+                // borderColor: "#9B9B9B",
+                borderColor: isDarkMode ? "#fff" : "#9B9B9B",
+
                 borderDash: [6, 6],
                 borderWidth: 2,
                 tension: 0.4,
@@ -174,22 +210,23 @@ const RevenueChart = () => {
     }, [isChartReady])
 
 
-    if (isLoading || !data || !data.data) {
-        return <div className="text-center">Loading chart...</div>
-    }
+    // if (isLoading || !data || !data.data) {
+    //     return <div className="text-center">Loading chart...</div>
+    // }
+
 
     return (
-        <div className="relative bg-white rounded-2xl shadow-sm p-4 w-full h-[340px] my-6 revenue-area lg:col-span-8">
+        <div className="relative bg-white rounded-2xl shadow-sm p-4 w-full h-[340px] my-6 revenue-area lg:col-span-8 dark:bg-[#000000]">
             <div className="flex justify-between items-start mb-3">
-                <h2 className="text-lg font-[500] text-black-color mb-9">Revenue Analytics</h2>
+                <h2 className="text-lg font-[500] text-black-color mb-9 dark:text-white">Revenue Analytics</h2>
                 <div className="flex flex-col sm:flex-row items-center gap-4">
                     <div className="flex items-center gap-1">
-                        <div className="w-6 h-0.5 bg-[#010101]"></div>
-                        <span className="text-sm text-black-color">Revenue</span>
+                        <div className="w-6 h-0.5 bg-[#010101] dark:bg-white"></div>
+                        <span className="text-sm text-black-color dark:text-white">Revenue</span>
                     </div>
                     <div className="flex items-center gap-1">
                         <div className="w-6 h-0.5 border-t-2 border-[#9B9B9B] border-dashed"></div>
-                        <span className="text-sm text-black-color">Order</span>
+                        <span className="text-sm text-black-color dark:text-white">Order</span>
                     </div>
                     <button className="hidden sm:block text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-md hover:bg-gray-200">
                         Last 7 Days
@@ -213,7 +250,7 @@ const RevenueChart = () => {
                         {/* Tooltip Container */}
                         <div className="relative">
                             {/* Main Tooltip Box */}
-                            <div className="bg-[#111111] text-white px-3 py-2 rounded-lg shadow-lg min-w-[100px] text-center">
+                            <div className="bg-[#111111] text-white px-3 py-2 rounded-lg shadow-lg min-w-[100px] text-center dark:bg-light-gray">
                                 <div className="text-xs font-medium opacity-90 mb-1">{maxRevenueDate}</div>
                                 <div className="text-sm font-semibold">Rs {(maxRevenue / 1000).toFixed(1)}k</div>
                             </div>

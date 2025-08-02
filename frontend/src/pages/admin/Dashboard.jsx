@@ -56,12 +56,12 @@ const Dashboard = () => {
             {/* First row of cards */}
             {
                 stats?.map((stat, index) => (
-                    <StatsCard statsTitle={stat.title} statsNumber={stat.stat} arrow={stat.arrowIcon} icon={stat.icon} gridAreaNumber={index + 1} />
+                    <StatsCard key={index} statsTitle={stat.title} statsNumber={stat.stat} arrow={stat.arrowIcon} icon={stat.icon} gridAreaNumber={index + 1} />
                 ))
             }
 
             {/* Second row of line chart and card */}
-            {/* <RevenueChart /> */}
+            <RevenueChart />
             <MostSellingProducts />
 
             {/* Third row of table and card */}
