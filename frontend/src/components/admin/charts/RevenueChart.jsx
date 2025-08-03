@@ -2,7 +2,6 @@ import React from 'react'
 import { Chart as ChartJS, LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Filler } from "chart.js"
 import { Line } from "react-chartjs-2"
 import { useRef, useEffect, useState, useCallback } from "react"
-import { useGetRevenueAnalyticsQuery } from "../../../redux/features/admin/dashboardApi"
 import { useSelector } from "react-redux";
 
 
@@ -10,26 +9,11 @@ ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip,
 
 const RevenueChart = () => {
 
-
-    // const { data, isLoading, error } = useGetRevenueAnalyticsQuery({
-    //     startDate: "2025-02-03",
-    //     endDate: "2025-02-23"
-    // })
-
-    // const responseData = data?.data
-
-    // console.log("data", data?.data)
-
     const chartRef = useRef(null)
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0, show: false })
     const [peakPointPosition, setPeakPointPosition] = useState({ x: 0, y: 0, show: false })
     const [isChartReady, setIsChartReady] = useState(false)
     const [responseData, setResponseData] = useState([]);
-
-
-    // if (isLoading || error || !responseData || responseData.length === 0) {
-    //     return;
-    // }
 
     const fetchData = async () => {
         const res = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/admin/dashboard/revenue-analytics?` + new URLSearchParams({
@@ -120,7 +104,6 @@ const RevenueChart = () => {
                 data: revenueData,
                 // borderColor: "#010101",
                 borderColor: isDarkMode ? "#fff" : "#010101",
-
                 borderWidth: 2,
                 tension: 0.4,
                 pointRadius: 0,
@@ -131,7 +114,6 @@ const RevenueChart = () => {
                 data: orderData,
                 // borderColor: "#9B9B9B",
                 borderColor: isDarkMode ? "#fff" : "#9B9B9B",
-
                 borderDash: [6, 6],
                 borderWidth: 2,
                 tension: 0.4,
@@ -209,12 +191,6 @@ const RevenueChart = () => {
         window.addEventListener("resize", handleResize)
         return () => window.removeEventListener("resize", handleResize)
     }, [isChartReady])
-
-
-    // if (isLoading || !data || !data.data) {
-    //     return <div className="text-center">Loading chart...</div>
-    // }
-
 
     return (
         <div className="relative bg-white rounded-2xl shadow-sm p-4 w-full h-[340px] my-6 revenue-area lg:col-span-8 dark:bg-[#000000]">
