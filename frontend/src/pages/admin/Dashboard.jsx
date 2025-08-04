@@ -51,7 +51,7 @@ const Dashboard = () => {
     ]
     return (
         // <div className='bg-[#F3F3F3] px-6 grid grid-cols-12 gap-5 w-full dashboard-grid-area'>
-        <div className='bg-[#F3F3F3] opacity-95 px-6 w-full dashboard-grid-area pb-8 dark:bg-dark-bg'>
+        <div className='opacity-95 px-6 w-full dashboard-grid-area pb-8'>
 
             {/* First row of cards */}
             {

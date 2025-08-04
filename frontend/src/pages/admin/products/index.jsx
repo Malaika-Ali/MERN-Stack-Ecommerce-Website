@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { MoreHorizontal } from 'lucide-react';
+import TextInput from '../../../components/inputs/TextInput';
+import OutlinedDropDown from '../../../components/inputs/drop downs/OutlinedDropDown';
+import OutlinedInput from '../../../components/inputs/text fields/OutlinedInput';
+import StatsCard from '../../../components/cards/StatsCard';
+import IconButton from '../../../components/buttons/IconButton';
+import { useNavigate } from 'react-router-dom';
+import RoundedButton from '../../../components/buttons/RoundedButton';
+import { useSelector } from "react-redux";
+import CustomDropdown from '../../../components/inputs/drop downs/CustomDropDown';
+
+import { CiEdit } from "react-icons/ci";
+import { BiSolidEditAlt } from "react-icons/bi";
+
 
 const Button = ({ children, variant = 'default', size = 'md', className = '', ...props }) => {
     const baseStyles = 'rounded px-4 py-2 font-medium';
@@ -14,31 +27,6 @@ const Button = ({ children, variant = 'default', size = 'md', className = '', ..
         </button>
     );
 };
-
-const Card = ({ children }) => (
-    <div className="bg-white rounded-lg shadow border border-gray-200">{children}</div>
-);
-
-const CardContent = ({ children, className = '' }) => (
-    <div className={`p-4 ${className}`}>{children}</div>
-);
-
-const Input = ({ className = '', ...props }) => (
-    <input
-        className={`border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 ${className}`}
-        {...props}
-    />
-);
-
-const Select = ({ children, ...props }) => (
-    <select className="border border-gray-300 rounded px-3 py-2 text-sm" {...props}>
-        {children}
-    </select>
-);
-
-const SelectItem = ({ value, children }) => (
-    <option value={value}>{children}</option>
-);
 
 const products = [
     {
@@ -70,71 +58,102 @@ const products = [
     },
 ];
 
-const columns = [
+const stats = [
     {
-        name: 'Product Name',
-        selector: row => row.name,
-        cell: row => (
-            <div className="flex flex-col">
-                <span className="font-medium text-sm">{row.name}</span>
-                <span className="text-xs text-gray-500">{row.category}</span>
-            </div>
-        ),
-        sortable: true,
-        grow: 2
+        title: "Total Products",
+        stat: `19`
     },
     {
-        name: 'ID & Create Date',
-        selector: row => row.id,
-        cell: row => (
-            <div className="flex flex-col">
-                <span className="text-sm">{row.id}</span>
-                <span className="text-xs text-gray-500">{row.createdAt}</span>
-            </div>
-        ),
-        sortable: true,
+        title: "Out of Stock Products",
+        stat: 2
     },
     {
-        name: 'Price',
-        selector: row => row.price,
-        sortable: true
+        title: "Published Products",
+        stat: 15
     },
     {
-        name: 'Stock',
-        selector: row => row.stock,
-        sortable: true
+        title: "Inactive Products",
+        stat: 2
     },
-    {
-        name: 'Status',
-        selector: row => row.status,
-        cell: row => (
-            <span
-                className={`px-2 py-1 text-xs rounded font-medium ${row.status === 'Published'
-                    ? 'bg-green-100 text-green-700'
-                    : row.status === 'Out Stock'
-                        ? 'bg-orange-100 text-orange-700'
-                        : row.status === 'Inactive'
-                            ? 'bg-red-100 text-red-700'
-                            : 'bg-gray-100 text-gray-700'
-                    }`}
-            >
-                {row.status}
-            </span>
-        ),
-        sortable: true
-    },
-    {
-        name: 'Action',
-        cell: () => (
-            <Button variant="outline" size="sm">
-                Details
-            </Button>
-        ),
-        ignoreRowClick: true,
-        allowOverflow: true,
-        button: true
-    }
-];
+    // {
+    //     title: "New Customers",
+    //     icon: <GoPeople size={25} />,
+    //     arrowIcon: <LiaLongArrowAltUpSolid color='green' />,
+    //     stat: data?.data?.newCustomersCount
+    // },
+    // {
+    //     title: "Conversion Rate",
+    //     icon: <PiTargetLight size={25} />,
+    //     arrowIcon: <LiaLongArrowAltUpSolid color='green' />,
+    //     stat: `${data?.data?.conversionRate}%`
+    // },
+]
+
+// const columns = [
+//     {
+//         name: 'Product Name',
+//         selector: row => row.name,
+//         cell: row => (
+//             <div className="flex flex-col">
+//                 <span className="font-medium text-sm">{row.name}</span>
+//                 <span className="text-xs text-gray-500">{row.category}</span>
+//             </div>
+//         ),
+//         sortable: true,
+//         grow: 2
+//     },
+//     {
+//         name: 'ID & Create Date',
+//         selector: row => row.id,
+//         cell: row => (
+//             <div className="flex flex-col">
+//                 <span className="text-sm">{row.id}</span>
+//                 <span className="text-xs text-gray-500">{row.createdAt}</span>
+//             </div>
+//         ),
+//         sortable: true,
+//     },
+//     {
+//         name: 'Price',
+//         selector: row => row.price,
+//         sortable: true
+//     },
+//     {
+//         name: 'Stock',
+//         selector: row => row.stock,
+//         sortable: true
+//     },
+//     {
+//         name: 'Status',
+//         selector: row => row.status,
+//         cell: row => (
+//             <span
+//                 className={`px-2 py-1 text-xs rounded-full font-medium ${row.status === 'Published'
+//                     ? 'bg-green-100 text-green-700'
+//                     : row.status === 'Out Stock'
+//                         ? 'bg-orange-100 text-orange-700'
+//                         : row.status === 'Inactive'
+//                             ? 'bg-red-100 text-red-700'
+//                             : 'bg-gray-100 text-gray-700'
+//                     }`}
+//             >
+//                 {row.status}
+//             </span>
+//         ),
+//         sortable: true
+//     },
+//     {
+//         name: 'Action',
+//         cell: () => (
+//             <button >
+//                 <BiSolidEditAlt color={`${isDarkMode ? 'white' : 'black'}`} size={20} />
+//             </button>
+//         ),
+//         ignoreRowClick: true,
+//         allowOverflow: true,
+//         button: true
+//     }
+// ];
 
 const customStyles = {
     rows: {
@@ -151,30 +170,139 @@ const customStyles = {
 };
 
 const Products = () => {
+
+    const navigate = useNavigate()
+    const handleAddProduct = () => {
+        navigate('/admin/add-product')
+    }
+
+    const dropdownOptions = [
+        { value: "All", label: "All Categories" },
+        { value: "Published", label: "Published" },
+        { value: "Out of Stock", label: "Out of Stock" },
+        { value: "Inactive", label: "Inactive" },
+    ]
+
+    const [filterText, setFilterText] = useState("")
+    const [filterStatus, setFilterStatus] = useState("All Categories")
+
+    const handleDropdownChange = (value) => {
+        setFilterStatus(value === "All" ? "All Categories" : value)
+    }
+
+    const filteredData = products?.filter((item) => {
+        const matchesText =
+            item.name.toLowerCase().includes(filterText.toLowerCase()) ||
+            item.id.toLowerCase().includes(filterText.toLowerCase())
+        const matchesStatus = filterStatus === "All Categories" || item.status === filterStatus
+        return matchesText && matchesStatus
+    })
+
+
+    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+
+
+    const columns = [
+        {
+            name: 'Product Name',
+            selector: row => row.name,
+            cell: row => (
+                <div className="flex items-center gap-3">
+                    <img className="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-md object-cover" src={row.image}>
+                    </img>
+                    <div className="flex flex-col">
+                        <span className="font-medium text-sm">{row.name}</span>
+                        <span className="text-xs text-gray-500">{row.category}</span>
+                    </div>
+                </div>
+            ),
+            sortable: true,
+            grow: 2
+        },
+        {
+            name: 'ID & Create Date',
+            selector: row => row.id,
+            cell: row => (
+                <div className="flex flex-col">
+                    <span className="text-sm">{row.id}</span>
+                    <span className="text-xs text-gray-500">{row.createdAt}</span>
+                </div>
+            ),
+            sortable: true,
+        },
+        {
+            name: 'Price',
+            selector: row => row.price,
+            sortable: true
+        },
+        {
+            name: 'Stock',
+            selector: row => row.stock,
+            sortable: true
+        },
+        {
+            name: 'Status',
+            selector: row => row.status,
+            cell: row => (
+                <span
+                    className={`px-2 py-1 text-xs rounded-full font-medium ${row.status === 'Published'
+                        ? 'bg-green-100 text-green-700'
+                        : row.status === 'Out Stock'
+                            ? 'bg-orange-100 text-orange-700'
+                            : row.status === 'Inactive'
+                                ? 'bg-red-100 text-red-700'
+                                : 'bg-gray-100 text-gray-700'
+                        }`}
+                >
+                    {row.status}
+                </span>
+            ),
+            sortable: true
+        },
+        {
+            name: 'Action',
+            cell: () => (
+                <button >
+                    <BiSolidEditAlt color={`${isDarkMode ? 'white' : 'black'}`} size={20} />
+                </button>
+            ),
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true
+        }
+    ];
+
+
     return (
-        <div className="p-6">
+        <div className="px-6 w-full pb-8">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-xl font-semibold">Products List</h1>
-                    <p className="text-sm text-gray-500">
+                    <h1 className="text-xl font-[500] dark:text-white">Products List</h1>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                         Here you can find all of your products
                     </p>
                 </div>
                 <div className="flex gap-2">
-                    <Button>Add Product</Button>
-                    <Button variant="outline">More Actions</Button>
+                    {/* <Button>Add Product</Button> */}
+                    <RoundedButton children="Add Product" handleClick={handleAddProduct} />
+                    {/* <Button variant="outline">More Actions</Button> */}
                 </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <Card><CardContent><p className="text-sm">Total Products</p><h2 className="text-lg font-semibold">2,40,120</h2></CardContent></Card>
+                {/* <Card><CardContent><p className="text-sm">Total Products</p><h2 className="text-lg font-semibold">2,40,120</h2></CardContent></Card>
                 <Card><CardContent><p className="text-sm">Product Sales</p><h2 className="text-lg font-semibold">5,70,190</h2></CardContent></Card>
                 <Card><CardContent><p className="text-sm">Stock Products</p><h2 className="text-lg font-semibold">1,40,530</h2></CardContent></Card>
-                <Card><CardContent><p className="text-sm">Out of Stock</p><h2 className="text-lg font-semibold">99,349</h2></CardContent></Card>
+                <Card><CardContent><p className="text-sm">Out of Stock</p><h2 className="text-lg font-semibold">99,349</h2></CardContent></Card> */}
+                {stats?.map((stat, index) => (
+                    <StatsCard key={index} statsTitle={stat.title} statsNumber={stat.stat} />
+                )
+
+                )}
             </div>
 
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
-                <Input placeholder="Search by name, Product ID..." className="w-full md:w-80" />
+            {/* <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+                <OutlinedInput placeholder="Search by name, Product ID..." className="w-full md:w-80" />
                 <div className="flex gap-2 flex-wrap">
                     <Select>
                         <SelectItem value="All Status">All Status</SelectItem>
@@ -182,12 +310,10 @@ const Products = () => {
                         <SelectItem value="Out Stock">Out Stock</SelectItem>
                         <SelectItem value="Inactive">Inactive</SelectItem>
                     </Select>
-                    <Input type="date" />
-                    <Button variant="outline">More Filter</Button>
                 </div>
-            </div>
+            </div> */}
 
-            <Card>
+            {/* <Card>
                 <CardContent>
                     <DataTable
                         columns={columns}
@@ -198,7 +324,60 @@ const Products = () => {
                         highlightOnHover
                     />
                 </CardContent>
-            </Card>
+            </Card> */}
+
+
+            <div className="bg-white rounded-2xl p-6 shadow-sm recent-orders lg:col-span-8 dark:bg-[#1D1D1D]">
+                {/* Header */}
+                <div className="flex flex-row justify-between items-center gap-4 mb-2 sm:px-2">
+                    <h2 className="text-lg font-[500] text-black-color dark:text-white">Products</h2>
+                    <div className="flex flex-wrap rounded-full gap-2 sm:gap-4">
+                        <CustomDropdown value={filterStatus} onChange={handleDropdownChange} options={dropdownOptions} />
+                    </div>
+                </div>
+
+                {/* DataTable */}
+                <DataTable
+                    columns={columns}
+                    data={filteredData}
+                    highlightOnHover
+                    responsive
+                    persistTableHead
+                    customStyles={{
+                        rows: {
+                            style: {
+                                minHeight: "48px",
+                                borderBottom: "none",
+                                borderRadius: "7px",
+                                border: "none",
+                                outline: "none",
+                            },
+                        },
+                        headCells: {
+                            style: {
+                                fontSize: "14px",
+                                fontWeight: 600,
+                                color: "#6b7280",
+                                // backgroundColor: "#fff",
+                                backgroundColor: isDarkMode ? "#333333" : "#fff",
+                                paddingLeft: "16px",
+                                paddingRight: "16px",
+                            },
+                        },
+                        cells: {
+                            style: {
+                                paddingLeft: "16px",
+                                paddingRight: "16px",
+                                fontSize: "14px",
+                                backgroundColor: isDarkMode ? "#333333" : "#fff",
+                                // color: "#374151",
+                                color: isDarkMode ? "#D5D5D5" : "374151",
+                                borderBottom: "none",
+                            },
+                        },
+                    }}
+                />
+            </div>
         </div>
     );
 };
