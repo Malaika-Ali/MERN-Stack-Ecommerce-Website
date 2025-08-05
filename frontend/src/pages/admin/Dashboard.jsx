@@ -18,11 +18,6 @@ const Dashboard = () => {
         endDate: "2025-02-23"
     })
 
-    console.log(data?.data?.topCustomers)
-    console.log(data?.data?.topProducts)
-
-
-
     const stats = [
         {
             title: "Total sales",

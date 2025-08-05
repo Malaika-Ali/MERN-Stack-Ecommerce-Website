@@ -7,6 +7,7 @@ import productsApi from './features/products/productsApi.js'
 import reviewsApi from './features/reviews/reviewsApi.js'
 import orderApi from './features/order/orderApi.js'
 import dashboardApi from './features/admin/dashboardApi.js'
+import adminProductApi from './features/admin/productApi.js'
 
 export const store = configureStore({
   reducer: {
@@ -18,10 +19,12 @@ export const store = configureStore({
     [reviewsApi.reducerPath]: reviewsApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
     [dashboardApi.reducerPath]: dashboardApi.reducer,
+    [adminProductApi.reducerPath]: adminProductApi.reducer,
+
 
 
 
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userApi.middleware, productsApi.middleware, reviewsApi.middleware, orderApi.middleware, dashboardApi.middleware),
+    getDefaultMiddleware().concat(userApi.middleware, productsApi.middleware, reviewsApi.middleware, orderApi.middleware, dashboardApi.middleware, adminProductApi.middleware),
 })

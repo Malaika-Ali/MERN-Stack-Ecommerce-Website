@@ -43,16 +43,13 @@ const RevenueChart = () => {
 
     // const labels = ["12 Aug", "13 Aug", "14 Aug", "15 Aug", "16 Aug", "17 Aug", "18 Aug", "19 Aug"]
     const labels = responseData?.map(label => label.date)
-    console.log("labels", labels)
     // const revenueData = [8000, 10000, 9500, 12000, 12500, 11000, 14521, 13000]
     const revenueData = responseData?.map(item => item.revenue) || []
     // if(!revenueData){
     //     revenueData= []
     // }
     const orderData = [400, 500, 2000, 600, 610, 580, 300, 680]
-    console.log("revenue data", revenueData)
     // const orderData = responseData?.map(item => item.orders)
-    console.log("orders data", orderData)
 
     const maxRevenue = Math.max(...revenueData)
     const maxRevenueIndex = revenueData.indexOf(maxRevenue)

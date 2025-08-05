@@ -8,7 +8,6 @@ function MostSellingProducts() {
         endDate: "2025-02-28"
     })
 
-    console.log("top products", data?.data)
     const products = data?.data || [];
 
     return (

@@ -13,6 +13,8 @@ import CustomDropdown from '../../../components/inputs/drop downs/CustomDropDown
 
 import { CiEdit } from "react-icons/ci";
 import { BiSolidEditAlt } from "react-icons/bi";
+import { useGetProductsQuery } from '../../../redux/features/admin/productApi';
+import { FiPlus } from "react-icons/fi";
 
 
 const Button = ({ children, variant = 'default', size = 'md', className = '', ...props }) => {
@@ -27,36 +29,6 @@ const Button = ({ children, variant = 'default', size = 'md', className = '', ..
         </button>
     );
 };
-
-const products = [
-    {
-        id: '#KM1662286',
-        name: 'Airpods Pro Max 2024',
-        category: 'Electric Product',
-        createdAt: 'Jan 01, 2024',
-        price: '$10,120.00',
-        stock: '1,20,120',
-        status: 'Published'
-    },
-    {
-        id: '#KM1662200',
-        name: 'Small Hi-Speed Fan',
-        category: 'Electric Product',
-        createdAt: 'Jan 01, 2024',
-        price: '$5,180.00',
-        stock: '0',
-        status: 'Out Stock'
-    },
-    {
-        id: '#KM1662211',
-        name: 'Nike New Model Shoes',
-        category: 'Shoes Product',
-        createdAt: 'Jan 01, 2024',
-        price: '$13,145.00',
-        stock: '10,120',
-        status: 'Published'
-    },
-];
 
 const stats = [
     {
@@ -176,6 +148,10 @@ const Products = () => {
         navigate('/admin/add-product')
     }
 
+    const { data, isLoading, error } = useGetProductsQuery()
+
+    const products = data?.data
+
     const dropdownOptions = [
         { value: "All", label: "All Categories" },
         { value: "Published", label: "Published" },
@@ -220,13 +196,34 @@ const Products = () => {
             grow: 2
         },
         {
-            name: 'ID & Create Date',
+            name: 'ID',
             selector: row => row.id,
             cell: row => (
-                <div className="flex flex-col">
-                    <span className="text-sm">{row.id}</span>
-                    <span className="text-xs text-gray-500">{row.createdAt}</span>
-                </div>
+                <span className="text-sm">#{row.id.slice(0, 8)}</span>
+            ),
+            sortable: true,
+        },
+        {
+            name: 'Create Date',
+            selector: row => row.id,
+            cell: row => (
+                <span className="text-xs text-gray-500 dark:text-gray-400">{row.createdAt.slice(0, 10)}</span>
+            ),
+            sortable: true,
+        },
+        {
+            name: 'Fabric or Material',
+            selector: row => row.materialOrFabric,
+            cell: row => (
+                <span className="text-sm">{row.materialOrFabric}</span>
+            ),
+            sortable: true,
+        },
+        {
+            name: 'Color',
+            selector: row => row.color,
+            cell: row => (
+                <span className="text-sm">{row.color}</span>
             ),
             sortable: true,
         },
@@ -237,28 +234,28 @@ const Products = () => {
         },
         {
             name: 'Stock',
-            selector: row => row.stock,
+            selector: row => row.quantity,
             sortable: true
         },
-        {
-            name: 'Status',
-            selector: row => row.status,
-            cell: row => (
-                <span
-                    className={`px-2 py-1 text-xs rounded-full font-medium ${row.status === 'Published'
-                        ? 'bg-green-100 text-green-700'
-                        : row.status === 'Out Stock'
-                            ? 'bg-orange-100 text-orange-700'
-                            : row.status === 'Inactive'
-                                ? 'bg-red-100 text-red-700'
-                                : 'bg-gray-100 text-gray-700'
-                        }`}
-                >
-                    {row.status}
-                </span>
-            ),
-            sortable: true
-        },
+        // {
+        //     name: 'Status',
+        //     selector: row => "Published",
+        //     cell: row => (
+        //         <span
+        //             className={`px-2 py-1 text-xs rounded-full font-medium ${row.status === 'Published'
+        //                 ? 'bg-green-100 text-green-700'
+        //                 : row.status === 'Out Stock'
+        //                     ? 'bg-orange-100 text-orange-700'
+        //                     : row.status === 'Inactive'
+        //                         ? 'bg-red-100 text-red-700'
+        //                         : 'bg-gray-100 text-gray-700'
+        //                 }`}
+        //         >
+        //             {row.status}
+        //         </span>
+        //     ),
+        //     sortable: true
+        // },
         {
             name: 'Action',
             cell: () => (
@@ -284,8 +281,12 @@ const Products = () => {
                 </div>
                 <div className="flex gap-2">
                     {/* <Button>Add Product</Button> */}
-                    <RoundedButton children="Add Product" handleClick={handleAddProduct} />
+                    {/* <RoundedButton children={`${<FiPlus />} Add Product`} handleClick={handleAddProduct} /> */}
                     {/* <Button variant="outline">More Actions</Button> */}
+                    <button className='rounded-full flex justify-between items-center py-2 px-4 bg-black-color text-white gap-2'>
+                        <FiPlus />
+                        Add Product
+                    </button>
                 </div>
             </div>
 
