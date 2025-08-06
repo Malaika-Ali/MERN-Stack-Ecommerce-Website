@@ -18,7 +18,7 @@ const ImageUpload = ({ register }) => {
                 className="mb-4"
             />
             {preview && (
-                <img src={preview} alt="Preview" className="w-full rounded-lg" />
+                <img src={preview} alt="Preview" className="rounded-lg" />
             )}
         </div>
     );

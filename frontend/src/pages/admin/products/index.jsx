@@ -170,8 +170,6 @@ const Products = () => {
                 </button>
             ),
             ignoreRowClick: true,
-
-            button: true
         }
     ];
 

@@ -20,7 +20,7 @@ const SizeSelector = ({ register }) => {
                 </div>
             </div>
 
-            <div>
+            {/* <div>
                 <label className="block mb-1 font-medium text-sm">Gender</label>
                 <div className="flex gap-4">
                     {["Men", "Woman", "Unisex"].map((gender) => (
@@ -34,7 +34,7 @@ const SizeSelector = ({ register }) => {
                         </label>
                     ))}
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };
