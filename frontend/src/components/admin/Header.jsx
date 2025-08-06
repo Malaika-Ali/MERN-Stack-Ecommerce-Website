@@ -9,6 +9,7 @@ const Header = () => {
     const routeNameMap = {
         '/admin/dashboard': 'Dashboard',
         '/admin/products': 'Products',
+        '/admin/add-product': 'Products/AddProduct',
         'admin//orders': 'Orders',
         'admin//users': 'Users',
     };
