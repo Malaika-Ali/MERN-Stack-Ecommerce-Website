@@ -49,9 +49,9 @@ const addProduct = asyncHandler(async (req, res) => {
     const { productName, description, price, color, category, material, fabric, quantity } = req.body
     const { images } = req.files
 
-    if (!productName || !description || !price || !color || !category || (!material && !fabric) || !quantity || images.length == 0) {
-        throw new ApiError(400, "Incomplete Product's Information!");
-    }
+    // if (!productName || !description || !price || !color || !category || (!material && !fabric) || !quantity || images.length == 0) {
+    //     throw new ApiError(400, "Incomplete Product's Information!");
+    // }
 
     const imagesLocalPaths = req.files?.map((file) => file?.path)
 
