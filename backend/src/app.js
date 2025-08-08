@@ -15,15 +15,15 @@ app.use(express.json({
     limit: "16kb"
 }))
 
-// For sanitizing the sql/no sql injection in the upcoming data
-app.use(mongoSanitize());
-
-
 // handle data coming from URLs like params
 app.use(express.urlencoded({
     extended: true,
     limit: "16kb"
 }))
+
+// For sanitizing the sql/no sql injection in the upcoming data
+app.use(mongoSanitize());
+
 
 // folder to keep files like images or pdfs
 app.use(express.static("public"))
@@ -50,7 +50,7 @@ app.use("/api/v1/products", productRouter)
 app.use("/api/v1/reviews", reviewRouter)
 app.use("/api/v1/orders", orderRouter)
 app.use("/api/v1", searchRouter)
-// admin panel routes
+// admin routes
 app.use("/api/v1/admin/dashboard", dashboardRouter)
 app.use("/api/v1/admin/products", adminProductRouter)
 
