@@ -18,9 +18,9 @@ const productSchema= new Schema({
         type: Number,
         required: [true , "Product's price is required"]
     },
-    originalPrice:{
-        type: Number,
-    },
+    // originalPrice:{
+    //     type: Number,
+    // },
     color:{
         type: String,
     },

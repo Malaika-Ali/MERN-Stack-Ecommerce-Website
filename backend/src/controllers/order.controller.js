@@ -5,11 +5,8 @@ import { Order } from "../models/order.model.js";
 
 const createOrder = asyncHandler(async (req, res) => {
     try {
-        console.log("run1")
         const { products, shippingInfo, paymentInfo, totalAmount } = req.body
         console.log(products, shippingInfo, paymentInfo, totalAmount)
-        console.log("run2")
-
 
         if (!products || !shippingInfo || !paymentInfo || !totalAmount) {
             throw new ApiError(400, 'Incomplete Order Information!');

@@ -2,6 +2,7 @@ import { ApiError } from "../../utils/ApiError.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { Product } from "../../models/product.model.js";
+import { uploadOnCloudinary } from "../../utils/cloudinary.js";
 
 const getAllProductsForAdmin = asyncHandler(async (req, res) => {
     try {
@@ -44,4 +45,38 @@ const getAllProductsForAdmin = asyncHandler(async (req, res) => {
     }
 });
 
-export { getAllProductsForAdmin }
+const addProduct = asyncHandler(async (req, res) => {
+    const { productName, description, price, color, category, material, fabric, quantity } = req.body
+    const { images } = req.files
+
+    if (!productName || !description || !price || !color || !category || (!material && !fabric) || !quantity || images.length == 0) {
+        throw new ApiError(400, "Incomplete Product's Information!");
+    }
+
+    const imagesLocalPaths = req.files?.map((file) => file?.path)
+
+    const cloudinaryImagesURL = await imagesLocalPaths?.map((path) => uploadOnCloudinary(path))
+
+    try {
+        const product = await Product.create({
+            productName,
+            description,
+            price,
+            color,
+            category,
+            material: material || "",
+            fabric: fabric || "",
+            quantity,
+            images: cloudinaryImagesURL?.map((url) => url?.url)
+        })
+
+        return res.status(201).json(new ApiResponse(200, product, "Product successfully created!"))
+
+    } catch (error) {
+        console.log(error)
+        throw new ApiError(500, "There was an internal server error while creating the product, please try again!")
+
+    }
+})
+
+export { getAllProductsForAdmin, addProduct }
