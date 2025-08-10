@@ -16,7 +16,8 @@ export default {
 
         'dark-sidebar-bg': '#141414',
         'dark-bg': '#333333',
-        'light-gray': '#575757'
+        'light-gray': '#575757',
+        'dark-gray': "#1D1D1D"
       },
       screens: {
         'xs': '480px',

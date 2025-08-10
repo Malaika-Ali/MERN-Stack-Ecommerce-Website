@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import SizeSelector from "../../../components/inputs/drop downs/SizeSelector";
 import ImageUpload from "../../../components/inputs/ImageUpload";
 import OutlinedInput from "../../../components/inputs/text fields/OutlinedInput";
+import LoaderButton from "../../../components/buttons/LoaderButton";
+import { FaCheck } from "react-icons/fa6";
+import RoundedButton from "../../../components/buttons/RoundedButton";
+import OutlinedDropDown from "../../../components/inputs/drop downs/OutlinedDropDown";
 
 const AddProduct = () => {
     const {
@@ -18,9 +22,16 @@ const AddProduct = () => {
         // call your API here
     };
 
+    const [loading, setloading] = useState(false)
+
     return (
         <div className="flex flex-col w-full px-6 pb-8">
-            <h2 className="text-xl font-semibold mb-6">Add New Product</h2>
+            <div className="flex justify-between items-center mb-6">
+                <h2 className=" text-md text-xl font-[500] dark:text-white">Add New Product</h2>
+
+                <LoaderButton children="save Product" loading={loading} Icon={FaCheck} handleClick={() => setloading(true)} className="w-5 h-5" />
+
+            </div>
 
             <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -28,8 +39,8 @@ const AddProduct = () => {
             >
                 {/* LEFT COLUMN */}
                 <div className="lg:col-span-8 space-y-6">
-                    <div className="bg-white p-6 rounded-xl shadow-sm">
-                        <h3 className="font-semibold mb-4 text-gray-800">General Information</h3>
+                    <div className="bg-white p-6 rounded-xl shadow-sm dark:bg-dark-gray">
+                        <h3 className="font-semibold mb-4 text-black-color dark:text-white">General Information</h3>
                         <div className="space-y-4">
                             <OutlinedInput
                                 {...register("name", { required: true })}
@@ -37,19 +48,21 @@ const AddProduct = () => {
                                 className="w-full p-3"
                                 label="Products's Name"
                             />
+                            <label htmlFor="description" className="block text-sm mb-0.5 px-2 text-gray-600 dark:text-gray-500">Product's Description</label>
                             <textarea
                                 {...register("description")}
                                 placeholder="Description Product"
                                 rows={4}
-                                className="w-full p-3 border rounded-md"
+                                className="w-full p-3 border border-gray-300 rounded-xl dark:bg-transparent"
                             />
                             <SizeSelector register={register} />
                         </div>
                     </div>
 
 
-                    <div className="bg-white px-2 py-6 xl:p-6 rounded-xl shadow-sm">
-                        <h3 className="font-semibold mb-4 text-gray-800">Upload Img</h3>
+                    <div className="bg-white px-2 py-6 xl:p-6 rounded-xl shadow-sm dark:bg-dark-gray
+                    ">
+                        <h3 className="font-[500] mb-4 text-gray-800 dark:text-white">Upload Image</h3>
                         <ImageUpload register={register} />
                     </div>
 
@@ -58,29 +71,20 @@ const AddProduct = () => {
 
                 {/* RIGHT COLUMN */}
                 <div className="space-y-6 lg:col-span-4  w-full">
-                    {/* <div className="bg-white px-2 py-6 xl:p-6 rounded-xl shadow-sm">
-                        <h3 className="font-semibold mb-4 text-gray-800">Upload Img</h3>
-                        <ImageUpload register={register} />
-                    </div> */}
 
-                    <div className="bg-white p-6 rounded-xl shadow-sm">
-                        <h3 className="font-semibold mb-4 text-gray-800">Category</h3>
-                        <input
+                    <div className="bg-white p-6 rounded-xl shadow-sm dark:bg-dark-gray">
+                        {/* <h3 className="font-[500] mb-4 text-black-color dark:text-white">Category</h3> */}
+                        {/* <input
                             {...register("category")}
                             placeholder="Product Category"
                             className="w-full p-3 border rounded-md"
-                        />
-                        <button
-                            type="button"
-                            className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
-                        >
-                            Add Category
-                        </button>
+                        /> */}
+                        <OutlinedDropDown label="Product's Category" options={["Clothes", "Jewellery", "Accessories", "Footwear"]} value="Category" />
                     </div>
 
 
-                    <div className="bg-white p-6 rounded-xl shadow-sm">
-                        <h3 className="font-semibold mb-4 text-gray-800">Pricing And Stock</h3>
+                    <div className="bg-white p-6 rounded-xl shadow-sm dark:bg-dark-gray">
+                        <h3 className="font-[500] mb-4 text-black-color dark:text-white">Pricing And Stock</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <input
                                 {...register("price")}
@@ -107,23 +111,6 @@ const AddProduct = () => {
                         </div>
                     </div>
 
-
-
-                    <div className="flex justify-between gap-4 pt-4">
-                        <button
-                            type="button"
-                            className="w-1/2 border border-gray-300 text-gray-800 py-2 rounded"
-                        >
-                            Save Draft
-                        </button>
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-1/2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded"
-                        >
-                            {isSubmitting ? "Submitting..." : "Add Product"}
-                        </button>
-                    </div>
                 </div>
             </form>
         </div>

@@ -1,25 +1,25 @@
-import React, {useId} from 'react'
+import React, { useId } from 'react'
 
 const OutlinedInput = ({
-    label,
-    type='text',
-    placeholder,
-    className="",
-    ...props
+  label,
+  type = 'text',
+  placeholder,
+  className = "",
+  ...props
 }, ref) => {
-  const id=useId()
+  const id = useId()
   return (
     <div>
-    <label className="block text-sm mb-1.5 px-2">{label}</label>
-    <input
-      type={ type || "text"}
-      placeholder={placeholder}
-      className={`w-full px-4 py-2.5 border border-gray-300 rounded-full text-sm placeholder:text-gray-400 ${className ? className: ""} transition-all duration-400 ease-linear`}
-      {...props}
-      id={id}
-      ref={ref}
-    />
-  </div>
+      <label className="block text-sm mb-1.5 px-2 text-gray-600 dark:text-gray-500">{label}</label>
+      <input
+        type={type || "text"}
+        placeholder={placeholder}
+        className={`w-full px-4 py-2.5 border border-gray-300 rounded-full text-sm placeholder:text-gray-400 ${className ? className : ""} transition-all duration-400 ease-linear dark:bg-transparent`}
+        {...props}
+        id={id}
+        ref={ref}
+      />
+    </div>
   )
 }
 
