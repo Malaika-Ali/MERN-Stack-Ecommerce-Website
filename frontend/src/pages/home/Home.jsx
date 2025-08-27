@@ -7,16 +7,16 @@ import ProductsSection from './ProductsSection'
 
 const Home = () => {
 
-    document.title="Home"  
+  document.title = "Home"
 
   return (
-  <>
-  <LandinPageHero/>
-  <CategorySection/>
+    <>
+      <LandinPageHero />
+      {/* <CategorySection/>
   <ProductsSection/>
   <CustomerReviews/>
-  <PromotionalBanner/>
-  </>
+  <PromotionalBanner/> */}
+    </>
   )
 }
 
