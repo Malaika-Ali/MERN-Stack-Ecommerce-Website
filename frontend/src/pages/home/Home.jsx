@@ -12,10 +12,10 @@ const Home = () => {
   return (
     <>
       <LandinPageHero />
-      {/* <CategorySection/>
-  <ProductsSection/>
-  <CustomerReviews/>
-  <PromotionalBanner/> */}
+      <CategorySection />
+      <ProductsSection />
+      <CustomerReviews />
+      <PromotionalBanner />
     </>
   )
 }
