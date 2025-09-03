@@ -74,7 +74,7 @@ const SearchPage = () => {
             // if there's a search query & no loading and products.length is greater than 0
             (
               searchedProducts?.length > 0 ? (
-                <ProductsGrid products={searchedProducts} />
+                <ProductsGrid products={searchedProducts} searchQuery={searchQuery} />
               ) :
                 // if there's a search query and no loading and no product in the product's array
                 (

@@ -5,7 +5,7 @@ import Loadable from '../../utils/Loadable';
 import ComponentLoader from '../../utils/ComponentLoader';
 import CustomErrorBoundary from '../../utils/ErrorBoundary';
 
-const ProductsGrid = ({ products, headingTitle, headingSubTitle, textalignment }) => {
+const ProductsGrid = ({ products, headingTitle, headingSubTitle, textalignment, searchQuery = '' }) => {
 
   const ProductCard = Loadable(lazy(() => import('./ProductCard')))
 
@@ -21,7 +21,7 @@ const ProductsGrid = ({ products, headingTitle, headingSubTitle, textalignment }
         {products.map(product => (
           <CustomErrorBoundary key={product._id}>
             <Suspense fallback={<ComponentLoader />}>
-              <ProductCard key={product._id} id={product._id} name={product.productName} price={product.price} oldPrice={product.price} rating={product.rating} image={product.images[0]} product={product} category={product.category} color={product.color} />
+              <ProductCard key={product._id} id={product._id} name={product.productName} price={product.price} oldPrice={product.price} rating={product.rating} image={product.images[0]} product={product} category={product.category} color={product.color} searchQuery={searchQuery} />
             </Suspense>
           </CustomErrorBoundary>
         ))}
