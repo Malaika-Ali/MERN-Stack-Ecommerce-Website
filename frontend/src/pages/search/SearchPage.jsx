@@ -11,23 +11,45 @@ const SearchPage = () => {
   const [searchedProducts, setSearchedProducts] = useState([])
   const [suggestions, setSuggestions] = useState([])
   const [showSearchResults, setShowSearchResults] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSuggestions = async () => {
+    // if (!searchQuery.trim()) {
+    //   setSuggestions([])
+    //   setSearchedProducts([])
+    //   setShowSearchResults(false)
+    // }
+
+    setIsLoading(true)
     try {
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/search?q=${encodeURIComponent(searchQuery)}`)
       const data = await response.json()
-      setSuggestions(data.data.slice(0, 8))
-      // setSearchedProducts(data)
+      const products = data.data || []
+      setSuggestions(products.slice(0, 5))
     } catch (error) {
       console.log("An error occured while searching ", searchQuery, error)
+      setSuggestions([])
+      setSearchedProducts([])
+    }
+    finally {
+      setIsLoading(false)
     }
   }
 
   const handleSearch = () => {
-    if (showSearchResults) setSearchedProducts(suggestions)
+    setSearchedProducts(suggestions)
   }
 
-  const debouncedHandleSearch = useCallback(debounce(handleSuggestions, 1000), [])
+  // Clear everything when search query is empty
+  // useEffect(() => {
+  //   if (!searchQuery.trim()) {
+  //     setSearchedProducts([])
+  //     setShowSearchResults(false)
+  //     setSuggestions([])
+  //   }
+  // }, [searchQuery])
+
+  const debouncedHandleSearch = useCallback(debounce(handleSuggestions, 500), [])
   useEffect(() => {
     if (searchQuery) {
       debouncedHandleSearch(searchQuery)
@@ -38,11 +60,38 @@ const SearchPage = () => {
     <>
       <ShopHero />
       <SearchInput value={searchQuery} setSearchQuery={setSearchQuery} suggestions={suggestions} setShowSearchResults={setShowSearchResults} handleSearch={handleSearch} />
+
       {
-        showSearchResults && (
-          <ProductsGrid products={searchedProducts} />
-        )
+        // if there's a search query
+        searchQuery.trim() ? (
+          // if there's a search query and the api is loading
+          isLoading ? (
+            <div className="text-center py-10">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+              <p className="mt-2 text-gray-600">Searching...</p>
+            </div>
+          ) :
+            // if there's a search query & no loading and products.length is greater than 0
+            (
+              searchedProducts?.length > 0 ? (
+                <ProductsGrid products={searchedProducts} />
+              ) :
+                // if there's a search query and no loading and no product in the product's array
+                (
+                  <div className="text-center py-10 text-gray-500">
+                    No products found matching your search
+                  </div >
+                )
+            )
+        ) :
+          (
+            // If there's no search query
+            <div className="text-center py-10 text-gray-500">
+              Start typing to search for products
+            </div >
+          )
       }
+
     </>
 
   )

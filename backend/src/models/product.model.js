@@ -50,3 +50,4 @@ const productSchema= new Schema({
 // productSchema.plugin(mongooseAggregatePaginate)
 
 export const Product=mongoose.model("Product", productSchema)
+

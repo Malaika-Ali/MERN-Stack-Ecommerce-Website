@@ -236,7 +236,7 @@ const Products = () => {
 
                 {/* DataTable */}
                 {/* <div className="min-w-[800px]"> */}
-                <DataTable
+                {/* <DataTable
                     columns={columns}
                     data={filteredData}
                     highlightOnHover
@@ -273,7 +273,7 @@ const Products = () => {
                             },
                         },
                     }}
-                />
+                /> */}
             </div>
         </div>
     );

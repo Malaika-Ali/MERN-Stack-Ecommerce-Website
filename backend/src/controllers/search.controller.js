@@ -53,4 +53,10 @@ const searchProduct = asyncHandler(async (req, res) => {
 })
 
 
+
+
+
+
+
+
 export { searchProduct }
