@@ -4,6 +4,7 @@ import ShopHero from '../shop/ShopHero'
 import SearchInput from './SearchInput'
 
 import { debounce } from '../../utils/debounce'
+import Filter from './Filter'
 
 const SearchPage = () => {
 
@@ -12,6 +13,7 @@ const SearchPage = () => {
   const [suggestions, setSuggestions] = useState([])
   const [showSearchResults, setShowSearchResults] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [selectedFilter, setSelectedFilter] = useState("")
 
   const handleSuggestions = async () => {
     // if (!searchQuery.trim()) {
@@ -22,7 +24,8 @@ const SearchPage = () => {
 
     setIsLoading(true)
     try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/search?q=${encodeURIComponent(searchQuery)}`)
+      console.log(selectedFilter)
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/search?q=${encodeURIComponent(searchQuery)}&category=${selectedFilter}`)
       const data = await response.json()
       const products = data.data || []
       setSuggestions(products.slice(0, 5))
@@ -49,17 +52,19 @@ const SearchPage = () => {
   //   }
   // }, [searchQuery])
 
-  const debouncedHandleSearch = useCallback(debounce(handleSuggestions, 500), [])
+  const debouncedHandleSearch = useCallback(debounce(handleSuggestions, 500), [searchQuery, selectedFilter])
   useEffect(() => {
     if (searchQuery) {
       debouncedHandleSearch(searchQuery)
     }
-  }, [searchQuery, debouncedHandleSearch])
+  }, [searchQuery, selectedFilter, debouncedHandleSearch])
 
   return (
     <>
       <ShopHero />
-      <SearchInput value={searchQuery} setSearchQuery={setSearchQuery} suggestions={suggestions} setShowSearchResults={setShowSearchResults} handleSearch={handleSearch} />
+      <SearchInput value={searchQuery} setSearchQuery={setSearchQuery} suggestions={suggestions} setShowSearchResults={setShowSearchResults} handleSearch={handleSearch} setSelectedFilter={setSelectedFilter} selectedFilter={selectedFilter} />
+
+      <Filter />
 
       {
         // if there's a search query

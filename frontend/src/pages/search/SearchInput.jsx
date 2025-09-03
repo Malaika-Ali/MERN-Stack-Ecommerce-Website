@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { RxCross2 } from "react-icons/rx";
+import Filter from './Filter';
 
-const SearchInput = ({ value, setSearchQuery, suggestions, setShowSearchResults, handleSearch }) => {
+const SearchInput = ({ value, setSearchQuery, suggestions, setShowSearchResults, handleSearch, setSelectedFilter, selectedFilter }) => {
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1)
 
@@ -152,6 +153,8 @@ const SearchInput = ({ value, setSearchQuery, suggestions, setShowSearchResults,
           </button>
         )
       }
+
+      <Filter setSelectedFilter={setSelectedFilter} selectedFilter={selectedFilter} />
 
       <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-black rounded-full p-2 text-white"
         onClick={handleSearch}>

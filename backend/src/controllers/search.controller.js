@@ -19,10 +19,14 @@ import { Product } from "../models/product.model.js";
 
 const searchProduct = asyncHandler(async (req, res) => {
 
-    const searchTerm = req.query.q
+    const searchTerm = req.query.q;
+    const categoryFilter = req.query.category;
 
     try {
-        const exactProduct = await Product.findOne({ productName: { $regex: `^${searchTerm}$`, $options: 'i' } });
+        const exactProduct = await Product.findOne({
+            productName: { $regex: `^${searchTerm}$`, $options: 'i' },
+            ...(categoryFilter && { category: categoryFilter }) // apply filter if exists 
+        });
         if (exactProduct) {
             // If exact match found, return it as a single-item array
             return res.status(200).json(
@@ -39,7 +43,8 @@ const searchProduct = asyncHandler(async (req, res) => {
                 { category: { $regex: searchTerm, $options: 'i' } },
                 { material: { $regex: searchTerm, $options: 'i' } },
                 { fabric: { $regex: searchTerm, $options: 'i' } },
-            ]
+            ],
+            ...(categoryFilter && { category: categoryFilter })
         })
 
         return res.status(201).json(
