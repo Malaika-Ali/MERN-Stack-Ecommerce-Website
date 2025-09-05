@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect } from "react"
 
 const Filter = ({
     onFilterChange = () => { },
@@ -87,13 +87,13 @@ const Filter = ({
     }
 
     return (
-        <div className="relative inline-block" ref={dropdownRef}>
+        <div ref={dropdownRef}>
             <button
                 ref={buttonRef}
                 type="button"
                 onClick={toggleDropdown}
                 onKeyDown={handleKeyDown}
-                className="flex items-center justify-between gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors min-w-[120px]"
+                className="flex items-center justify-between gap-1 px-2 py-2.5 bg-white text-sm font-medium text-black-color   hover:bg-gray-50 outline-none transition-colors min-w-[100px] self-stretch h-full"
                 aria-expanded={isDropdownOpen}
                 aria-haspopup="listbox"
             // aria-label={`Filter by ${selectedFilter.label}`}
@@ -130,7 +130,7 @@ const Filter = ({
                                 type="button"
                                 onClick={() => handleFilterSelect(option)}
                                 className={`w-full text-left px-4 py-2 text-sm transition-colors ${selectedFilter.value === option.value
-                                    ? "bg-blue-50 text-blue-700 font-medium"
+                                    ? "bg-gray-100 text-black-color font-medium"
                                     : "text-gray-700 hover:bg-gray-50"
                                     } ${focusedIndex === index ? "bg-gray-100" : ""}`}
                                 role="option"
@@ -163,4 +163,4 @@ const Filter = ({
     )
 }
 
-export default Filter
+export default React.memo(Filter)

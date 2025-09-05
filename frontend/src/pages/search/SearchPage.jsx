@@ -52,7 +52,7 @@ const SearchPage = () => {
   //   }
   // }, [searchQuery])
 
-  const debouncedHandleSearch = useCallback(debounce(handleSuggestions, 500), [searchQuery, selectedFilter])
+  const debouncedHandleSearch = useCallback(debounce(handleSuggestions, 500), [])
   useEffect(() => {
     if (searchQuery) {
       debouncedHandleSearch(searchQuery)
@@ -62,9 +62,7 @@ const SearchPage = () => {
   return (
     <>
       <ShopHero />
-      <SearchInput value={searchQuery} setSearchQuery={setSearchQuery} suggestions={suggestions} setShowSearchResults={setShowSearchResults} handleSearch={handleSearch} setSelectedFilter={setSelectedFilter} selectedFilter={selectedFilter} />
-
-      <Filter />
+      <SearchInput value={searchQuery} setSearchQuery={setSearchQuery} suggestions={suggestions} handleSearch={handleSearch} setSelectedFilter={setSelectedFilter} selectedFilter={selectedFilter} />
 
       {
         // if there's a search query
