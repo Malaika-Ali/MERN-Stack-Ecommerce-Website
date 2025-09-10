@@ -89,8 +89,8 @@ const SearchPage = () => {
         ) :
           (
             // If there's no search query
-            <div className="text-center py-10 text-gray-500">
-              Start typing to search for products
+            <div className="text-center py-2 mt-0 mb-24 text-gray-500 text-base">
+              Type Something to search from our store
             </div >
           )
       }

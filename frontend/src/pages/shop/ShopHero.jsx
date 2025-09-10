@@ -16,11 +16,11 @@ export default function ShopHero() {
         </div>
 
         {/* Image */}
-        <div className="w-full md:w-1/2 h-[200px] md:h-[400px]">
+        <div className="w-full md:w-1/2 h-[200px] sm:h-[300px] md:h-[400px] flex md:justify-end">
           <img
             src={bg4 || "/placeholder.svg"}
             alt="Fashion model"
-            className="object-cover object-top md:object-center  h-full w-full rounded-xl md:rounded-none"
+            className="object-cover  rounded-xl md:rounded-none"
           />
         </div>
       </div>
