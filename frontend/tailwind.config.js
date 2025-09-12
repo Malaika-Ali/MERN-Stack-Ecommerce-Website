@@ -8,7 +8,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        'black-color': '#010101',
+        // 'black-color': '#010101',
+        'black-color': '#100C08',
         'white-color': '#f2fOea',
         'yellow-color': '#edcf5d',
         'grey-color': '#a4a4a4',

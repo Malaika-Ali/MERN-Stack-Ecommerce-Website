@@ -11,6 +11,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&display=swap');
 
+/* Open Sans */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 :root {
     --white-color: "#f2fOea"
@@ -20,15 +23,20 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* font-family: "Roboto", serif; */
-    /* font-family: "Raleway", serif; */
-    /* font-family: "Open Sans", serif; */
-    /* font-family: "DM Sans", serif; */
+    font-family: "Roboto", serif;
+    font-family: "Raleway", serif;
+    font-family: "Open Sans", serif;
+    font-family: "DM Sans", serif;
     font-family: "Poppins", serif;
+    font-family: "Open Sans", sans-serif;
     font-weight: 400;
     font-style: normal;
     background-color: var(--white-color);
     scroll-behavior: smooth;
+}
+
+.section-heading {
+    font-family: "Open Sans", sans-serif;
 }
 
 /* Custom scrollbar */
@@ -117,53 +125,6 @@ body {
 .recent-orders {
     grid-area: recent-orders;
 }
-
-/* .dashboard-grid-area {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 1.25rem;
-    grid-template-areas:
-        'stats1 stats1 stats1 stats2 stats2 stats2 stats3 stats3 stats3 stats4 stats4 stats4'
-        'revenue revenue revenue revenue revenue revenue revenue revenue selling-products selling-products selling-products selling-products'
-        'recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders top-customers top-customers top-customers top-customers'
-}
-
-@media (max-width: 1023px) {
-    .dashboard-grid-area {
-        grid-template-areas:
-            'stats1 stats1 stats2 stats2 stats3 stats3 stats4 stats4'
-            'revenue revenue revenue revenue revenue revenue revenue revenue'
-            'selling-products selling-products selling-products selling-products top-customers top-customers top-customers top-customers'
-            'recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders';
-    }
-}
-
-@media (max-width: 900px) {
-    .dashboard-grid-area {
-        grid-template-areas:
-            'stats1 stats1 stats1 stats1 stats2 stats2 stats2 stats2'
-            'stats3 stats3 stats3 stats3 stats4 stats4 stats4 stats4'
-            'revenue revenue revenue revenue revenue revenue revenue revenue'
-            'selling-products selling-products selling-products selling-products top-customers top-customers top-customers top-customers'
-            'recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders recent-orders';
-    }
-}
-
-
-@media (max-width: 640px) {
-    .dashboard-grid-area {
-        grid-template-areas:
-            'stats1'
-            'stats2'
-            'stats3'
-            'stats4'
-            'revenue'
-            'selling-products'
-            'top-customers'
-            'recent-orders';
-    }
-} */
-
 
 .dashboard-grid-area {
     display: grid;

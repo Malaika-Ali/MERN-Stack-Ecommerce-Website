@@ -7,12 +7,13 @@ import RoundedButton from '../buttons/RoundedButton';
 import TransparentButton from '../buttons/TransparentButton';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 const CartDrawer = ({ toggleCart, isOpen, products }) => {
-    const {  grandTotal,  selectedItems } = useSelector((state) => state.cart);
-    const {  isAuthenticated } = useSelector((state) => state.auth);
+    const { grandTotal, selectedItems } = useSelector((state) => state.cart);
+    const { isAuthenticated } = useAuth()
     const dispatch = useDispatch();
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     const handleRemoveProduct = (e, id) => {
         e.preventDefault();
@@ -23,24 +24,24 @@ const CartDrawer = ({ toggleCart, isOpen, products }) => {
         dispatch(clearCart());
     };
 
-    const disableCheckout=()=>{
-        if(products.length==0 && !isAuthenticated){
+    const disableCheckout = () => {
+        if (products.length == 0 && !isAuthenticated) {
             return true
         }
-        else if(products.length==0 && isAuthenticated){
+        else if (products.length == 0 && isAuthenticated) {
             return true
         }
-        else{
+        else {
             return false
         }
     }
 
-    const handleCheckoutClick=()=>{
-        if(products.length!=0 && !isAuthenticated){
+    const handleCheckoutClick = () => {
+        if (products.length != 0 && !isAuthenticated) {
             navigate('/login')
             toggleCart()
         }
-        else{
+        else {
             navigate('/shipping-information')
             toggleCart()
         }
@@ -105,10 +106,10 @@ const CartDrawer = ({ toggleCart, isOpen, products }) => {
                                 </div>
 
                                 <div className="mt-6 space-y-4">
-                                    <RoundedButton children="Checkout Now" 
-                                    className="w-full font-[300] py-3" 
-                                    disabled={disableCheckout()}
-                                    onClick={handleCheckoutClick}
+                                    <RoundedButton children="Checkout Now"
+                                        className="w-full font-[300] py-3"
+                                        disabled={disableCheckout()}
+                                        onClick={handleCheckoutClick}
                                     />
                                     <TransparentButton
                                         children="Clear Cart"

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form"; 
+import { useForm, useWatch } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import TextInput from "../../components/inputs/TextInput";
 import AuthButton from "../../components/buttons/AuthButton";
@@ -7,31 +7,28 @@ import Image from "../../assets/AuthImg.png";
 import { googleAuth } from './googleApi'
 
 import { useLoginUserMutation } from "../../redux/features/auth/userApi";
-import { setUser } from "../../redux/features/auth/authSlice";
-
 import { useGoogleLogin } from "@react-oauth/google";
-// import { responseGoogle } from "../../utils/googleAuthResponse";
-import { useDispatch } from "react-redux";
 
 import google from '../../assets/google_cover.jpg'
+import { useAuth } from "../../hooks/useAuth";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const { register, handleSubmit, formState: { errors }, reset, control } = useForm(); 
+  const { register, handleSubmit, formState: { errors }, reset, control } = useForm();
   const [loginUser, { isLoading }] = useLoginUserMutation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   document.title = "Login";
 
   const emailValue = useWatch({ control, name: "email" });
   const passwordValue = useWatch({ control, name: "password" });
 
+  const { login } = useAuth()
+
   const onSubmit = async (data, event) => {
     event.preventDefault();
     try {
       const user = await loginUser(data).unwrap();
-      dispatch(setUser(user));
-      console.log("Login successful:", user);
+      login({ name: user.name, email: user.email })
       navigate("/");
       reset();
     } catch (error) {
@@ -40,53 +37,16 @@ function Login() {
     }
   };
 
-  // const googleLogin = useGoogleLogin({
-  //   onSuccess: responseGoogle,
-  //   onError: responseGoogle,
-  //   flow: "auth-code",
-  // });
-
-  // const googleLogin = useGoogleLogin({
-  //   onSuccess: async (response) => {
-  //     console.log("Google login success:", response);
-  
-  //     if (response.code) {
-  //       try {
-  //         // Send the authorization code to the backend
-  //         const res = await axios.get(
-  //           `${import.meta.env.VITE_BASE_URL}/api/v1/auth/google?code=${response.code}`
-  //         );
-  
-  //         console.log("Backend response:", res.data);
-  
-  //         // Update Redux state with the user data
-  //         dispatch(setUser(res.data.user));
-  
-  //         // Redirect to the home page
-  //         navigate("/");
-  //       } catch (error) {
-  //         console.error("Error sending code to backend:", error);
-  //         alert("Google login failed. Please try again.");
-  //       }
-  //     }
-  //   },
-  //   onError: (error) => {
-  //     console.error("Google login error:", error);
-  //     alert("Google login failed. Please try again.");
-  //   },
-  //   flow: "auth-code",
-  // });
-
 
   const responseGoogle = async (authResult) => {
     try {
       if (authResult['code']) {
         const result = await googleAuth(authResult['code']);
-        dispatch(setUser(result.data.data.user));
         const { email, name } = result.data.data.user;
+        login({ name: name, email: email })
         navigate("/");
       }
-      console.log(authResult);
+      // console.log(authResult);
     } catch (error) {
       console.log("Error while requesting Google code!", error);
     }
@@ -129,7 +89,7 @@ function Login() {
                   label="Email"
                   name="login-email"
                   autoComplete="off"
-                  value={emailValue || ""} 
+                  value={emailValue || ""}
                   {...register("email", { required: "Email is required" })}
                   error={errors.email?.message}
                 />
@@ -153,7 +113,7 @@ function Login() {
                   <AuthButton variant="google" onClick={googleLogin}>
                     <img
                       // src="https://www.loginradius.com/blog/static/a9dad0fc4bf1af95243aa5e2d017bc22/a8669/google_cover.jpg"
-                       src={google}
+                      src={google}
                       alt="Google"
                       width={25}
                       height={25}

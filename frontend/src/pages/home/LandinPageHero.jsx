@@ -33,9 +33,9 @@ export default function LandingPageHero() {
           <span className="text-sm text-stone-600">Spring Collection 2024</span>
         </div>
 
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 leading-tight">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium text-stone-900 leading-tight tracking-tight">
           Where Style Meets <br />
-          <span className="text-stone-500">Sophistication</span>
+          <span className="text-stone-500 font-bold">Sophistication</span>
         </h1>
 
         <p className="text-stone-600 text-lg font-[400]">

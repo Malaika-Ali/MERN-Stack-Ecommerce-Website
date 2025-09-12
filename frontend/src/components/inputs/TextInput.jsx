@@ -9,7 +9,7 @@ const TextInput = forwardRef(
       error,
       type: initialType,
       showPassword,
-      value="",
+      value = "",
       onTogglePassword,
       ...props
     },
@@ -55,20 +55,18 @@ const TextInput = forwardRef(
         <input
           ref={ref}
           type={type}
-          className={`w-full h-8 px-3 text-base placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:border-black-color ${
-            error ? "border-red-500" : ""
-          }`}
+          className={`w-full h-8 px-3 text-base placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:border-black-color ${error ? "border-red-500" : ""
+            }`}
           placeholder={label}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          onChange={handleChange} 
+          onChange={handleChange}
           value={value}
           {...props}
         />
         <label
-          className={`absolute left-0 top-1 text-black-color text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-black-color ${
-            isFocused || hasValue ? "-top-3.5 text-sm text-black-color" : ""
-          }`}
+          className={`absolute left-0  text-black-color text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-black-color ${isFocused || hasValue ? "-top-3.5" : "top-1"
+            }`}
         >
           {label}
         </label>
