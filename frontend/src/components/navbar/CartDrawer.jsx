@@ -7,11 +7,10 @@ import RoundedButton from '../buttons/RoundedButton';
 import TransparentButton from '../buttons/TransparentButton';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
 
 const CartDrawer = ({ toggleCart, isOpen, products }) => {
     const { grandTotal, selectedItems } = useSelector((state) => state.cart);
-    const { isAuthenticated } = useAuth()
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate()
 

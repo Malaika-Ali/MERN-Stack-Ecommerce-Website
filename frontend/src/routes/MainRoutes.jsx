@@ -43,7 +43,7 @@ const GoogleAuthWrapper2 = () => {
           <SignupPage />
         </Suspense>
       </CustomErrorBoundary>
-    </GoogleOAuthProvider>
+    </GoogleOAuthProvider >
   )
 }
 

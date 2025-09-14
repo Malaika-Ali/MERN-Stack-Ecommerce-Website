@@ -154,5 +154,4 @@ const googleAuth = asyncHandler(async (req, res, next) => {
     }
   });
 
-
 export {googleAuth}

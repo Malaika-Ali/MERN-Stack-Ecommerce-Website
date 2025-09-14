@@ -4,7 +4,7 @@ import CartDrawer from "./CartDrawer"
 import NavItem from "./NavItem"
 import { navlinks } from "../../constants"
 import { AnimatePresence } from "framer-motion"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 
 import { GoPerson } from "react-icons/go"
 import { BsCart2 } from "react-icons/bs"
@@ -12,8 +12,9 @@ import { FiSearch } from "react-icons/fi"
 import { HiMenu, HiX } from "react-icons/hi"
 import { FaSearch, FaShoppingCart, FaUser, FaSignOutAlt, FaBoxOpen } from "react-icons/fa"
 
+import { logout } from "../../redux/features/auth/authSlice"
 import { useLogoutUserMutation } from "../../redux/features/auth/userApi"
-import { useAuth } from "../../hooks/useAuth"
+// import { useAuth } from "../../hooks/useAuth"
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
@@ -22,8 +23,10 @@ const Navbar = () => {
   const products = useSelector((state) => state.cart.products)
   const [logoutUser] = useLogoutUserMutation();
   const [isScrolled, setIsScrolled] = useState(false)
+  const { user, isAuthenticated } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
 
-  const { user, isAuthenticated, logout } = useAuth()
+  // const { user, isAuthenticated, logout } = useAuth()
   const dropdownRef = useRef(null)
 
   useEffect(() => {
@@ -57,7 +60,8 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await logoutUser().unwrap();
-      logout()
+      dispatch(logout());
+      // logout()
       setIsDropdownOpen(false);
     } catch (error) {
       console.error("Logout failed:", error);
@@ -137,7 +141,7 @@ const Navbar = () => {
                     <FaBoxOpen className="inline-block mr-2" /> Orders
                   </NavLink>
                   <button
-                    // onClick={handleLogout}
+                    onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     <FaSignOutAlt className="inline-block mr-2" /> Logout

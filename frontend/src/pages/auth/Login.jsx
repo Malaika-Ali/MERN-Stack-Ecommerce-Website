@@ -10,25 +10,26 @@ import { useLoginUserMutation } from "../../redux/features/auth/userApi";
 import { useGoogleLogin } from "@react-oauth/google";
 
 import google from '../../assets/google_cover.jpg'
-import { useAuth } from "../../hooks/useAuth";
+// import { useAuth } from "../../hooks/useAuth";
+import { setUser } from "../../redux/features/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { register, handleSubmit, formState: { errors }, reset, control } = useForm();
   const [loginUser, { isLoading }] = useLoginUserMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   document.title = "Login";
 
   const emailValue = useWatch({ control, name: "email" });
   const passwordValue = useWatch({ control, name: "password" });
 
-  const { login } = useAuth()
-
   const onSubmit = async (data, event) => {
     event.preventDefault();
     try {
       const user = await loginUser(data).unwrap();
-      login({ name: user.name, email: user.email })
+      dispatch(setUser(user));
       navigate("/");
       reset();
     } catch (error) {
