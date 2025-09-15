@@ -1,23 +1,29 @@
-import { useForm, FormProvider } from "react-hook-form";
-import RoundedButton from "../../../../components/buttons/RoundedButton";
-import COD from "./paymentMethods/COD";
-import CreditCard from "./paymentMethods/CreditCard";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useForm, FormProvider } from "react-hook-form";
+
+import RoundedButton from "../../../../components/buttons/RoundedButton";
+import COD from "./paymentMethods/COD";
+import CreditCard from "./paymentMethods/CreditCard";
+
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+
 import ImageModal from "../../../../components/modals/ImageModal";
 import { applyTaxForCOD, removeTax } from "../../../../redux/features/cart/cartSlice";
 import { useCreateOrderMutation } from '../../../../redux/features/order/orderApi'
 
 export default function PaymentForm() {
 
-  const [paymentMethod, setPaymentMethod] = useState("credit-debit");
+  const [paymentMethod, setPaymentMethod] = useState("card");
   const location = useLocation();
   const { data: shippingInfo } = location.state;
   const products = useSelector((state) => state.cart.products);
   const grandTotal = useSelector((state) => state.cart.grandTotal);
   const [openModal, setOpenModal] = useState(false);
   const [createOrder, { isLoading, isSuccess, isError, error }] = useCreateOrderMutation();
+  const stripe = useStripe();
+  const elements = useElements();
   const dispatch = useDispatch();
   const methods = useForm();
   const { handleSubmit, watch, reset } = methods;
@@ -34,58 +40,203 @@ export default function PaymentForm() {
     }
   };
 
+  // const handleForm = async (data) => {
+
+  //   let paymentInfo = {};
+  //   if (paymentMethod == "COD") {
+  //     await createOrder({
+  //       products,
+  //       shippingInfo,
+  //       paymentInfo: { paymentMethod },
+  //       totalAmount: grandTotal,
+  //     });
+  //     return;
+
+  //   } else if (paymentMethod == "card") {
+  //     // paymentInfo = {
+  //     //   paymentMethod,
+  //     //   cardNumber: data.cardDetails.cardNumber,
+  //     //   expiryDate: data.cardDetails.expiryDate,
+  //     //   cvv: data.cardDetails.cvv,
+  //     //   cardHolderName: data.cardDetails.cardHolderName,
+  //     // };
+  //     try {
+  //       // 1. Ask backend to create a PaymentIntent
+  //       const res = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/payment/payment-intent`, {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ amount: grandTotal }),
+  //       });
+  //       const { clientSecret } = await res.json();
+
+
+  //       // 2. Confirm card payment with Stripe.js
+  //       const cardElement = elements.getElement(CardElement);
+  //       const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+  //         payment_method: { card: cardElement },
+  //       });
+
+  //       if (error) {
+  //         console.error("Payment error:", error);
+  //         return;
+  //       }
+
+  //       if (paymentIntent.status === "succeeded") {
+  //         // 3. Save order in DB
+  //         //       await createOrder({
+  //         //         products,
+  //         //         shippingInfo,
+  //         //         paymentInfo: {
+  //         //           paymentMethod: "card",
+  //         //           stripePaymentId: paymentIntent.id,
+  //         //         },
+  //         //         totalAmount: grandTotal,
+  //         //       });
+  //         //     }
+  //         //   } catch (err) {
+  //         //     console.error("Error in payment flow:", err);
+  //         //   }
+
+  //         const newProducts = [];
+  //         const optimizeProducts = () => {
+  //           let newProduct = {};
+  //           products.forEach((item) => {
+  //             newProduct = {
+  //               product: item.id || "",
+  //               quantity: item.quantity,
+  //               price: item.price,
+  //             };
+  //             newProducts.push(newProduct);
+  //           });
+  //         };
+  //         optimizeProducts();
+
+
+  //         console.log(paymentMethod)
+
+  //         optimizeProducts();
+  //         const orderData = {
+  //           products: newProducts,
+  //           shippingInfo,
+  //           paymentInfo,
+  //           totalAmount: grandTotal,
+  //         };
+
+  //         try {
+  //           const order = await createOrder(orderData).unwrap();
+  //           console.log(order);
+  //           reset();
+  //           setOpenModal(true);
+  //         } catch (error) {
+  //           console.log("Error while placing the order:", error);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+
+
+
+
   const handleForm = async (data) => {
     let paymentInfo = {};
+
     if (paymentMethod === "COD") {
-      paymentInfo = {
-        paymentMethod,
-      };
-    } else if (paymentMethod === "CreditCard/DebitCard") {
-      paymentInfo = {
-        paymentMethod,
-        cardNumber: data.cardDetails.cardNumber,
-        expiryDate: data.cardDetails.expiryDate,
-        cvv: data.cardDetails.cvv,
-        cardHolderName: data.cardDetails.cardHolderName,
-      };
-    }
-
-
-
-    const newProducts = [];
-    const optimizeProducts = () => {
-      let newProduct = {};
-      products.forEach((item) => {
-        newProduct = {
-          product: item.id || "",
-          quantity: item.quantity,
-          price: item.price,
-        };
-        newProducts.push(newProduct);
+      await createOrder({
+        products,
+        shippingInfo,
+        paymentInfo: { paymentMethod },
+        totalAmount: grandTotal,
       });
-    };
-    optimizeProducts();
+      return;
+    }
+    else if (paymentMethod === "card") {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/payment/payment-intent`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: grandTotal }),
+        });
+        const { clientSecret } = await res.json();
+
+        const cardElement = elements.getElement(CardElement);
+        const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: { card: cardElement },
+        });
+
+        if (error) {
+          console.error("Payment error:", error);
+          return;
+        }
+
+        if (paymentIntent.status === "succeeded") {
+          const newProducts = products.map((item) => ({
+            product: item.id || "",
+            quantity: item.quantity,
+            price: item.price,
+          }));
+
+          const orderData = {
+            products: newProducts,
+            shippingInfo,
+            paymentInfo: {
+              paymentMethod: "card",
+              stripePaymentId: paymentIntent.id,
+            },
+            totalAmount: grandTotal,
+          };
 
 
+          const order = await createOrder(orderData).unwrap();
+          console.log(order);
+          reset();
+          setOpenModal(true);
 
-  
-    optimizeProducts();
-    const orderData = {
-      products: newProducts,
-      shippingInfo,
-      paymentInfo,
-      totalAmount: grandTotal,
-    };
-
-    try {
-      const order = await createOrder(orderData).unwrap();
-      console.log(order);
-      reset();
-      setOpenModal(true);
-    } catch (error) {
-      console.log("Error while placing the order:", error.message);
+        }
+      } catch (err) {
+        console.error("Error in payment flow:", err);
+      }
     }
   };
+
+
+
+
+
+  // const newProducts = [];
+  // const optimizeProducts = () => {
+  //   let newProduct = {};
+  //   products.forEach((item) => {
+  //     newProduct = {
+  //       product: item.id || "",
+  //       quantity: item.quantity,
+  //       price: item.price,
+  //     };
+  //     newProducts.push(newProduct);
+  //   });
+  // };
+  // optimizeProducts();
+
+
+  // console.log(paymentMethod)
+
+  // optimizeProducts();
+  // const orderData = {
+  //   products: newProducts,
+  //   shippingInfo,
+  //   paymentInfo,
+  //   totalAmount: grandTotal,
+  // };
+
+  // try {
+  //   const order = await createOrder(orderData).unwrap();
+  //   console.log(order);
+  //   reset();
+  //   setOpenModal(true);
+  // } catch (error) {
+  //   console.log("Error while placing the order:", error.message);
+  // }
+  // };
 
   return (
     <FormProvider {...methods}>
@@ -97,10 +248,10 @@ export default function PaymentForm() {
               <input
                 type="radio"
                 name="paymentMethod"
-                value="CreditCard/DebitCard"
+                value="card"
                 {...methods.register("paymentMethod", { required: true })}
-                checked={paymentMethod === "CreditCard/DebitCard"}
-                onChange={() => handlePaymentMethodChange("CreditCard/DebitCard")}
+                checked={paymentMethod === "card"}
+                onChange={() => handlePaymentMethodChange("card")}
                 className="form-radio h-5 w-5 text-blue-600"
               />
               <span className="text-gray-900 font-medium">Pay With Card</span>
@@ -121,7 +272,7 @@ export default function PaymentForm() {
           </div>
 
           <div className="mt-6">
-            {paymentMethod === "CreditCard/DebitCard" && <CreditCard />}
+            {paymentMethod === "card" && <CreditCard />}
             {paymentMethod === "COD" && <COD />}
           </div>
 

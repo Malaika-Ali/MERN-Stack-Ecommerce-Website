@@ -40,6 +40,7 @@ import orderRouter from "../src/routes/order.routes.js"
 import searchRouter from "../src/routes/search.route.js"
 import dashboardRouter from "../src/routes/admin/dashboard.routes.js"
 import adminProductRouter from "../src/routes/admin/product.routes.js"
+import paymentRouter from "../src/routes/payment.route.js"
 
 // app.post('/', (req,res)=>{
 //     res.send("Hello")
@@ -50,9 +51,11 @@ app.use("/api/v1/products", productRouter)
 app.use("/api/v1/reviews", reviewRouter)
 app.use("/api/v1/orders", orderRouter)
 app.use("/api/v1", searchRouter)
+app.use("/api/v1/payment", paymentRouter)
 // admin routes
 app.use("/api/v1/admin/dashboard", dashboardRouter)
 app.use("/api/v1/admin/products", adminProductRouter)
+
 
 
 
