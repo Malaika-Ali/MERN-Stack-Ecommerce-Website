@@ -8,6 +8,7 @@ const createPaymentIntent = asyncHandler(async (req, res) => {
     try {
         const { amount } = req.body;
 
+        // sends a request to stripe server to retuen the client's secret key
         const paymentIntent = await stripe.paymentIntents.create({
             amount: amount * 100,
             currency: "pkr",

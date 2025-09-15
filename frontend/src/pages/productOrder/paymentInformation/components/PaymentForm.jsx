@@ -40,104 +40,6 @@ export default function PaymentForm() {
     }
   };
 
-  // const handleForm = async (data) => {
-
-  //   let paymentInfo = {};
-  //   if (paymentMethod == "COD") {
-  //     await createOrder({
-  //       products,
-  //       shippingInfo,
-  //       paymentInfo: { paymentMethod },
-  //       totalAmount: grandTotal,
-  //     });
-  //     return;
-
-  //   } else if (paymentMethod == "card") {
-  //     // paymentInfo = {
-  //     //   paymentMethod,
-  //     //   cardNumber: data.cardDetails.cardNumber,
-  //     //   expiryDate: data.cardDetails.expiryDate,
-  //     //   cvv: data.cardDetails.cvv,
-  //     //   cardHolderName: data.cardDetails.cardHolderName,
-  //     // };
-  //     try {
-  //       // 1. Ask backend to create a PaymentIntent
-  //       const res = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/payment/payment-intent`, {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({ amount: grandTotal }),
-  //       });
-  //       const { clientSecret } = await res.json();
-
-
-  //       // 2. Confirm card payment with Stripe.js
-  //       const cardElement = elements.getElement(CardElement);
-  //       const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
-  //         payment_method: { card: cardElement },
-  //       });
-
-  //       if (error) {
-  //         console.error("Payment error:", error);
-  //         return;
-  //       }
-
-  //       if (paymentIntent.status === "succeeded") {
-  //         // 3. Save order in DB
-  //         //       await createOrder({
-  //         //         products,
-  //         //         shippingInfo,
-  //         //         paymentInfo: {
-  //         //           paymentMethod: "card",
-  //         //           stripePaymentId: paymentIntent.id,
-  //         //         },
-  //         //         totalAmount: grandTotal,
-  //         //       });
-  //         //     }
-  //         //   } catch (err) {
-  //         //     console.error("Error in payment flow:", err);
-  //         //   }
-
-  //         const newProducts = [];
-  //         const optimizeProducts = () => {
-  //           let newProduct = {};
-  //           products.forEach((item) => {
-  //             newProduct = {
-  //               product: item.id || "",
-  //               quantity: item.quantity,
-  //               price: item.price,
-  //             };
-  //             newProducts.push(newProduct);
-  //           });
-  //         };
-  //         optimizeProducts();
-
-
-  //         console.log(paymentMethod)
-
-  //         optimizeProducts();
-  //         const orderData = {
-  //           products: newProducts,
-  //           shippingInfo,
-  //           paymentInfo,
-  //           totalAmount: grandTotal,
-  //         };
-
-  //         try {
-  //           const order = await createOrder(orderData).unwrap();
-  //           console.log(order);
-  //           reset();
-  //           setOpenModal(true);
-  //         } catch (error) {
-  //           console.log("Error while placing the order:", error);
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
-
-
-
   const handleForm = async (data) => {
     let paymentInfo = {};
 
@@ -187,10 +89,15 @@ export default function PaymentForm() {
           };
 
 
-          const order = await createOrder(orderData).unwrap();
-          console.log(order);
-          reset();
-          setOpenModal(true);
+          try {
+            const order = await createOrder(orderData).unwrap();
+            console.log(order);
+            reset();
+            setOpenModal(true);
+          } catch (error) {
+            console.log(error)
+            alert("Error in Placing the order", error)
+          }
 
         }
       } catch (err) {
@@ -198,45 +105,6 @@ export default function PaymentForm() {
       }
     }
   };
-
-
-
-
-
-  // const newProducts = [];
-  // const optimizeProducts = () => {
-  //   let newProduct = {};
-  //   products.forEach((item) => {
-  //     newProduct = {
-  //       product: item.id || "",
-  //       quantity: item.quantity,
-  //       price: item.price,
-  //     };
-  //     newProducts.push(newProduct);
-  //   });
-  // };
-  // optimizeProducts();
-
-
-  // console.log(paymentMethod)
-
-  // optimizeProducts();
-  // const orderData = {
-  //   products: newProducts,
-  //   shippingInfo,
-  //   paymentInfo,
-  //   totalAmount: grandTotal,
-  // };
-
-  // try {
-  //   const order = await createOrder(orderData).unwrap();
-  //   console.log(order);
-  //   reset();
-  //   setOpenModal(true);
-  // } catch (error) {
-  //   console.log("Error while placing the order:", error.message);
-  // }
-  // };
 
   return (
     <FormProvider {...methods}>

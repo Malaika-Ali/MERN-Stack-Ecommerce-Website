@@ -5,7 +5,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/en/docs)
 
 ## Overview
-This is a fully functional **MERN stack** E-commerce website built for a fictional fashion brand. It includes user authentication, image storage, and scalable backend architecture. The project follows best practices for both frontend and backend development to ensure maintainability and scalability.
+This is a fully functional **MERN stack** E-commerce website built for a fictional fashion brand. It includes secure online payments via Stripe, user authentication, image storage, and scalable backend architecture. The project follows best practices for both frontend and backend development to ensure maintainability and scalability.
 
 ## Table of Contents
 Features
@@ -20,11 +20,14 @@ Future Extensions
 - **Google OAuth 2.0 Login/Signup:** Users can log in or   sign up using their Google accounts.
 - **Product Browsing:** Users can view all products, filter them by categories and prices, and view detailed information about a specific product.
 - **Cart Management:** Users can add products to their cart and proceed to checkout.
+- **Secure Online Payment:** Integrated with Stripe Payment Gateway for safe and smooth transactions.
 - **Image Handling:** Cloudinary is used for storing and managing product images.
 - **Responsive UI:** Built with Tailwind CSS for a responsive and customizable design.
 
 ### Admin Features (Coming Soon)
-- APIs for admin functionalities (e.g., product management, user management) have already been created and will be implemented soon.
+- **Admin Dashboard with Analytics:** Admins can view store performance insights and analytics.
+- **Product Management:** Admins can view the product list, add new products, update existing ones, or delete products.
+- **Order & User APIs (Future Expansion):** APIs already available for advanced admin functionalities like user management.
 
 ## Technologies Used
 ### Backend:
@@ -37,6 +40,7 @@ Future Extensions
 - **Multer:** for handling file uploads
 - **Bcrypt** for secure password hashing
 - **Postman** for API testing
+- **Stripe:** Payment processing
 
 ### Frontend:
 - **React.js:** for building the user interface
