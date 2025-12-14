@@ -51,7 +51,7 @@ export default function PromotionalBanner() {
     <div className="w-full max-w-7xl mx-auto p-4">
       <div className="relative overflow-hidden rounded-2xl flex flex-col lg:flex-row">
         {/* Image Section */}
-        <div className="w-full lg:w-1/2 h-48 sm:h-64 md:h-80 lg:h-full">
+        <div className="w-full lg:w-1/2 object-cover">
           <img src={img} alt="Promotional lifestyle image" />
         </div>
 

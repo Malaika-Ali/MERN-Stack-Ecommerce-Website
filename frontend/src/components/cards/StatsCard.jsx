@@ -14,7 +14,7 @@ const StatsCard = ({ statsTitle, statsNumber, arrow, icon, gridAreaNumber }) => 
 
             <div className='flex items-center gap-1'>
                 {arrow}
-                <span className='text-base font-[600]'>{statsNumber}</span>
+                <span className='text-base font-[600]'>{statsNumber || `Connection Failed`}</span>
             </div>
 
         </div>

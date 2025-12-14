@@ -204,7 +204,7 @@ export default function CustomerReviews() {
   return (
     <div className="bg-gray-100  max-w-7xl mx-4 lg:mx-auto rounded-xl flex items-center py-12 px-4 my-8">
       <div className="max-w-7xl mx-auto px-4 py-4 w-full">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between flex-col items-center mb-8">
           <SectionHeading title="Our Customers Feedback" />
           <div className="flex gap-2">
             <button
@@ -220,6 +220,11 @@ export default function CustomerReviews() {
               <MdKeyboardArrowRight className="h-6 w-6" />
             </button>
           </div>
+
+
+
+
+          
         </div>
 
         <div className="relative overflow-hidden">

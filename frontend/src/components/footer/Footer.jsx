@@ -19,7 +19,7 @@ export default function Footer() {
             />
             <button 
               type="submit" 
-              className="px-4 h-8 md:px-6 md:h-10 bg-black text-white text-sm font-normal rounded-full hover:bg-gray-800"
+              className="px-4 py-2.5 md:px-6 md:h-10 bg-black text-white text-sm font-normal rounded-full hover:bg-gray-800"
             >
               Submit
             </button>
