@@ -20,31 +20,56 @@ const AddProduct = () => {
 
     const [addProduct, { isLoading, isSuccess, error }] = useAddProductMutation()
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data);
-        addProduct({
-            productName: name,
-            description,
-            price,
-            quantity: stock,
-            color,
-            material,
-            fabric: material,
-            category: "clothes",
+        const formData = new FormData()
+        formData.append("productName", data.name);
+        formData.append("description", data.description);
+        formData.append("price", data.price);
+        formData.append("quantity", data.stock);
+        formData.append("color", data.color);
+        formData.append("material", data.material);
+        formData.append("category", data.category);
 
-        })
+        if (data.image && data.image[0]) {
+            formData.append("images", data.image[0]);
+            console.log(formData.images)
+        }
+
+        try {
+            await addProduct(formData).unwrap();
+            reset();
+        } catch (err) {
+            console.error("Add product failed:", err);
+        }
+        //    try {
+        //      addProduct({
+        //          productName: data.name,
+        //          description: data.description,
+        //          price: data.price,
+        //          quantity: data.stock,
+        //          color: data.color,
+        //          material: data.material,
+        //          fabric: data.material,
+        //          category: "clothes",
+
+
+        //      }).unwrap();
+        //    } catch (error) {
+        //     console.log("Error while adding a prduct", error)
+        //    }
     };
 
     const [loading, setloading] = useState(false)
 
-    console.log(error)
+    console.log(`The error while adding product is`, error)
 
     return (
         <div className="flex flex-col w-full px-6 pb-8">
             <div className="flex justify-between items-center mb-6">
                 <h2 className=" text-md text-xl font-[500] dark:text-white">Add New Product</h2>
 
-                <LoaderButton children="save Product" loading={loading} Icon={FaCheck} handleClick={() => setloading(true)} className="w-5 h-5" />
+                <LoaderButton children="save Product" loading={isLoading} Icon={FaCheck} handleClick={handleSubmit(onSubmit)} />
 
             </div>
 
@@ -89,7 +114,7 @@ const AddProduct = () => {
                 <div className="space-y-6 lg:col-span-4  w-full">
 
                     <div className="bg-white p-6 rounded-xl shadow-sm dark:bg-dark-gray">
-                        <OutlinedDropDown {...register("category")} label="Product's Category" options={["Clothes", "Jewellery", "Accessories", "Footwear"]} value="Category" />
+                        <OutlinedDropDown {...register("category")} label="Product's Category" options={["clothes", "bags", "accessories", "footwear"]} value="category" />
                     </div>
 
 
@@ -120,7 +145,6 @@ const AddProduct = () => {
                             />
                         </div>
                     </div>
-
                 </div>
             </form>
         </div>

@@ -1,9 +1,9 @@
-import { asyncHandler } from '../utils/asyncHandler.js'
-import { ApiError } from '../utils/ApiError.js'
-import { Product } from '../models/product.model.js'
-import { Review } from '../models/review.model.js'
-import { ApiResponse } from '../utils/ApiResponse.js'
-import { uploadOnCloudinary } from '../utils/cloudinary.js'
+import { asyncHandler } from '../../utils/asyncHandler.js'
+import { ApiError } from '../../utils/ApiError.js'
+import { Product } from '../../models/product.model.js'
+import { Review } from '../../models/review.model.js'
+import { ApiResponse } from '../../utils/ApiResponse.js'
+import { uploadOnCloudinary } from '../../utils/cloudinary.js'
 
 
 const createProduct = asyncHandler(async (req, res) => {

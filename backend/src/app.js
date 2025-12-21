@@ -34,17 +34,17 @@ app.use(cookieParser())
 // routes
 import userRouter from "../src/routes/user.routes.js"
 import authRouter from "../src/routes/auth.routes.js"
-import productRouter from "../src/routes/product.routes.js"
-import reviewRouter from "../src/routes/review.routes.js"
-import orderRouter from "../src/routes/order.routes.js"
-import searchRouter from "../src/routes/search.route.js"
+
+import productRouter from "../src/routes/customers/product.routes.js"
+import reviewRouter from "../src/routes/customers/review.routes.js"
+import orderRouter from "../src/routes/customers/order.routes.js"
+import searchRouter from "../src/routes/customers/search.route.js"
+import paymentRouter from "../src/routes/customers/payment.route.js"
+
 import dashboardRouter from "../src/routes/admin/dashboard.routes.js"
 import adminProductRouter from "../src/routes/admin/product.routes.js"
-import paymentRouter from "../src/routes/payment.route.js"
 
-// app.post('/', (req,res)=>{
-//     res.send("Hello")
-// })
+
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/products", productRouter)

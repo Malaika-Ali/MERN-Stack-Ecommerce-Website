@@ -1,7 +1,7 @@
 import {Router} from 'express'
-import { createProduct, getAllProducts, getSingleProduct, updateProduct, deleteProduct, getRelatedProducts } from '../controllers/product.controller.js'
-import {upload} from '../middlewares/multer.middleware.js'
-import { verifyJWT, verifyAdmin } from '../middlewares/auth.middleware.js'
+import { createProduct, getAllProducts, getSingleProduct, updateProduct, deleteProduct, getRelatedProducts } from '../../controllers/customers/product.controller.js'
+import {upload} from '../../middlewares/multer.middleware.js'
+import { verifyJWT, verifyAdmin } from '../../middlewares/auth.middleware.js'
 
 const router=Router()
 

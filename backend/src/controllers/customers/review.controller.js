@@ -1,9 +1,9 @@
-import { asyncHandler } from '../utils/asyncHandler.js'
-import { ApiError } from '../utils/ApiError.js'
-import { Review } from '../models/review.model.js'
-import { ApiResponse } from '../utils/ApiResponse.js'
+import { asyncHandler } from '../../utils/asyncHandler.js'
+import { ApiError } from '../../utils/ApiError.js'
+import { Review } from '../../models/review.model.js'
+import { ApiResponse } from '../../utils/ApiResponse.js'
 import jwt from "jsonwebtoken";
-import { Product } from '../models/product.model.js';
+import { Product } from '../../models/product.model.js';
 
 
 const postReview = asyncHandler(async (req, res) => {
