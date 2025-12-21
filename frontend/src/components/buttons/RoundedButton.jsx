@@ -14,7 +14,7 @@ const RoundedButton = ({
     <button 
     type={type} 
     onClick={handleClick}
-    className={`px-6 h-10 bg-black text-white text-center flex items-center justify-center text-sm font-normal rounded-full hover:bg-stone-800 ${className}`
+    className={`px-6 lg:px-6 bg-black text-white text-center flex items-center justify-center text-sm font-normal rounded-full hover:bg-stone-800 ${className}`
 }
 {...props}
   >

@@ -7,6 +7,7 @@ import LoaderButton from "../../../components/buttons/LoaderButton";
 import { FaCheck } from "react-icons/fa6";
 import RoundedButton from "../../../components/buttons/RoundedButton";
 import OutlinedDropDown from "../../../components/inputs/drop downs/OutlinedDropDown";
+import { useAddProductMutation } from "../../../redux/features/admin/productApi";
 
 const AddProduct = () => {
     const {
@@ -17,12 +18,26 @@ const AddProduct = () => {
         formState: { errors, isSubmitting }
     } = useForm();
 
+    const [addProduct, { isLoading, isSuccess, error }] = useAddProductMutation()
+
     const onSubmit = (data) => {
         console.log(data);
-        // call your API here
+        addProduct({
+            productName: name,
+            description,
+            price,
+            quantity: stock,
+            color,
+            material,
+            fabric: material,
+            category: "clothes",
+
+        })
     };
 
     const [loading, setloading] = useState(false)
+
+    console.log(error)
 
     return (
         <div className="flex flex-col w-full px-6 pb-8">
@@ -64,6 +79,7 @@ const AddProduct = () => {
                     ">
                         <h3 className="font-[500] mb-4 text-gray-800 dark:text-white">Upload Image</h3>
                         <ImageUpload register={register} />
+
                     </div>
 
 
@@ -73,13 +89,7 @@ const AddProduct = () => {
                 <div className="space-y-6 lg:col-span-4  w-full">
 
                     <div className="bg-white p-6 rounded-xl shadow-sm dark:bg-dark-gray">
-                        {/* <h3 className="font-[500] mb-4 text-black-color dark:text-white">Category</h3> */}
-                        {/* <input
-                            {...register("category")}
-                            placeholder="Product Category"
-                            className="w-full p-3 border rounded-md"
-                        /> */}
-                        <OutlinedDropDown label="Product's Category" options={["Clothes", "Jewellery", "Accessories", "Footwear"]} value="Category" />
+                        <OutlinedDropDown {...register("category")} label="Product's Category" options={["Clothes", "Jewellery", "Accessories", "Footwear"]} value="Category" />
                     </div>
 
 
@@ -88,7 +98,7 @@ const AddProduct = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <input
                                 {...register("price")}
-                                placeholder="Base Pricing"
+                                placeholder="Pricing"
                                 type="number"
                                 className="w-full p-3 border rounded-md"
                             />
@@ -99,13 +109,13 @@ const AddProduct = () => {
                                 className="w-full p-3 border rounded-md"
                             />
                             <input
-                                {...register("discount")}
-                                placeholder="Discount"
+                                {...register("color")}
+                                placeholder="Color"
                                 className="w-full p-3 border rounded-md"
                             />
                             <input
-                                {...register("discountType")}
-                                placeholder="Discount Type"
+                                {...register("material")}
+                                placeholder="Material/Fabric"
                                 className="w-full p-3 border rounded-md"
                             />
                         </div>

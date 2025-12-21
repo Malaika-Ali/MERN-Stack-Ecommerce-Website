@@ -9,16 +9,16 @@ const ImageUpload = ({ register }) => {
     };
 
     return (
-        <div>
+        <div className="px-8 py-8 w-full h-80 rounded-lg border-2 border-dashed border-gray-300 flex justify-center items-center flex-col">
             <input
                 type="file"
                 accept="image/*"
                 {...register("image")}
                 onChange={handleImageChange}
-                className="mb-4"
+                className="mb-4 border-none outline-none bg-transparent"
             />
             {preview && (
-                <img src={preview} alt="Preview" className="rounded-lg" />
+                <img src={preview} alt="Preview" className="rounded-lg object-cover" />
             )}
         </div>
     );

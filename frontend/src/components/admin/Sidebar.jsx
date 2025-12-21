@@ -69,7 +69,7 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
 
             {/* Sidebar */}
             <aside
-                // fixed top-0 left-0
+               
                 className={`
 
         fixed top-0 left-0
@@ -78,8 +78,7 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
         lg:translate-x-0 lg:sticky lg:z-auto sidebar-grid-area sm:min-w-sm
         ${isOpen ? "translate-x-0" : "-translate-x-full"} dark:bg-dark-sidebar-bg
       `} >
-                {/* Sticky inner container */}
-                {/* <div className="sticky top-0"> */}
+
                 {/* Mobile Close Button */}
                 <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 lg:hidden">
                     <X className="h-5 w-5 text-gray-500" />
@@ -87,25 +86,6 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
 
                 {/* Header */}
                 <div className="p-4 pb-8">
-                    {/* <div className="flex items-center gap-3 p-2 rounded-xl border border-gray-200">
-                        <div className="h-10 w-10 rounded-lg bg-gray-800 flex items-center justify-center overflow-hidden">
-                            <img
-                                src="/placeholder.svg?height=40&width=40"
-                                alt="Profile"
-                                className="h-full w-full object-cover rounded-lg"
-                            />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm font-medium text-gray-900 truncate">Ciao Damir</p>
-                                    <p className="text-xs text-gray-500 truncate">damir@ciaodamir.com</p>
-                                </div>
-                                <ChevronDown className="h-4 w-4 text-gray-400 flex-shrink-0" />
-                            </div>
-                        </div>
-                    </div> */}
-
                     {/* Center Logo */}
                     <div className="text-center justify-center">
                         <Link to="/">
@@ -139,7 +119,6 @@ const Sidebar = ({ isOpen, setIsSidebarOpen }) => {
                         })}
                     </nav>
                 </div>
-                {/* </div> */}
             </aside>
         </>
     )

@@ -44,13 +44,13 @@ const SearchPage = () => {
   }
 
   // Clear everything when search query is empty
-  // useEffect(() => {
-  //   if (!searchQuery.trim()) {
-  //     setSearchedProducts([])
-  //     setShowSearchResults(false)
-  //     setSuggestions([])
-  //   }
-  // }, [searchQuery])
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchedProducts([])
+      setShowSearchResults(false)
+      setSuggestions([])
+    }
+  }, [searchQuery])
 
   const debouncedHandleSearch = useCallback(debounce(handleSuggestions, 500), [])
   useEffect(() => {

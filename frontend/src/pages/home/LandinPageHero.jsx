@@ -14,7 +14,7 @@ export default function LandingPageHero() {
   const navigate = useNavigate()
 
   return (
-    <section className="grid md:grid-cols-2 gap-[1rem] h-full w-full max-w-7xl md:mx-auto lg:mx-auto px-4 md:pl-8 md:pr-0 bg-gray-100 rounded-3xl">
+    <section className="grid md:grid-cols-2 gap-[1rem] h-full w-full md:max-w-7xl md:mx-auto lg:mx-auto px-4 md:pl-8 md:pr-0 bg-gray-100 rounded-3xl">
 
       <div className="inline-flex md:hidden w-fit mt-8 items-center gap-2 bg-white px-2.5 py-2 rounded-full">
         <span className="px-2 py-1 bg-stone-900 text-white text-xs rounded-full">New</span>
@@ -33,24 +33,24 @@ export default function LandingPageHero() {
           <span className="text-sm text-stone-600">Spring Collection 2024</span>
         </div>
 
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium text-stone-900 leading-tight tracking-tight">
+        <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-stone-900 leading-tight tracking-tight text-center md:text-start">
           Where Style Meets <br />
           <span className="text-stone-500 font-bold">Sophistication</span>
         </h1>
 
-        <p className="text-stone-600 text-lg font-[400]">
+        <p className="text-stone-600 text-md font-[400] text-center md:text-start">
           Discover our latest collection of premium fashion pieces, crafted for those who appreciate refined elegance.
         </p>
 
-        <div className="flex flex-col mx-auto md:mx-0 w-full sm:flex-row gap-4">
-          <RoundedButton size="lg" className="font-[650] px-8 py-6 text-lg"
+        <div className="flex flex-col mx-auto w-full sm:flex-row gap-4">
+          <RoundedButton size="lg" className="font-[650] px-4 py-3 text-lg"
             onClick={() => navigate("/shop")}>
             Shop Now
             <FaArrowRightLong className="ml-2 h-4 w-4" />
           </RoundedButton>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 pt-2">
+        <div className="grid grid-cols-2 gap-6 py-2">
           <div className="flex items-start gap-3 bg-white p-3 md:p-4 rounded-xl">
             <MdOutlineLocalShipping className="h-6 w-6 text-stone-600" />
             <div>
@@ -74,7 +74,7 @@ export default function LandingPageHero() {
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative flex items-start lg:items-center justify-start md:justify-end h-full lg:col-end-3 order-1 md:order-2"
+        className="relative flex  lg:items-center  md:justify-end h-full lg:col-end-3 order-1 md:order-2"
       >
         <div className="hidden relative w-fit h-fit md:h-full max-h-[100vh] md:flex md:items-start items-center justify-end">
           <img
@@ -84,11 +84,11 @@ export default function LandingPageHero() {
           />
         </div>
 
-        <div className="relative md:hidden max-w-[76%] md:w-full md:h-full">
+        <div className="md:hidden flex justify-center items-center w-[70%] mx-auto h-full">
           <img
             src={heroImage2}
             alt="Hero"
-            className="w-full object-cover"
+            className="w-full object-cover block"
           />
         </div>
 

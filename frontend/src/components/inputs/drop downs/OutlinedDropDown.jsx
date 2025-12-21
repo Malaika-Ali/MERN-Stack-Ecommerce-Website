@@ -17,6 +17,7 @@ const OutlinedDropDown = ({
                 {...props}
                 ref={ref}
                 id={id}
+                value={options[0]}
             >
                 <option value={label} disabled selected>{label}</option>
                 {options.map((option, index) => (

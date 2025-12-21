@@ -10,7 +10,7 @@ const AdminLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState("")
 
     return (
-        <div className='grid grid-cols-1 lg:grid-cols-[14rem_1fr]  grid-area min-h-screen bg-[#F7F7F7] dark:bg-dark-bg transition-all duration-500 ease-in-out'>
+        <div className='grid grid-cols-1 lg:grid-cols-[15rem_1fr]  grid-area min-h-screen bg-[#F7F7F7] dark:bg-dark-bg transition-all duration-500 ease-in-out'>
             {/* <Header className="header-grid-area" /> */}
             <Sidebar isOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 

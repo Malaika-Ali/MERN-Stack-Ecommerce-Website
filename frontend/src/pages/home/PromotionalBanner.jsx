@@ -49,10 +49,10 @@ import img from '../../assets/img.jpg'
 export default function PromotionalBanner() {
   return (
     <div className="w-full max-w-7xl mx-auto p-4">
-      <div className="relative overflow-hidden rounded-2xl flex flex-col lg:flex-row">
+      <div className="w-full overflow-hidden rounded-2xl flex flex-col lg:flex-row lg:justify-center">
         {/* Image Section */}
         <div className="w-full lg:w-1/2 object-cover">
-          <img src={img} alt="Promotional lifestyle image" />
+          <img src={img} className="w-full" alt="Promotional lifestyle image" />
         </div>
 
         {/* Content Section */}

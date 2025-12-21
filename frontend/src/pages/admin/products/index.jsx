@@ -176,7 +176,7 @@ const Products = () => {
 
     return (
         <div className="flex flex-col px-6 pb-8">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-8">
                 <div>
                     <h1 className="text-xl font-[500] dark:text-white">Products List</h1>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -235,45 +235,47 @@ const Products = () => {
                 </div>
 
                 {/* DataTable */}
-                {/* <div className="min-w-[800px]"> */}
-                {/* <DataTable
-                    columns={columns}
-                    data={filteredData}
-                    highlightOnHover
-                    responsive
-                    persistTableHead
-                    customStyles={{
-                        rows: {
-                            style: {
-                                minHeight: "48px",
-                                borderBottom: "none",
-                                borderRadius: "7px",
-                                border: "none",
-                                outline: "none",
+                <div className="min-w-[600px] lg:min-w-[800px]">
+                    <DataTable
+                        columns={columns}
+                        data={filteredData}
+                        highlightOnHover
+                        responsive
+                        persistTableHead
+                        customStyles={{
+                            rows: {
+                                style: {
+                                    minHeight: "48px",
+                                    borderBottom: "none",
+                                    borderRadius: "7px",
+                                    border: "none",
+                                    outline: "none",
+                                },
                             },
-                        },
-                        headCells: {
-                            style: {
-                                fontSize: "14px",
-                                fontWeight: 600,
-                                color: "#6b7280",
-                                backgroundColor: isDarkMode ? "#333333" : "#fff",
-                                paddingLeft: "16px",
-                                paddingRight: "16px",
+                            headCells: {
+                                style: {
+                                    fontSize: "14px",
+                                    fontWeight: 600,
+                                    color: "#6b7280",
+                                    backgroundColor: isDarkMode ? "#333333" : "#fff",
+                                    paddingLeft: "16px",
+                                    paddingRight: "16px",
+                                },
                             },
-                        },
-                        cells: {
-                            style: {
-                                paddingLeft: "16px",
-                                paddingRight: "16px",
-                                fontSize: "14px",
-                                backgroundColor: isDarkMode ? "#333333" : "#fff",
-                                color: isDarkMode ? "#D5D5D5" : "374151",
-                                borderBottom: "none",
+                            cells: {
+                                style: {
+                                    paddingLeft: "14px",
+                                    paddingRight: "14px",
+                                    paddingTop: "20px",
+                                    fontSize: "14px",
+                                    backgroundColor: isDarkMode ? "#333333" : "#fff",
+                                    color: isDarkMode ? "#D5D5D5" : "374151",
+                                    borderBottom: "none",
+                                },
                             },
-                        },
-                    }}
-                /> */}
+                        }}
+                    />
+                </div>
             </div>
         </div>
     );
