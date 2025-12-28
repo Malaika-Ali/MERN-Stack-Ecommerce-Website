@@ -4,7 +4,7 @@ import mongoose, {Schema} from "mongoose";
 const productSchema= new Schema({
     images:{
         type: [String],
-        // required: [true, "Images of Products are required!"]
+        required: [true, "Images of Products are required!"]
     },
     productName:{
         type: String,
@@ -12,7 +12,7 @@ const productSchema= new Schema({
     },
     description:{
         type: String,
-        // required: [true, "Product Description is Required"]
+        required: [true, "Product Description is Required"]
     },
     price:{
         type: Number,

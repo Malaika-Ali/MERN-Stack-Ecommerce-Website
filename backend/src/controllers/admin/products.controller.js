@@ -47,15 +47,36 @@ const getAllProductsForAdmin = asyncHandler(async (req, res) => {
 
 const addProduct = asyncHandler(async (req, res) => {
     const { productName, description, price, color, category, material, fabric, quantity } = req.body
-    const { images } = req.files
+    // const { images } = req.files
+    // console.log(`The images from request are ${images}`)
 
     // if (!productName || !description || !price || !color || !category || (!material && !fabric) || !quantity || images.length == 0) {
     //     throw new ApiError(400, "Incomplete Product's Information!");
     // }
 
-    const imagesLocalPaths = req.files?.map((file) => file?.path)
+    if (!req.files || req.files.length === 0) {
+        throw new ApiError(400, "Atleast one image is required!")
+    }
 
-    const cloudinaryImagesURL = await imagesLocalPaths?.map((path) => uploadOnCloudinary(path))
+    console.log(`The images are ${req.files}`)
+    const imagesLocalPaths = req.files
+        .filter(file => file && file.path)
+        .map(file => file.path);
+    const uploadedImages = [];
+
+    // const imagesLocalPaths = req.files?.map((file) => file?.path)
+    for (const path of imagesLocalPaths) {
+        const result = await uploadOnCloudinary(path);
+
+        if (result?.secure_url) {
+            uploadedImages.push(result.secure_url);
+        }
+    }
+    if (uploadedImages.length === 0) {
+        throw new ApiError(500, "Image upload failed");
+    }
+
+    // const cloudinaryImagesURL = await imagesLocalPaths?.map((path) => uploadOnCloudinary(path))
 
     try {
         const product = await Product.create({
@@ -67,8 +88,10 @@ const addProduct = asyncHandler(async (req, res) => {
             material: material || "",
             fabric: fabric || "",
             quantity,
-            images: cloudinaryImagesURL?.map((url) => url?.url)
+            images: uploadedImages
         })
+
+        console.log(`The product while saving to database ${product}`)
 
         return res.status(201).json(new ApiResponse(200, product, "Product successfully created!"))
 

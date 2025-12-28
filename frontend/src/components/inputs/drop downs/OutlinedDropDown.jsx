@@ -1,4 +1,4 @@
-import React, { useId } from 'react';
+import React, { useState } from 'react';
 
 const OutlinedDropDown = ({
     label,
@@ -7,19 +7,20 @@ const OutlinedDropDown = ({
     ...props
 }, ref) => {
 
-    const id = useId()
+    const [category, setCategory] = useState('clothes')
 
     return (
         <div>
-            <label className="block text-sm mb-1.5 px-2">{label}</label>
+            <label htmlFor='dropdown' className="block text-sm mb-1.5 px-2">{label}</label>
             <select
                 className={`w-full px-4 py-2.5 border border-gray-300 rounded-full text-sm text-gray-700 ${className ? className : ""} transition-all duration-400 ease-linear dark:bg-transparent`}
                 {...props}
                 ref={ref}
-                id={id}
-                value={options[0]}
+                id="dropdown"
+                onChange={(e)=>setCategory(e.target.value)}
+                value={category}
             >
-                <option value={label} disabled selected>{label}</option>
+                <option value="" disabled selected>{label}</option>
                 {options.map((option, index) => (
                     <option key={index} value={option}>{option}</option>
                 ))}

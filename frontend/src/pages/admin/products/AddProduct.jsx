@@ -19,6 +19,7 @@ const AddProduct = () => {
     } = useForm();
 
     const [addProduct, { isLoading, isSuccess, error }] = useAddProductMutation()
+    const [images, setImages] = useState([])
 
     const onSubmit = async (data) => {
         console.log(data);
@@ -30,18 +31,7 @@ const AddProduct = () => {
         formData.append("color", data.color);
         formData.append("material", data.material);
         formData.append("category", data.category);
-
-        console.log(data.images)
-        // if (data.images && data.images[0]) {
-        //     formData.append("images", data.image[0]);
-        //     console.log(formData.images)
-        // }
-
-        data.images.map((image) => {
-            formData.append("image", image)
-        })
-
-
+        images.forEach((img) => formData.append("images", img));
         try {
             await addProduct(formData).unwrap();
             reset();
@@ -51,16 +41,12 @@ const AddProduct = () => {
 
     };
 
-    const [loading, setloading] = useState(false)
-
-    console.log(`The error while adding product is`, error)
-
     return (
         <div className="flex flex-col w-full px-6 pb-8">
             <div className="flex justify-between items-center mb-6">
                 <h2 className=" text-md text-xl font-[500] dark:text-white">Add New Product</h2>
 
-                <LoaderButton children="save Product" loading={isLoading} Icon={FaCheck} handleClick={handleSubmit(onSubmit)} />
+                <LoaderButton children="save Product" loading={isLoading} Icon={FaCheck} handleClick={handleSubmit(onSubmit)} iconSize={18} />
 
             </div>
 
@@ -95,7 +81,7 @@ const AddProduct = () => {
                     ">
                         <h3 className="font-[500] mb-4 text-gray-800 dark:text-white">Product Image</h3>
                         {/* <ImageUpload register={register} /> */}
-                        <FilesUpload register={register} />
+                        <FilesUpload onFilesChange={setImages} />
 
                     </div>
 
@@ -106,7 +92,7 @@ const AddProduct = () => {
                 <div className="space-y-6 lg:col-span-4  w-full">
 
                     <div className="bg-white p-6 rounded-xl shadow-sm dark:bg-dark-gray">
-                        <OutlinedDropDown {...register("category")} label="Product's Category" options={["clothes", "bags", "accessories", "footwear"]} value="category" />
+                        <OutlinedDropDown {...register("category")} label="Select Category" options={["clothes", "bags", "accessories", "footwear"]} value="category" />
                     </div>
 
 

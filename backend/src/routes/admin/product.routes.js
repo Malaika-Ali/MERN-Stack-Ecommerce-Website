@@ -9,8 +9,9 @@ const router = Router()
 
 router.route("/products-list").get(getAllProductsForAdmin)
 // router.route("/add-product").post(rateLimiter,validateAddProduct, handleValidationErrors, addProduct)
-router.route("/add-product").post(upload.array("images", 5), addProduct)
+// router.route("/add-product").post(rateLimiter, upload.array("images", 4), validateAddProduct,handleValidationErrors, addProduct)
 
+router.route("/add-product").post(rateLimiter, upload.array("images", 4), addProduct)
 
 
 export default router

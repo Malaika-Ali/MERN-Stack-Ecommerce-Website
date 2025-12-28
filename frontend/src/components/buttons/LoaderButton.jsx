@@ -10,7 +10,7 @@ const LoaderButton = ({ children, className = '', loading, Icon, iconSize, handl
             {...props}
         >
             {loading ? (
-                <div className={`${className} border-2 border-white border-t-transparent rounded-full animate-spin`}></div>
+                <div className={`${className} border-2 h-6 w-6 border-white border-t-transparent rounded-full animate-spin`}></div>
             ) : (
                 <>
                     {Icon && (

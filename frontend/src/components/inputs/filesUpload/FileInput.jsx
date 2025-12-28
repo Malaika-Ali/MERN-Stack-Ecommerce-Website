@@ -1,7 +1,7 @@
 import React from 'react'
 import { RxUpload } from "react-icons/rx";
 
-const FileInput = ({ onFileSelect, inputRef, files, disabled, register }) => {
+const FileInput = ({ onFileSelect, inputRef, files, disabled }) => {
     console.log(disabled)
     return (
         <>
@@ -16,7 +16,7 @@ const FileInput = ({ onFileSelect, inputRef, files, disabled, register }) => {
                 {!files.length ? "Add Image" : "Add Another Image"}
             </label>
             <input type="file"
-            {...register("images")}
+            // {...register("images")}
                 disabled={disabled}
                 placeholder='Upload Image'
                 className="hidden"

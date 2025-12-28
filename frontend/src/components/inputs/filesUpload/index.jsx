@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import FileInput from './FileInput'
 import { RxCross2 } from "react-icons/rx";
 
-const FilesUpload = ({register}) => {
+const FilesUpload = ({onFilesChange}) => {
   const [files, setFiles] = useState([])
   const [uploading, setUploading] = useState(false)
   const [disabled, setDisabled] = useState(false)
@@ -41,13 +41,17 @@ const FilesUpload = ({register}) => {
     setFiles((prevFiles) => prevFiles.filter((file) => file.id !== id))
   }
 
+  useEffect(()=>{
+    onFilesChange(files.map((f)=>f.file))
+  }, [files]);
+
   return (
     <div className='px-14 w-full h-80 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 flex justify-center items-center flex-col gap-12'>
       <FileInput inputRef={inputRef}
         files={files}
         disabled={disabled}
         onFileSelect={handleFileSelect}
-        register={register}
+        // register={register}
       />
 
       <FileList files={files} onRemove={removeFile}
