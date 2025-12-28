@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import SizeSelector from "../../../components/inputs/drop downs/SizeSelector";
-import ImageUpload from "../../../components/inputs/ImageUpload";
 import OutlinedInput from "../../../components/inputs/text fields/OutlinedInput";
 import LoaderButton from "../../../components/buttons/LoaderButton";
 import { FaCheck } from "react-icons/fa6";
 import RoundedButton from "../../../components/buttons/RoundedButton";
 import OutlinedDropDown from "../../../components/inputs/drop downs/OutlinedDropDown";
 import { useAddProductMutation } from "../../../redux/features/admin/productApi";
+import FilesUpload from "../../../components/inputs/filesUpload";
 
 const AddProduct = () => {
     const {
@@ -31,10 +31,16 @@ const AddProduct = () => {
         formData.append("material", data.material);
         formData.append("category", data.category);
 
-        if (data.image && data.image[0]) {
-            formData.append("images", data.image[0]);
-            console.log(formData.images)
-        }
+        console.log(data.images)
+        // if (data.images && data.images[0]) {
+        //     formData.append("images", data.image[0]);
+        //     console.log(formData.images)
+        // }
+
+        data.images.map((image) => {
+            formData.append("image", image)
+        })
+
 
         try {
             await addProduct(formData).unwrap();
@@ -42,22 +48,7 @@ const AddProduct = () => {
         } catch (err) {
             console.error("Add product failed:", err);
         }
-        //    try {
-        //      addProduct({
-        //          productName: data.name,
-        //          description: data.description,
-        //          price: data.price,
-        //          quantity: data.stock,
-        //          color: data.color,
-        //          material: data.material,
-        //          fabric: data.material,
-        //          category: "clothes",
 
-
-        //      }).unwrap();
-        //    } catch (error) {
-        //     console.log("Error while adding a prduct", error)
-        //    }
     };
 
     const [loading, setloading] = useState(false)
@@ -102,8 +93,9 @@ const AddProduct = () => {
 
                     <div className="bg-white px-2 py-6 xl:p-6 rounded-xl shadow-sm dark:bg-dark-gray
                     ">
-                        <h3 className="font-[500] mb-4 text-gray-800 dark:text-white">Upload Image</h3>
-                        <ImageUpload register={register} />
+                        <h3 className="font-[500] mb-4 text-gray-800 dark:text-white">Product Image</h3>
+                        {/* <ImageUpload register={register} /> */}
+                        <FilesUpload register={register} />
 
                     </div>
 
