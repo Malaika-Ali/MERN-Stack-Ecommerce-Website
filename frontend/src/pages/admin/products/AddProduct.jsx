@@ -92,7 +92,7 @@ const AddProduct = () => {
                 <div className="space-y-6 lg:col-span-4  w-full">
 
                     <div className="bg-white p-6 rounded-xl shadow-sm dark:bg-dark-gray">
-                        <OutlinedDropDown {...register("category")} label="Select Category" options={["clothes", "bags", "accessories", "footwear"]} value="category" />
+                        <OutlinedDropDown {...register("category")} label="Select Category" options={["clothes", "bags", "accessories", "footwear"]} />
                     </div>
 
 
