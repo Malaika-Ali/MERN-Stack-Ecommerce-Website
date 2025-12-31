@@ -4,6 +4,9 @@ import { Outlet } from 'react-router-dom'
 import Header from '../components/admin/Header'
 import Navbar from '../components/admin/Navbar'
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const AdminLayout = () => {
 
@@ -19,6 +22,16 @@ const AdminLayout = () => {
                 <Header />
             </div>
             <Outlet className="main-grid-area" />
+
+            <ToastContainer
+                position="bottom-right"
+                autoClose={3000}
+                hideProgressBar={true}
+                closeOnClick
+                pauseOnHover
+                draggable
+                theme="dark"
+            />
 
         </div>
     )

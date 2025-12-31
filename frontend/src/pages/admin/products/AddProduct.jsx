@@ -9,6 +9,9 @@ import OutlinedDropDown from "../../../components/inputs/drop downs/OutlinedDrop
 import { useAddProductMutation } from "../../../redux/features/admin/productApi";
 import FilesUpload from "../../../components/inputs/filesUpload";
 
+import { toast } from "react-toastify";
+
+
 const AddProduct = () => {
     const {
         register,
@@ -34,11 +37,16 @@ const AddProduct = () => {
         images.forEach((img) => formData.append("images", img));
         try {
             await addProduct(formData).unwrap();
+            displayMsg();
             reset();
         } catch (err) {
             console.error("Add product failed:", err);
         }
 
+    };
+
+    const displayMsg = () => {
+        toast.success("Product added successfully 🎉");
     };
 
     return (

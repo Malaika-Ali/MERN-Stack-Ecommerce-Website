@@ -51,7 +51,6 @@ const FilesUpload = ({onFilesChange}) => {
         files={files}
         disabled={disabled}
         onFileSelect={handleFileSelect}
-        // register={register}
       />
 
       <FileList files={files} onRemove={removeFile}
