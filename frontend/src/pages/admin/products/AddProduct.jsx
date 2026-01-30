@@ -41,6 +41,7 @@ const AddProduct = () => {
             reset();
         } catch (err) {
             console.error("Add product failed:", err);
+            displayError(err);
         }
 
     };
@@ -48,6 +49,10 @@ const AddProduct = () => {
     const displayMsg = () => {
         toast.success("Product added successfully 🎉");
     };
+
+    const displayError= (error) => {
+        toast.error(error)
+    }
 
     return (
         <div className="flex flex-col w-full px-6 pb-8">

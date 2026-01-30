@@ -85,8 +85,8 @@ export default function Footer() {
       <div className="bg-black text-white py-4">
         <div className="container mx-auto px-4">
           <div className="flex flex-row md:items-center justify-between gap-4">
-            <p className="text-xs">
-              © {new Date().getFullYear()} M.B Production
+            <p className="text-xs font-bold">
+              © {new Date().getFullYear()} M.B Production | Designed & Developed By Malaika Ali Baig
             </p>
             <div className="flex flex-wrap gap-6">
               {['Terms & Conditions', 'Privacy Policy', 'Cookie Policy'].map((item) => (

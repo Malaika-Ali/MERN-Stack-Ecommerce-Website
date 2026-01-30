@@ -12,6 +12,7 @@ import Dashboard from "../pages/admin/Dashboard";
 import AdminLayout from "../layout/AdminLayout";
 import Products from "../pages/admin/products";
 import AddProduct from "../pages/admin/products/AddProduct";
+// import Orders from "../pages/admin/orders";
 
 const LoginPage = Loadable(lazy(() => import('../pages/auth/Login')))
 const SignupPage = Loadable(lazy(() => import('../pages/auth/Signup')))
@@ -20,6 +21,7 @@ const ShopPage = Loadable(lazy(() => import('../pages/shop/ShopPage')))
 const ProductDetailsPage = Loadable(lazy(() => import('../pages/productDetails')))
 const ShippingPage = Loadable(lazy(() => import('../pages/productOrder/shippingInformation')))
 const PaymentPage = Loadable(lazy(() => import('../pages/productOrder/paymentInformation')))
+const OrdersPage = Loadable(lazy(() => import('../pages/admin/orders')))
 
 const GoogleAuthWrapper = () => {
   return (
@@ -46,8 +48,6 @@ const GoogleAuthWrapper2 = () => {
     </GoogleOAuthProvider >
   )
 }
-
-
 
 const router = createBrowserRouter([
   {
@@ -133,7 +133,8 @@ const router = createBrowserRouter([
     children: [
       { path: "dashboard", element: <Dashboard /> },
       { path: "products", element: <Products /> },
-      { path: "add-product", element: <AddProduct /> }
+      { path: "add-product", element: <AddProduct /> },
+      { path: "orders", element: <OrdersPage /> }
 
     ]
   },

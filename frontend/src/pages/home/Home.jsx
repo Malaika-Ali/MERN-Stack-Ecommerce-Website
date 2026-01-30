@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import LandinPageHero from './LandinPageHero'
 import CategorySection from './categories section/CategorySection'
 import PromotionalBanner from './PromotionalBanner'
@@ -7,7 +7,9 @@ import ProductsSection from './ProductsSection'
 
 const Home = () => {
 
-  document.title = "Home"
+  useEffect(() => {
+    document.title = "M."
+  }, [])
 
   return (
     <>

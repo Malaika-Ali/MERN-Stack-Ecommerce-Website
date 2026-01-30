@@ -29,9 +29,9 @@ const navigationItems = [
         url: "/admin/products",
     },
     {
-        title: "Reports",
+        title: "Orders",
         icon: FileText,
-        url: "/admin/reports",
+        url: "/admin/orders",
     },
     {
         title: "Customers",

@@ -47,18 +47,11 @@ const getAllProductsForAdmin = asyncHandler(async (req, res) => {
 
 const addProduct = asyncHandler(async (req, res) => {
     const { productName, description, price, color, category, material, fabric, quantity } = req.body
-    // const { images } = req.files
-    // console.log(`The images from request are ${images}`)
-
-    // if (!productName || !description || !price || !color || !category || (!material && !fabric) || !quantity || images.length == 0) {
-    //     throw new ApiError(400, "Incomplete Product's Information!");
-    // }
 
     if (!req.files || req.files.length === 0) {
         throw new ApiError(400, "Atleast one image is required!")
     }
 
-    console.log(`The images are ${req.files}`)
     const imagesLocalPaths = req.files
         .filter(file => file && file.path)
         .map(file => file.path);

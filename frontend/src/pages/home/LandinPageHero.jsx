@@ -33,12 +33,12 @@ export default function LandingPageHero() {
           <span className="text-sm text-stone-600">Spring Collection 2024</span>
         </div>
 
-        <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-stone-900 leading-tight tracking-tight text-center md:text-start">
+        <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 leading-tight tracking-tight text-center md:text-start">
           Where Style Meets <br />
-          <span className="text-stone-500 font-bold">Sophistication</span>
+          <span className="text-stone-500 font-bold heading-text-shadow">Sophistication</span>
         </h1>
 
-        <p className="text-stone-600 text-md font-[400] text-center md:text-start">
+        <p className="text-stone-600 text-md font-[500] text-center md:text-start">
           Discover our latest collection of premium fashion pieces, crafted for those who appreciate refined elegance.
         </p>
 

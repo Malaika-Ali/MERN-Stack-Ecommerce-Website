@@ -10,7 +10,7 @@ export default defineConfig({
   // },
   plugins: [react()],
   assetsInclude: ['**/*.PNG'],
-  esbuild: {
-    drop: ["console"]
-  }
+  // esbuild: {
+  //   drop: ["console"]
+  // }
 })
