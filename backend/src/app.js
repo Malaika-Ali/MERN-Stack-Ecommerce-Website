@@ -55,7 +55,7 @@ app.use("/api/v1/payment", paymentRouter)
 // admin routes
 app.use("/api/v1/admin/dashboard", dashboardRouter)
 app.use("/api/v1/admin/products", adminProductRouter)
-app.use("/api/v1/admin/orders", adminOrderRouter)
+app.use("/api/v1/admin", adminOrderRouter)
 
 
 
