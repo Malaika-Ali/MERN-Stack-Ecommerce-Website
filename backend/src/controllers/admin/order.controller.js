@@ -5,34 +5,52 @@ import { Order } from "../../models/order.model.js";
 
 const getAllOrders = asyncHandler(async (req, res) => {
     try {
-        const filter= req.query.filter
-        const page=Number(req.query.page) || 1;
-        const limit=10;
-        const skip=(page-1)*limit
-        const orders = await Order.find(filter).skip(skip).limit(limit).sort({createdAt: -1});
+        const filter = req.query.filter
+        const page = Number(req.query.page) || 1;
+        const limit = 10;
+        const skip = (page - 1) * limit
+        const orders = await Order.find(filter).skip(skip).limit(limit).sort({ createdAt: -1 });
         return res.status(201).json(
             new ApiResponse(200, orders, "All orders have been fetched successfully!")
         );
 
     } catch (error) {
-        throw new ApiError(500, "Internal Server Error while fetching all the orders! Try again",error);
+        throw new ApiError(500, "Internal Server Error while fetching all the orders! Try again", error);
     }
 })
 
-const getOrdersStats = asyncHandler(async(req,res) => {
+const getOrdersStats = asyncHandler(async (req, res) => {
     try {
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-        const totalOrders=await Order.countDocuments({
+        const totalOrders = await Order.countDocuments({
             createdAt: { $gte: thirtyDaysAgo }
         });
         return res.status(201).json(
             new ApiResponse(200, totalOrders, "All stats have been fetched successfully!")
         );
     } catch (error) {
-        throw new ApiError(500, "Internal Server Error while fetching all the orders stats! Try again",error);
+        throw new ApiError(500, "Internal Server Error while fetching all the orders stats! Try again", error);
     }
 })
 
-export {getAllOrders, getOrdersStats}
+const updateOrderStatus = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    try {
+        const updateOrderStatus = await Order.findByIdAndUpdate(
+            id,
+            { orderStatus: status},
+            { new: true }
+        );
+        return res.status(201).json(
+            new ApiResponse(200, updateOrderStatus, "Order Status has been updated successfully!")
+        );
+    } catch (error) {
+        throw new ApiError(500, "Internal Server Error While Changing the Order's Status", error);
+    }
+})
+
+export { getAllOrders, getOrdersStats, updateOrderStatus }

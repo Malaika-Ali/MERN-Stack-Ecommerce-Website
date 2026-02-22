@@ -19,6 +19,14 @@ const adminOrderApi = createApi({
             }),
             providesTags: ["orders-stats"]
         }),
+        updateOrderStatus: builder.mutation({
+            query:({id, status})=>({
+                url: `/order-status/${id}`,
+                method: "PATCH",
+                body: {status},
+            }),
+            invalidatesTags: ["orders"]
+        })
 
         // getOrders: builder.query({
         //     query: ({ page }) => {
@@ -38,5 +46,5 @@ const adminOrderApi = createApi({
 }
 )
 
-export const { useGetOrdersQuery, useGetOrdersStatsQuery } = adminOrderApi
+export const { useGetOrdersQuery, useGetOrdersStatsQuery, useUpdateOrderStatusMutation } = adminOrderApi
 export default adminOrderApi
