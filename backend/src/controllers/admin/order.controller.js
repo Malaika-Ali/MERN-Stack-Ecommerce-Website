@@ -5,17 +5,32 @@ import { Order } from "../../models/order.model.js";
 
 const getAllOrders = asyncHandler(async (req, res) => {
     try {
-        const filter = req.query.filter
+       
         const page = Number(req.query.page) || 1;
         const limit = 10;
         const skip = (page - 1) * limit
+
+        const filter = {};
+        if (req.query.status && req.query.status !== 'All') {
+            filter.orderStatus = req.query.status;
+        }
+
+        const totalOrders = await Order.countDocuments(filter);
         const orders = await Order.find(filter).skip(skip).limit(limit).sort({ createdAt: -1 });
-        return res.status(201).json(
-            new ApiResponse(200, orders, "All orders have been fetched successfully!")
+
+        return res.status(200).json(
+            new ApiResponse(200,
+                {
+                    orders,
+                    totalOrders,
+                    totalPages: Math.ceil(totalOrders / limit),
+                    currentPage: page,
+                },
+                "All orders have been fetched successfully!")
         );
 
     } catch (error) {
-        throw new ApiError(500, "Internal Server Error while fetching all the orders! Try again", error);
+        throw new ApiError(500, "Internal Server Error while fetching all the orders! Try again", error.message);
     }
 })
 
@@ -42,7 +57,7 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
     try {
         const updateOrderStatus = await Order.findByIdAndUpdate(
             id,
-            { orderStatus: status},
+            { orderStatus: status },
             { new: true }
         );
         return res.status(201).json(

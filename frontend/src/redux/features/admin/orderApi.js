@@ -6,12 +6,13 @@ const adminOrderApi = createApi({
         baseUrl: `${import.meta.env.VITE_BASE_URL}/api/v1/admin`,
         credentials: "include",
     }),
+    tagTypes: ['Orders'],  
     endpoints: (builder) => ({
         getOrders: builder.query({
-            query: () => ({
-                url: '/orders',
+            query: ({page= 1, status="All"}={}) => ({
+                url: `/orders?page=${page}&status=${status}`,
             }),
-            providesTags: ["orders"]
+            providesTags: ["Orders"]
         }),
         getOrdersStats: builder.query({
             query: () => ({
@@ -25,7 +26,7 @@ const adminOrderApi = createApi({
                 method: "PATCH",
                 body: {status},
             }),
-            invalidatesTags: ["orders"]
+            invalidatesTags: ["Orders"]
         })
 
         // getOrders: builder.query({

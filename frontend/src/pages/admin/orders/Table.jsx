@@ -6,39 +6,52 @@ import CustomDropdown from '../../../components/inputs/drop downs/CustomDropDown
 import { useSelector } from "react-redux";
 import { BiSolidEditAlt } from "react-icons/bi";
 
-import './table.css'
 
 const OrdersTable = () => {
+
+    // handling orders table pagination
+    const [currentPage, setCurrentPage] = useState(1)
+    const [filterStatus, setFilterStatus] = useState("All")
+
+    const limit = 10;
     console.log("rendering")
-    const { data, isLoading, error } = useGetOrdersQuery()
-    const orders = data?.data
+    const { data, isLoading, error } = useGetOrdersQuery({ 
+        page: currentPage,
+        status: filterStatus 
+     })
+    const orders = data?.data?.orders
+    const totalOrders = data?.data?.totalOrders
+    const totalPage = data?.data?.totalPages
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+
     const [updateOrderStatus] = useUpdateOrderStatusMutation();
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
 
     const [filterText, setFilterText] = useState("")
-    const [filterStatus, setFilterStatus] = useState("All Categories")
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [newStatus, setNewStatus] = useState("");
 
     const dropdownOptions = [
         { value: "All", label: "All Categories" },
-        { value: "Published", label: "Published" },
-        { value: "Out of Stock", label: "Out of Stock" },
-        { value: "Inactive", label: "Inactive" },
+        { value: "Pending", label: "Pending" },
+        { value: "Shipped", label: "Shipped" },
+        { value: "Delivered", label: "Delivered" },
+        { value: "Cancelled", label: "Cancelled" },
     ]
 
     const handleDropdownChange = (value) => {
-        setFilterStatus(value === "All" ? "All Categories" : value)
+        setFilterStatus(value === "All" ? "All" : value)
     }
 
     const handleStatusUpdate = (row) => {
         setSelectedOrder(row);
-        // setNewStatus(row.orderStatus);
         setIsModalOpen(true)
-
-
     }
 
     const updateOrder = async (id) => {
@@ -60,7 +73,6 @@ const OrdersTable = () => {
         const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
         // Get the last two digits of the year
         const year = date.getUTCFullYear().toString().slice(-2);
-
         // 3. Format the date as dd-mm-yy
         const formattedDate = `${day}-${month}-${year}`;
         return formattedDate;
@@ -87,7 +99,7 @@ const OrdersTable = () => {
             wrap: true,
         },
         {
-            name: 'Customer#',
+            name: 'Customer ID',
             selector: row => row.materialOrFabric,
             cell: row => (
                 <span className="text-sm">#{row.user.slice(0, 8)}</span>
@@ -123,9 +135,9 @@ const OrdersTable = () => {
                 <span
                     className={`px-2 py-1 text-xs rounded-full font-medium ${row.orderStatus === 'Published'
                         ? 'bg-green-100 text-green-700'
-                        : row.status === 'Out Stock'
+                        : row.orderStatus === 'Out Stock'
                             ? 'bg-orange-100 text-orange-700'
-                            : row.status === 'Inactive'
+                            : row.orderStatus === 'Inactive'
                                 ? 'bg-red-100 text-red-700'
                                 : 'bg-gray-100 text-gray-700'
                         }`}
@@ -146,18 +158,8 @@ const OrdersTable = () => {
         }
     ];
 
-    const filteredData = orders?.filter((item) => {
-        const matchesText =
-            item.orderStatus.toLowerCase().includes(filterText.toLowerCase())
-        // || item.id.toLowerCase().includes(filterText.toLowerCase())
-        const matchesStatus = filterStatus === "All Categories" || item.orderStatus === filterStatus
-        return matchesText && matchesStatus
-    })
-
     const paginationComponentOptions = {
         noRowsPerPage: true,
-        selectAllRowsItem: true,
-        selectAllRowsItemText: 'Orders',
     };
 
     return (
@@ -169,21 +171,34 @@ const OrdersTable = () => {
                     <CustomDropdown value={filterStatus} onChange={handleDropdownChange} options={dropdownOptions} />
                 </div>
             </div>
-            <div className="min-w-[600px] lg:min-w-[800px] rounded-t-2xl">
+            <div className="min-w-[600px] lg:min-w-[800px] overflow-hidden">
                 <DataTable
                     columns={columns}
-                    data={filteredData}
+                    data={orders}
                     highlightOnHover
                     responsive
                     persistTableHead
                     pagination
+                    paginationServer
+                    paginationTotalRows={totalOrders}
+                    paginationPerPage={limit}
+                    paginationDefaultPage={currentPage}
+                    onChangePage={handlePageChange}
                     paginationComponentOptions={paginationComponentOptions}
                     customStyles={{
+                        headRow: {
+                            style: {
+                                borderTopLeftRadius: "none",
+                                borderTopRightRadius: "none",
+                                outline: "none",
+                                overflow: "hidden",
+                            },
+                        },
                         rows: {
                             style: {
                                 minHeight: "48px",
                                 borderBottom: "none",
-                                borderRadius: "7px",
+                                // borderRadius: "7px",
                                 border: "none",
                                 outline: "none",
                             },
@@ -193,7 +208,7 @@ const OrdersTable = () => {
                                 fontSize: "14px",
                                 fontWeight: 600,
                                 color: "#6b7280",
-                                backgroundColor: isDarkMode ? "#333333" : "#fff",
+                                backgroundColor: isDarkMode ? "#1D1D1D" : "#fff",
                                 paddingLeft: "16px",
                                 paddingRight: "16px",
                             },
@@ -204,9 +219,46 @@ const OrdersTable = () => {
                                 paddingRight: "14px",
                                 paddingTop: "20px",
                                 fontSize: "14px",
-                                backgroundColor: isDarkMode ? "#333333" : "#fff",
-                                color: isDarkMode ? "#D5D5D5" : "374151",
+                                backgroundColor: isDarkMode ? "#1D1D1D" : "#fff",
+                                color: isDarkMode ? "#D5D5D5" : "#374151",
                                 borderBottom: "none",
+                            },
+                        },
+                        pagination: {
+                            style: {
+                                color: isDarkMode ? "#ffff" : "#333333",
+                                fontSize: '14px',
+                                minHeight: '56px',
+                                backgroundColor: isDarkMode ? "#1D1D1D" : "#fff",
+                                paddingTop: '0.8rem',
+
+                                borderTop: '1px solid #dee2e6',
+                            },
+                            pageButtonsStyle: {
+                                borderRadius: '50%',
+                                height: '30px',
+                                width: '30px',
+                                padding: '2px',
+                                cursor: 'pointer',
+                                transition: '0.4s',
+                                // color: '#fff',
+                                color: isDarkMode ? "#6b7280" : "#333333",
+                                fill: isDarkMode ? "#6b7280" : "#333333",
+                                marginInline: '0.2em',
+                                backgroundColor: isDarkMode ? "#D5D5D5" : "#3333",
+                                '&:hover:not(:disabled)': {
+                                    backgroundColor: isDarkMode ? "#6b7280" : "#6b7280",
+                                    fill: isDarkMode ? "#333333" : "#fff"
+                                },
+                                '&:focus': {
+                                    outline: 'none',
+                                    backgroundColor: '#0056b3',
+                                },
+                                // '&:hover': {
+                                //     outline: 'none',
+                                //     cursor: 'pointer',
+                                //     backgroundColor: isDarkMode ? '#6b7280' : '#333',
+                                // },
                             },
                         },
                     }}

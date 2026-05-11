@@ -242,6 +242,7 @@ const Products = () => {
                         highlightOnHover
                         responsive
                         persistTableHead
+                        pagination
                         customStyles={{
                             rows: {
                                 style: {

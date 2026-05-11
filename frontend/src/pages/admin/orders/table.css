@@ -1,4 +1,43 @@
-.cocSnr{
+.cocSnr {
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
+}
+
+.kOdnNV {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+.sc-fVHBlr.kOdnNV {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+[role="rowgroup"]:first-child [role="row"] {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    overflow: hidden;
+}
+
+.rdt_TableHeadRow {
+    border-top-left-radius: 1rem !important;
+    border-top-right-radius: 1rem !important;
+    overflow: hidden !important;
+}
+
+.rdt_TableHead {
+    border-top-left-radius: 1rem !important;
+    overflow: hidden !important;
+}
+
+.rdt_Table {
+    border-top-left-radius: 1rem !important;
+    border-top-right-radius: 1rem !important;
+    overflow: hidden !important;
+}
+
+div.sc-fhHczv.kMgreK.rdt_TableHeadRow{
+    border-top-left-radius: 1rem !important;
+        border-top-right-radius: 1rem !important;
+        overflow: hidden !important;
 }
