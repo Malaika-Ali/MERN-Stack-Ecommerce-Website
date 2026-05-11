@@ -5,6 +5,8 @@ import CustomDropdown from '../../../components/inputs/drop downs/CustomDropDown
 
 import { useSelector } from "react-redux";
 import { BiSolidEditAlt } from "react-icons/bi";
+import TabularList from '../../../components/admin/tables/TabularList';
+import returnDate from '../../../utils/dateFormatter';
 
 
 const OrdersTable = () => {
@@ -14,7 +16,7 @@ const OrdersTable = () => {
     const [filterStatus, setFilterStatus] = useState("All")
 
     const limit = 10;
-    console.log("rendering")
+   
     const { data, isLoading, error } = useGetOrdersQuery({ 
         page: currentPage,
         status: filterStatus 
@@ -32,7 +34,6 @@ const OrdersTable = () => {
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
 
-    const [filterText, setFilterText] = useState("")
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [newStatus, setNewStatus] = useState("");
@@ -64,18 +65,6 @@ const OrdersTable = () => {
             console.log(error)
         }
 
-    }
-
-    let returnDate = (date) => {
-        date = new Date(date);
-        const day = date.getUTCDate().toString().padStart(2, '0');
-        // Months are 0-indexed, so add 1
-        const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
-        // Get the last two digits of the year
-        const year = date.getUTCFullYear().toString().slice(-2);
-        // 3. Format the date as dd-mm-yy
-        const formattedDate = `${day}-${month}-${year}`;
-        return formattedDate;
     }
 
     const columns = [
@@ -123,11 +112,6 @@ const OrdersTable = () => {
             ),
             sortable: true
         },
-        // {
-        //     name: 'Items',
-        //     selector: row => row.products.map(item=>),
-        //     sortable: true
-        // },
         {
             name: 'Status',
             selector: row => row.orderStatus,
@@ -158,9 +142,6 @@ const OrdersTable = () => {
         }
     ];
 
-    const paginationComponentOptions = {
-        noRowsPerPage: true,
-    };
 
     return (
         <div className="bg-white rounded-2xl p-6 shadow-sm  dark:bg-[#1D1D1D]">
@@ -171,100 +152,16 @@ const OrdersTable = () => {
                     <CustomDropdown value={filterStatus} onChange={handleDropdownChange} options={dropdownOptions} />
                 </div>
             </div>
-            <div className="min-w-[600px] lg:min-w-[800px] overflow-hidden">
-                <DataTable
-                    columns={columns}
-                    data={orders}
-                    highlightOnHover
-                    responsive
-                    persistTableHead
-                    pagination
-                    paginationServer
-                    paginationTotalRows={totalOrders}
-                    paginationPerPage={limit}
-                    paginationDefaultPage={currentPage}
-                    onChangePage={handlePageChange}
-                    paginationComponentOptions={paginationComponentOptions}
-                    customStyles={{
-                        headRow: {
-                            style: {
-                                borderTopLeftRadius: "none",
-                                borderTopRightRadius: "none",
-                                outline: "none",
-                                overflow: "hidden",
-                            },
-                        },
-                        rows: {
-                            style: {
-                                minHeight: "48px",
-                                borderBottom: "none",
-                                // borderRadius: "7px",
-                                border: "none",
-                                outline: "none",
-                            },
-                        },
-                        headCells: {
-                            style: {
-                                fontSize: "14px",
-                                fontWeight: 600,
-                                color: "#6b7280",
-                                backgroundColor: isDarkMode ? "#1D1D1D" : "#fff",
-                                paddingLeft: "16px",
-                                paddingRight: "16px",
-                            },
-                        },
-                        cells: {
-                            style: {
-                                paddingLeft: "14px",
-                                paddingRight: "14px",
-                                paddingTop: "20px",
-                                fontSize: "14px",
-                                backgroundColor: isDarkMode ? "#1D1D1D" : "#fff",
-                                color: isDarkMode ? "#D5D5D5" : "#374151",
-                                borderBottom: "none",
-                            },
-                        },
-                        pagination: {
-                            style: {
-                                color: isDarkMode ? "#ffff" : "#333333",
-                                fontSize: '14px',
-                                minHeight: '56px',
-                                backgroundColor: isDarkMode ? "#1D1D1D" : "#fff",
-                                paddingTop: '0.8rem',
 
-                                borderTop: '1px solid #dee2e6',
-                            },
-                            pageButtonsStyle: {
-                                borderRadius: '50%',
-                                height: '30px',
-                                width: '30px',
-                                padding: '2px',
-                                cursor: 'pointer',
-                                transition: '0.4s',
-                                // color: '#fff',
-                                color: isDarkMode ? "#6b7280" : "#333333",
-                                fill: isDarkMode ? "#6b7280" : "#333333",
-                                marginInline: '0.2em',
-                                backgroundColor: isDarkMode ? "#D5D5D5" : "#3333",
-                                '&:hover:not(:disabled)': {
-                                    backgroundColor: isDarkMode ? "#6b7280" : "#6b7280",
-                                    fill: isDarkMode ? "#333333" : "#fff"
-                                },
-                                '&:focus': {
-                                    outline: 'none',
-                                    backgroundColor: '#0056b3',
-                                },
-                                // '&:hover': {
-                                //     outline: 'none',
-                                //     cursor: 'pointer',
-                                //     backgroundColor: isDarkMode ? '#6b7280' : '#333',
-                                // },
-                            },
-                        },
-                    }}
-                />
-
-            </div>
+            <TabularList
+            columns={columns}
+            tableData={orders} 
+            totalCount={totalOrders}
+            limit={limit}
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+            
+            />
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 dark:bg-white dark:bg-opacity-20">
                     <div className="bg-white dark:bg-[#1D1D1D] p-6 rounded-2xl w-[400px] shadow-lg">
@@ -282,7 +179,6 @@ const OrdersTable = () => {
                             className="w-full p-2 border rounded-lg mb-4 dark:bg-[#333] dark:text-white focus:border-gray-500"
                         >
                             <option value="Pending">Pending</option>
-                            <option value="Processing">Processing</option>
                             <option value="Shipped">Shipped</option>
                             <option value="Delivered">Delivered</option>
                             <option value="Cancelled">Cancelled</option>

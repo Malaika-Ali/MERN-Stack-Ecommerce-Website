@@ -3,7 +3,7 @@ import DataTable from 'react-data-table-component';
 import { useSelector } from "react-redux";
 
 
-const TabularList = ({tableData}) => {
+const TabularList = ({tableData, columns, totalCount, limit, currentPage, handlePageChange}) => {
      const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
     const paginationComponentOptions = {
@@ -20,7 +20,7 @@ const TabularList = ({tableData}) => {
                       persistTableHead
                       pagination
                       paginationServer
-                      paginationTotalRows={totalOrders}
+                      paginationTotalRows={totalCount}
                       paginationPerPage={limit}
                       paginationDefaultPage={currentPage}
                       onChangePage={handlePageChange}
