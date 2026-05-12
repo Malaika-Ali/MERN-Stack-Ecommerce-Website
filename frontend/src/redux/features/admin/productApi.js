@@ -6,12 +6,13 @@ const adminProductApi = createApi({
         baseUrl: `${import.meta.env.VITE_BASE_URL}/api/v1/admin/products`,
         credentials: "include",
     }),
+    tagTypes: ['Products'], 
     endpoints: (builder) => ({
         getProducts: builder.query({
-            query: () => ({
-                url: '/products-list',
+            query: ({ page = 1, status = "All" } = {}) => ({
+                url: `/products-list?page=${page}&status=${status}`,
             }),
-            providesTags: ["products"]
+            providesTags: ["Products"]
         }),
 
         addProduct: builder.mutation({
@@ -20,7 +21,7 @@ const adminProductApi = createApi({
                 method: 'POST',
                 body: productDetails
             }),
-            invalidatesTags: ["products"]
+            invalidatesTags: ["Products"]
         })
 
 

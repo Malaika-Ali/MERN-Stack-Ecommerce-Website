@@ -4,17 +4,16 @@ import { ApiResponse } from "../../utils/ApiResponse.js";
 import { Order } from "../../models/order.model.js";
 
 const getAllOrders = asyncHandler(async (req, res) => {
+    const page = Number(req.query.page) || 1;
+    const limit = 10;
+    const skip = (page - 1) * limit
+
+    const filter = {};
+    if (req.query.status && req.query.status !== 'All') {
+        filter.orderStatus = req.query.status;
+    }
+
     try {
-       
-        const page = Number(req.query.page) || 1;
-        const limit = 10;
-        const skip = (page - 1) * limit
-
-        const filter = {};
-        if (req.query.status && req.query.status !== 'All') {
-            filter.orderStatus = req.query.status;
-        }
-
         const totalOrders = await Order.countDocuments(filter);
         const orders = await Order.find(filter).skip(skip).limit(limit).sort({ createdAt: -1 });
 

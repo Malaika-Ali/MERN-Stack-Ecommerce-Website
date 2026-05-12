@@ -5,19 +5,55 @@ import { Product } from "../../models/product.model.js";
 import { uploadOnCloudinary } from "../../utils/cloudinary.js";
 
 const getAllProductsForAdmin = asyncHandler(async (req, res) => {
+    const page = Number(req.query.page) || 1;
+    const limit = 10;
+    const skip = (page - 1) * limit
+
+    const filter = {};
+    if (req.query.status === "out-of-stock") {
+        filter.quantity = 0;                  // quantity = 0 means out of stock
+    } else if (req.query.status === "in-stock") {
+        filter.quantity = { $gt: 0 };         // quantity > 0 means in stock
+    }
+    // if "All" or nothing, filter stays {} — fetches everything
+
+
+    const projection = {
+        _id: 1,
+        productName: 1,
+        images: 1,
+        category: 1,
+        quantity: 1,
+        price: 1,
+        color: 1,
+        fabric: 1,
+        material: 1,
+        createdAt: 1,
+    };
+
     try {
-        const products = await Product.find({}, {
-            _id: 1,
-            productName: 1,
-            images: 1,
-            category: 1,
-            quantity: 1,
-            price: 1,
-            color: 1,
-            fabric: 1,
-            material: 1,
-            createdAt: 1
-        }).sort({ createdAt: -1 }); // optional: show latest products first
+        // const totalProducts= await Product.countDocuments(filter)
+        // const products = await Product.find({}, {
+        //     _id: 1,
+        //     productName: 1,
+        //     images: 1,
+        //     category: 1,
+        //     quantity: 1,
+        //     price: 1,
+        //     color: 1,
+        //     fabric: 1,
+        //     material: 1,
+        //     createdAt: 1
+        // }).sort({ createdAt: -1 });
+
+        // Run count and fetch in parallel for performance
+        const [totalProducts, products] = await Promise.all([
+            Product.countDocuments(filter),
+            Product.find(filter,projection)
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit),
+        ]);
 
         const formattedProducts = products.map((product) => ({
             id: product._id,
@@ -31,17 +67,25 @@ const getAllProductsForAdmin = asyncHandler(async (req, res) => {
             createdAt: product.createdAt,
         }));
 
-        res.status(200).json({
-            success: true,
-            data: formattedProducts
-        });
+        // res.status(200).json({
+        //     success: true,
+        //     data: formattedProducts
+        // });
+
+        return res.status(200).json(
+            new ApiResponse(200,
+                {
+                    formattedProducts,
+                    totalProducts,
+                    totalPages: Math.ceil(totalProducts / limit),
+                    currentPage: page
+                },
+                `All ${limit} Products have been fetched successfully!`
+            )
+        )
 
     } catch (error) {
-        console.error("Error fetching products for admin:", error);
-        res.status(500).json({
-            success: false,
-            message: "Server error while fetching products"
-        });
+        throw new ApiError(500, "Internal Server Error while fetching all the orders! Try again", error);
     }
 });
 

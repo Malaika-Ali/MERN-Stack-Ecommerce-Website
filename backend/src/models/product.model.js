@@ -1,53 +1,50 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 // import mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2'
 
-const productSchema= new Schema({
-    images:{
+const productSchema = new Schema({
+    images: {
         type: [String],
         required: [true, "Images of Products are required!"]
     },
-    productName:{
+    productName: {
         type: String,
         required: [true, " Product Name is Required"]
     },
-    description:{
+    description: {
         type: String,
         required: [true, "Product Description is Required"]
     },
-    price:{
+    price: {
         type: Number,
-        required: [true , "Product's price is required"]
+        required: [true, "Product's price is required"]
     },
     // originalPrice:{
     //     type: Number,
     // },
-    color:{
+    color: {
         type: String,
     },
-    category:{
+    category: {
         type: String,
-        enum:["clothes", "bags", "accessories", "footwear"],
-        required: [true , "Product's category is required"]
+        enum: ["clothes", "bags", "accessories", "footwear"],
+        required: [true, "Product's category is required"]
     },
-    material:{
-        type: String,
-    },
-    fabric:{
+    material: {
         type: String,
     },
-    quantity:{
+    fabric: {
+        type: String,
+    },
+    quantity: {
         type: Number,
         default: 1
     },
-    rating:{
+    rating: {
         type: Number,
         default: 0
     },
 },
-{timestamps: true})
+    { timestamps: true })
 
-// This allows us to write aggregation queries
-// productSchema.plugin(mongooseAggregatePaginate)
-
-export const Product=mongoose.model("Product", productSchema)
+export const Product = mongoose.model("Product", productSchema)
 

@@ -26,16 +26,7 @@ const stats = [
 
 const Orders = () => {
  
-    const dropdownOptions = [
-        { value: "All", label: "All Categories" },
-        { value: "Published", label: "Published" },
-        { value: "Out of Stock", label: "Out of Stock" },
-        { value: "Inactive", label: "Inactive" },
-    ]
-
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-
-
 
     return (
         <div className="flex flex-col px-6 pb-8">

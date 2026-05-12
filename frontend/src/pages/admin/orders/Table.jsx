@@ -142,7 +142,6 @@ const OrdersTable = () => {
         }
     ];
 
-
     return (
         <div className="bg-white rounded-2xl p-6 shadow-sm  dark:bg-[#1D1D1D]">
             {/* Header */}

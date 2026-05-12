@@ -35,7 +35,7 @@ const CustomDropdown = ({ value, onChange, options }) => {
                             <button
                                 key={option.value}
                                 type="button"
-                                className={`w-full px-4 py-2 text-sm text-left hover:bg-gray-50 focus:bg-gray-50 focus:outline-none transition-colors duration-150 first:rounded-t-lg last:rounded-b-lg ${value === option.label ? "bg-[#DCDCDC] text-black-color" : "text-gray-700"
+                                className={`w-full px-4 py-2 text-sm text-left hover:bg-gray-50 focus:bg-gray-50 focus:outline-none transition-colors duration-150 first:rounded-t-lg last:rounded-b-lg ${value === option.value ? "bg-[#DCDCDC] text-black-color" : "text-gray-700"
                                     }`}
                                 onClick={() => handleSelect(option.value)}
                             >
