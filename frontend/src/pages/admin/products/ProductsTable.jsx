@@ -5,10 +5,13 @@ import CustomDropdown from '../../../components/inputs/drop downs/CustomDropDown
 import TabularList from '../../../components/admin/tables/TabularList'
 import { useGetProductsQuery } from '../../../redux/features/admin/productApi'
 import { BiSolidEditAlt } from "react-icons/bi";
+import Modal from './components/Modal';
 
 const ProductsTable = () => {
     const [filterStatus, setFilterStatus] = useState("All Categories")
     const [currentPage, setCurrentPage] = useState(1)
+    const [selectedProduct, setSelectedProduct] = useState(null)
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const limit = 10;
 
     const handlePageChange = (page) => {
@@ -32,6 +35,11 @@ const ProductsTable = () => {
         { value: "in-stock", label: "In Stock" },
     ]
 
+    const handleEditProduct = (row) => {
+        setSelectedProduct(row)
+        setIsModalOpen(true)
+    }
+
     const columns = [
         {
             name: 'Product Name',
@@ -49,6 +57,14 @@ const ProductsTable = () => {
             sortable: true,
             grow: 2,
             wrap: true,
+        },
+        {
+            name: 'Product ID',
+            selector: row => row.id,
+            cell: row => (
+                <span className="text-sm">#{row.id?.slice(0, 8)}</span>
+            ),
+            sortable: true,
         },
         {
             name: 'Create Date',
@@ -87,29 +103,12 @@ const ProductsTable = () => {
             selector: row => row.quantity,
             sortable: true
         },
-        // {
-        //     name: 'Status',
-        //     selector: row => "Published",
-        //     cell: row => (
-        //         <span
-        //             className={`px-2 py-1 text-xs rounded-full font-medium ${row.status === 'Published'
-        //                 ? 'bg-green-100 text-green-700'
-        //                 : row.status === 'Out Stock'
-        //                     ? 'bg-orange-100 text-orange-700'
-        //                     : row.status === 'Inactive'
-        //                         ? 'bg-red-100 text-red-700'
-        //                         : 'bg-gray-100 text-gray-700'
-        //                 }`}
-        //         >
-        //             {row.status}
-        //         </span>
-        //     ),
-        //     sortable: true
-        // },
         {
             name: 'Action',
-            cell: () => (
-                <button >
+            cell: (row) => (
+                <button
+                    onClick={() => handleEditProduct(row)}
+                    className='hover:bg-gray-100 dark:hover:bg-gray-500 p-2 rounded-full transition-all duration-200 ease-linear'>
                     <BiSolidEditAlt color={`${isDarkMode ? 'white' : 'black'}`} size={20} />
                 </button>
             ),
@@ -142,6 +141,10 @@ const ProductsTable = () => {
                 currentPage={currentPage}
                 handlePageChange={handlePageChange}
             />
+
+            {isModalOpen && (
+           <Modal selectedProduct={selectedProduct} setIsModalOpen={setIsModalOpen}/>
+            )}
 
         </div>
     )

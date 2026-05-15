@@ -22,6 +22,15 @@ const adminProductApi = createApi({
                 body: productDetails
             }),
             invalidatesTags: ["Products"]
+        }),
+
+        updateProduct:builder.mutation({
+            query: ({id, data})=>({
+                url: `/update-product/${id}`,
+                method: 'PATCH',
+                body: data
+            }),
+            invalidatesTags: ["Products"]
         })
 
 
@@ -30,5 +39,5 @@ const adminProductApi = createApi({
 }
 )
 
-export const { useGetProductsQuery,useAddProductMutation } = adminProductApi
+export const { useGetProductsQuery,useAddProductMutation, useUpdateProductMutation } = adminProductApi
 export default adminProductApi

@@ -96,15 +96,6 @@ const OrdersTable = () => {
             sortable: true,
             wrap: true,
         },
-        // {
-        //     name: 'Payment',
-        //     selector: row => row.color,
-        //     cell: row => (
-        //         <span className="text-sm">{row.totalAmount}</span>
-        //     ),
-        //     sortable: true,
-        //     wrap: true,
-        // },
         {
             name: 'Total',
             selector: row => (
@@ -134,7 +125,8 @@ const OrdersTable = () => {
         {
             name: 'Action',
             cell: (row) => (
-                <button onClick={() => handleStatusUpdate(row)}>
+                <button onClick={() => handleStatusUpdate(row)}
+                    className='hover:bg-gray-100 dark:hover:bg-gray-500 p-2 rounded-full transition-all duration-200 ease-linear'>
                     <BiSolidEditAlt color={`${isDarkMode ? 'white' : 'black'}`} size={20} />
                 </button>
             ),

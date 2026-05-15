@@ -32,24 +32,10 @@ const getAllProductsForAdmin = asyncHandler(async (req, res) => {
     };
 
     try {
-        // const totalProducts= await Product.countDocuments(filter)
-        // const products = await Product.find({}, {
-        //     _id: 1,
-        //     productName: 1,
-        //     images: 1,
-        //     category: 1,
-        //     quantity: 1,
-        //     price: 1,
-        //     color: 1,
-        //     fabric: 1,
-        //     material: 1,
-        //     createdAt: 1
-        // }).sort({ createdAt: -1 });
-
         // Run count and fetch in parallel for performance
         const [totalProducts, products] = await Promise.all([
             Product.countDocuments(filter),
-            Product.find(filter,projection)
+            Product.find(filter, projection)
                 .sort({ createdAt: -1 })
                 .skip(skip)
                 .limit(limit),
@@ -66,11 +52,6 @@ const getAllProductsForAdmin = asyncHandler(async (req, res) => {
             materialOrFabric: product.fabric || product.material || null,
             createdAt: product.createdAt,
         }));
-
-        // res.status(200).json({
-        //     success: true,
-        //     data: formattedProducts
-        // });
 
         return res.status(200).json(
             new ApiResponse(200,
@@ -139,4 +120,72 @@ const addProduct = asyncHandler(async (req, res) => {
     }
 })
 
-export { getAllProductsForAdmin, addProduct }
+const updateProduct = asyncHandler(async (req, res) => {
+    // const { productName, price, color, material, fabric, quantity } = req.body
+    const id = req.params.id
+
+    // const updatedData = {
+    //     ...req.body
+    // }
+
+    // if (req.file) {
+    //     updatedData.image = req.file.path;
+    // }
+
+    try {
+        const product = await Product.findById(id)
+        if (!product) {
+            throw new ApiError(404, "Product Not Found!")
+        }
+
+        Object.keys(req.body).forEach((key) => {
+            product[key] = req.body[key];
+        });
+
+        if (req.file) {
+            const img = req.file.path
+            const uploadedURL = await uploadOnCloudinary(img)
+            if (uploadedURL?.secure_url) {
+                product.images[0] = uploadedURL?.secure_url;
+            }
+
+            // product.images[0] = req.file.path;
+
+        }
+
+        const name = req.body.name
+        const fabric = req.body.fabric
+        const color = req.body.color
+        const price = req.body.price
+        const stock = req.body.stock
+
+        if (name) {
+            product.productName = name
+        }
+        if (fabric) {
+            product.fabric = fabric
+        }
+        if (stock) {
+            product.quantity = stock
+        }
+        if (price) {
+            product.price = price
+        }
+        if (color) {
+            product.color = color
+        }
+
+
+        await product.save();
+
+        return res.status(201).json(new ApiResponse(200, product, "Product Updated successfully!"))
+
+    } catch (error) {
+        throw new ApiError(500, "Internal Server Error")
+    }
+
+
+
+})
+
+export { getAllProductsForAdmin, addProduct, updateProduct }

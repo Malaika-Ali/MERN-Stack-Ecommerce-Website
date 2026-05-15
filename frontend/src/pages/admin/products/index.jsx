@@ -22,11 +22,11 @@ const stats = [
         stat: 2
     },
     {
-        title: "Published Products",
+        title: "In Stock Products",
         stat: 15
     },
     {
-        title: "Inactive Products",
+        title: "Best Selling Products",
         stat: 2
     },
 ]
@@ -49,21 +49,9 @@ const Products = () => {
         { value: "Inactive", label: "Inactive" },
     ]
 
-    // const [filterText, setFilterText] = useState("")
-    // const [filterStatus, setFilterStatus] = useState("All Categories")
-
     const handleDropdownChange = (value) => {
         setFilterStatus(value === "All" ? "All Categories" : value)
     }
-
-    // const filteredData = products?.filter((item) => {
-    //     const matchesText =
-    //         item.name.toLowerCase().includes(filterText.toLowerCase()) ||
-    //         item.id.toLowerCase().includes(filterText.toLowerCase())
-    //     const matchesStatus = filterStatus === "All Categories" || item.status === filterStatus
-    //     return matchesText && matchesStatus
-    // })
-
 
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
