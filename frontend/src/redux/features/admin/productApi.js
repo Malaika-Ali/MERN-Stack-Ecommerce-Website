@@ -8,6 +8,12 @@ const adminProductApi = createApi({
     }),
     tagTypes: ['Products'], 
     endpoints: (builder) => ({
+        getProductsStats: builder.query({
+            query: ()=>({
+                url: '/products-stats'
+            })
+        }),
+
         getProducts: builder.query({
             query: ({ page = 1, status = "All" } = {}) => ({
                 url: `/products-list?page=${page}&status=${status}`,
@@ -39,5 +45,5 @@ const adminProductApi = createApi({
 }
 )
 
-export const { useGetProductsQuery,useAddProductMutation, useUpdateProductMutation } = adminProductApi
+export const { useGetProductsQuery,useAddProductMutation, useUpdateProductMutation, useGetProductsStatsQuery } = adminProductApi
 export default adminProductApi

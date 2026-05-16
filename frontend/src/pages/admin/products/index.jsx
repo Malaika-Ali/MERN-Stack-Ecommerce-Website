@@ -7,29 +7,12 @@ import { useSelector } from "react-redux";
 import CustomDropdown from '../../../components/inputs/drop downs/CustomDropDown';
 
 import { BiSolidEditAlt } from "react-icons/bi";
-import { useGetProductsQuery } from '../../../redux/features/admin/productApi';
+import { useGetProductsStatsQuery } from '../../../redux/features/admin/productApi';
 import { FiPlus } from "react-icons/fi";
 
 import ProductsTable from './ProductsTable';
 
-const stats = [
-    {
-        title: "Total Products",
-        stat: `19`
-    },
-    {
-        title: "Out of Stock Products",
-        stat: 2
-    },
-    {
-        title: "In Stock Products",
-        stat: 15
-    },
-    {
-        title: "Best Selling Products",
-        stat: 2
-    },
-]
+
 
 const Products = () => {
 
@@ -37,10 +20,6 @@ const Products = () => {
     const handleAddProduct = () => {
         navigate('/admin/add-product')
     }
-
-    const { data, isLoading, error } = useGetProductsQuery()
-
-    const products = data?.data
 
     const dropdownOptions = [
         { value: "All", label: "All Categories" },
@@ -54,6 +33,27 @@ const Products = () => {
     }
 
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+
+    const {data, isLoading}=useGetProductsStatsQuery()
+    
+    const stats = [
+        {
+            title: "Total Products",
+            stat: `${data?.data?.totalProducts ?? 0}`
+        },
+        {
+            title: "Out of Stock Products",
+            stat: `${data?.data?.outOfStockProducts ?? 0}`
+        },
+        {
+            title: "In Stock Products",
+            stat: `${data?.data?.inStockProducts ?? 0}`
+        },
+        {
+            title: "Best Selling Products",
+            stat: `${data?.data?.bestSellingProducts ?? 0}`
+        },
+    ]
 
     return (
         <div className="flex flex-col px-6 pb-8">

@@ -4,6 +4,28 @@ import { asyncHandler } from "../../utils/asyncHandler.js";
 import { Product } from "../../models/product.model.js";
 import { uploadOnCloudinary } from "../../utils/cloudinary.js";
 
+const getProductsStats= asyncHandler(async(req,res)=>{
+    try {
+        const [totalProducts, outOfStockProducts, inStockProducts, bestSellingProducts]=await Promise.all([
+            Product.countDocuments(),
+            Product.countDocuments({quantity: 0}),
+            Product.countDocuments({quantity: {$gt: 0}}),
+            Product.countDocuments({rating: { $gte: 4}})
+        ])
+
+        return res.status(200).json(new ApiResponse(200,
+            {
+                totalProducts,
+                outOfStockProducts,
+                inStockProducts,
+                bestSellingProducts
+            }, "Products Stats Fetched Successfully!"
+        ))
+    } catch (error) {
+        throw new ApiError(500, "Products' stats could not be fetched!")
+    }
+})
+
 const getAllProductsForAdmin = asyncHandler(async (req, res) => {
     const page = Number(req.query.page) || 1;
     const limit = 10;
@@ -188,4 +210,4 @@ const updateProduct = asyncHandler(async (req, res) => {
 
 })
 
-export { getAllProductsForAdmin, addProduct, updateProduct }
+export { getAllProductsForAdmin, addProduct, updateProduct, getProductsStats }
