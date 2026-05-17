@@ -12,8 +12,6 @@ import { FiPlus } from "react-icons/fi";
 
 import ProductsTable from './ProductsTable';
 
-
-
 const Products = () => {
 
     const navigate = useNavigate()

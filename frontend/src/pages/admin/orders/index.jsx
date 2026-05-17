@@ -3,30 +3,36 @@ import StatsCard from '../../../components/cards/StatsCard';
 import { useSelector } from "react-redux";
 
 import OrdersTable from './Table';
-
-
-const stats = [
-    {
-        title: "Total Orders",
-        stat: `19`
-    },
-    {
-        title: "Pending Orders",
-        stat: 2
-    },
-    {
-        title: "On Delivery Orders",
-        stat: 15
-    },
-    {
-        title: "Approved Orders",
-        stat: 2
-    },
-]
+import { useGetOrdersStatsQuery } from '../../../redux/features/admin/orderApi';
 
 const Orders = () => {
  
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+
+    const {data, isLoading}=useGetOrdersStatsQuery()
+    const totalOrders=data?.data?.totalOrders ?? 0
+    const pendingOrders= data?.data?.pendingOrders ?? 0
+    const shippedOrders= data?.data?.shippedOrders ?? 0
+    const deliveredOrders=data?.data?.shippedOrders ?? 0
+
+    const stats = [
+        {
+            title: "Total Orders",
+            stat: `${totalOrders}`
+        },
+        {
+            title: "Pending Orders",
+            stat: `${pendingOrders}`
+        },
+        {
+            title: "Shipped Orders",
+            stat: `${shippedOrders}`
+        },
+        {
+            title: "Delivered Orders",
+            stat: `${deliveredOrders}`
+        },
+    ]
 
     return (
         <div className="flex flex-col px-6 pb-8">

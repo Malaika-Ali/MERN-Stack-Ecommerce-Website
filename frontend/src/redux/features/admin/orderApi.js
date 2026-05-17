@@ -28,20 +28,6 @@ const adminOrderApi = createApi({
             }),
             invalidatesTags: ["Orders"]
         })
-
-        // getOrders: builder.query({
-        //     query: ({ page }) => {
-        //         const queryParams = new URLSearchParams({
-        //             page: page.toString(),
-        //         }).toString()
-        //         return `/orders?${queryParams}`
-        //     },
-        //     providesTags: ["orders"]
-        // }),
-
-
-
-
     })
 
 }
