@@ -13,6 +13,7 @@ import adminProductApi from './features/admin/productApi.js'
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import adminOrderApi from './features/admin/orderApi.js'
+import customerApi from './features/admin/customerApi.js'
 
 const persistConfig = {
   key: "auth",
@@ -34,11 +35,12 @@ export const store = configureStore({
     [dashboardApi.reducerPath]: dashboardApi.reducer,
     [adminProductApi.reducerPath]: adminProductApi.reducer,
     [adminOrderApi.reducerPath]: adminOrderApi.reducer,
+    [customerApi.reducerPath]: customerApi.reducer,
   },
 
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userApi.middleware, productsApi.middleware, reviewsApi.middleware, orderApi.middleware, dashboardApi.middleware, adminProductApi.middleware, adminOrderApi.middleware),
+    getDefaultMiddleware().concat(userApi.middleware, productsApi.middleware, reviewsApi.middleware, orderApi.middleware, dashboardApi.middleware, adminProductApi.middleware, adminOrderApi.middleware, customerApi.middleware),
 })
 
 export const persistor = persistStore(store);

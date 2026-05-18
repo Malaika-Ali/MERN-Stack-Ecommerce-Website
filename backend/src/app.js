@@ -44,6 +44,7 @@ import paymentRouter from "../src/routes/customers/payment.route.js"
 import dashboardRouter from "../src/routes/admin/dashboard.routes.js"
 import adminProductRouter from "../src/routes/admin/product.routes.js"
 import adminOrderRouter from "../src/routes/admin/order.routes.js"
+import adminCustomerRouter from "../src/routes/admin/customer.routes.js"
 
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/auth", authRouter)
@@ -56,6 +57,7 @@ app.use("/api/v1/payment", paymentRouter)
 app.use("/api/v1/admin/dashboard", dashboardRouter)
 app.use("/api/v1/admin/products", adminProductRouter)
 app.use("/api/v1/admin", adminOrderRouter)
+app.use("/api/v1/admin", adminCustomerRouter)
 
 
 

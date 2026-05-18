@@ -25,9 +25,6 @@ const userSchema=new Schema({
         enum: ['customer', 'admin'],
         default: "customer"
     },
-    // profileImage:{
-    //     type: String,
-    // },
     
     refreshToken:{
         type: String

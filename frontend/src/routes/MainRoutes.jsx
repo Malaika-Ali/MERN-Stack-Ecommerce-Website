@@ -12,7 +12,7 @@ import Dashboard from "../pages/admin/Dashboard";
 import AdminLayout from "../layout/AdminLayout";
 import Products from "../pages/admin/products";
 import AddProduct from "../pages/admin/products/AddProduct";
-// import Orders from "../pages/admin/orders";
+import Customers from "../pages/admin/customers";
 
 const LoginPage = Loadable(lazy(() => import('../pages/auth/Login')))
 const SignupPage = Loadable(lazy(() => import('../pages/auth/Signup')))
@@ -134,8 +134,8 @@ const router = createBrowserRouter([
       { path: "dashboard", element: <Dashboard /> },
       { path: "products", element: <Products /> },
       { path: "add-product", element: <AddProduct /> },
-      { path: "orders", element: <OrdersPage /> }
-
+      { path: "orders", element: <OrdersPage /> },
+      { path: "customers", element: <Customers/>}
     ]
   },
 
